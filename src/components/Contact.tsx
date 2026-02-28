@@ -37,7 +37,7 @@ export default function Contact() {
       `Business: ${form.business || 'N/A'}\n\nMessage:\n${form.message}`
     )
     // Silently attempt the mailto; works if user has a mail client configured
-    window.location.href = `mailto:contact@nicksvending.com?subject=${subject}&body=${body}`
+    window.location.href = `mailto:nicksvendingnola@gmail.com?subject=${subject}&body=${body}`
 
     setSubmit(true)
     setForm(EMPTY)
@@ -101,9 +101,9 @@ export default function Contact() {
                 </div>
                 <div>
                   <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-1">Email</p>
-                  <a href="mailto:contact@nicksvending.com"
+                  <a href="mailto:nicksvendingnola@gmail.com"
                     className="text-sm font-medium text-slate-800 hover:text-brand-700 transition-colors">
-                    contact@nicksvending.com
+                    nicksvendingnola@gmail.com
                   </a>
                   <p className="text-xs text-slate-400 mt-0.5">We respond within 1 business day</p>
                 </div>
