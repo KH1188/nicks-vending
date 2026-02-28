@@ -16,7 +16,7 @@ const SERVICES: Service[] = [
     ),
     title: 'Disposable Vapes & E-Cigarettes',
     description:
-      'Top-selling disposable brands and rechargeable devices. We stock the SKUs that move in your venue.',
+      'Top-selling disposable brands and rechargeable devices. We stock the Louisiana V.A.P.E Directory approved SKUs that move in your venue.',
   },
   {
     icon: (
