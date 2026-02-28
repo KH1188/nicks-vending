@@ -27,7 +27,7 @@ const SERVICES: Service[] = [
     ),
     title: 'Nicotine Pouches & Tobacco',
     description:
-      'Zyn, On!, Velo, and traditional tobacco products. We cover the full spectrum of adult nicotine preferences.',
+      'Zyn, On!, Alp, and traditional tobacco products. We cover the full spectrum of adult nicotine preferences.',
   },
   {
     icon: (
