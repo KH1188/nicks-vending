@@ -49,7 +49,7 @@ const SERVICES: Service[] = [
     ),
     title: 'Restocking & Maintenance',
     description:
-      'Scheduled service visits keep machines full and running. Rapid response if anything goes down.',
+      'Scheduled service visits keep machines full and running. 24/7 response for jams, refunds, anything.',
   },
 ]
 
