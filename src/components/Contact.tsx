@@ -81,9 +81,9 @@ export default function Contact() {
                 </div>
                 <div>
                   <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-1">Phone</p>
-                  <a href="tel:+15550000000"
+                  <a href="tel:+15042521125"
                     className="text-sm font-medium text-slate-800 hover:text-brand-700 transition-colors">
-                    (555) 000-0000
+                    504-252-1125
                   </a>
                   <p className="text-xs text-slate-400 mt-0.5">Mon–Fri, 8 am – 5 pm</p>
                 </div>
