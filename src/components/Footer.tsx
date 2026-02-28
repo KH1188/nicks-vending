@@ -108,7 +108,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="pt-8 border-t border-slate-800 flex flex-col sm:flex-row
           items-center justify-between gap-3 text-xs text-slate-600">
-          <p>© {YEAR} Nick's Vending. All rights reserved.</p>
+          <p>© {YEAR} Nick's Vending, LLC. All rights reserved.</p>
           <p>Age-verified nicotine vending — compliant, fully managed, no cost to you.</p>
         </div>
       </div>
