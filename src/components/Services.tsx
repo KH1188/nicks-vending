@@ -38,7 +38,7 @@ const SERVICES: Service[] = [
     ),
     title: 'Age Verification Built-In',
     description:
-      'Every machine includes ID scanner or credit card age verification. 21+ compliant, no liability on your venue.',
+      'Every machine can be outfitted with an ID scanner at venue\'s request. No stress, no liability on your venue.',
   },
   {
     icon: (
