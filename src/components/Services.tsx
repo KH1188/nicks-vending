@@ -47,9 +47,9 @@ const SERVICES: Service[] = [
           d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
       </svg>
     ),
-    title: 'Restocking & Maintenance',
+    title: 'Smart Restocking & Maintenance',
     description:
-      'Scheduled service visits keep machines full and running. 24/7 response for jams, refunds, anything.',
+      'The machines alert me when stock is low, when a refund is needed, or when there\'s a jam — so issues get handled fast. Scheduled service visits and 24/7 response, always.',
   },
 ]
 
@@ -61,15 +61,6 @@ export default function Services() {
         <div className="mb-16">
           <p className="section-label mb-3">What we offer</p>
           <h2 className="section-title">Fully managed.<br />Start to finish.</h2>
-          <p className="mt-4 text-slate-500 text-base">Not your average vending machine.</p>
-          <div className="flex flex-wrap gap-2 mt-4">
-            {['Cashless', 'Touchscreen', 'Always Connected', 'Sleek Design'].map((badge) => (
-              <span key={badge} className="px-3 py-1 text-xs font-semibold rounded-full
-                bg-brand-50 text-brand-700 border border-brand-100">
-                {badge}
-              </span>
-            ))}
-          </div>
         </div>
 
         <div className="grid sm:grid-cols-2 gap-6">
