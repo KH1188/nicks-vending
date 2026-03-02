@@ -31,7 +31,7 @@ export default function Hero() {
 
             <p className="text-lg text-slate-500 leading-relaxed max-w-md mb-10">
               We place, stock, and maintain nicotine vending machines in adult
-              venues — fully managed, fully compliant, zero hassle for you.
+              venues — fully managed, fully compliant, zero hassle for you and your business.
             </p>
 
             <div className="flex flex-wrap gap-4">
