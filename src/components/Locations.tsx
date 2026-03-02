@@ -1,10 +1,8 @@
 const AREAS = [
   'Bars & Lounges',
-  'Nightclubs & Music Venues',
-  'Casinos & Gaming Floors',
-  'Hotels & Hospitality',
-  'Truck Stops & Travel Centers',
-  'Bowling Alleys & Entertainment',
+  'Nightclubs',
+  'Casinos',
+  'Any Venue 21+',
 ]
 
 export default function Locations() {
