@@ -16,7 +16,7 @@ const SERVICES: Service[] = [
     ),
     title: 'Disposable Vapes, Pouches & Tobacco',
     description:
-      'Top-selling disposables, rechargeable devices, nicotine pouches — Zyn, Alp, On! — and traditional tobacco. We stock the Louisiana V.A.P.E Directory approved SKUs covering the full spectrum of adult nicotine preferences.',
+      'Top-selling disposables, rechargeable devices, nicotine pouches — Zyn, Alp, On! — and traditional tobacco. We stock the Louisiana V.A.P.E. Directory approved SKUs that move in your venue.',
   },
   {
     icon: (
