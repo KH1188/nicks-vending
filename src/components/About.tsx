@@ -9,7 +9,7 @@ const WHY_CHOOSE = [
   },
   {
     title: 'Hands Free Money Machine',
-    body: 'We show up, we restock, and we fix it if it breaks. You or your team never has to worry about the machine.',
+    body: 'We show up, we restock, we process refunds, and we fix it if it breaks. You or your team never has to worry about the machine.',
   },
 ]
 
