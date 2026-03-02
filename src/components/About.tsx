@@ -1,15 +1,15 @@
 const WHY_CHOOSE = [
   {
-    title: 'Compliant by design',
-    body: 'Built-in age verification on every machine. We handle the regulatory side so your venue carries no extra liability.',
+    title: 'More sales, longer stays',
+    body: 'When nicotine is available on-site, customers don\'t leave to find it — they stay, they order more, and they come back. A vending machine that pays for itself while boosting your bottom line.',
   },
   {
-    title: 'Brands people actually want',
-    body: 'We stock the disposables, pouches, and tobacco that sell. No dead inventory, no obsolete SKUs.',
+    title: 'We handle the Louisiana ATC',
+    body: 'Licensing, permits, and compliance with the Louisiana Alcohol and Tobacco Control is our problem, not yours. We manage every regulatory requirement so your venue carries zero headache and zero liability.',
   },
   {
-    title: 'Zero burden on your staff',
-    body: 'We show up, we restock, we fix it if it breaks. Your team never touches the machine.',
+    title: 'Hands Free Money Machine',
+    body: 'We show up, we restock, and we fix it if it breaks. You or your team never has to worry about the machine.',
   },
 ]
 
