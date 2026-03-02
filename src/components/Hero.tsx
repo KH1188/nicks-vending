@@ -24,7 +24,7 @@ export default function Hero() {
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900
               tracking-tight leading-[1.1] mb-6">
-              Nicotine vending,<br />
+              Smart nicotine vending,<br />
               <span className="text-brand-800">more revenue.</span><br />
               <span className="text-slate-400 font-light">Zero effort. Always stocked.</span>
             </h1>
