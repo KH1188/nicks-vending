@@ -49,7 +49,7 @@ const SERVICES: Service[] = [
     ),
     title: 'Smart Restocking & Maintenance',
     description:
-      'The machines alert me when stock is low, when a refund is needed, or when there\'s a jam — so issues get handled fast. Scheduled service visits and 24/7 response, always.',
+      'The machines alert us when stock is low, when a refund is needed, or when there\'s a jam — so issues get handled fast. Scheduled service visits and 24/7 response, always.',
   },
 ]
 
