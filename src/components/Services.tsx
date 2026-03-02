@@ -61,6 +61,15 @@ export default function Services() {
         <div className="mb-16">
           <p className="section-label mb-3">What we offer</p>
           <h2 className="section-title">Fully managed.<br />Start to finish.</h2>
+          <p className="mt-4 text-slate-500 text-base">Not your average vending machine.</p>
+          <div className="flex flex-wrap gap-2 mt-4">
+            {['Cashless', 'Touchscreen', 'Always Connected', 'Sleek Design'].map((badge) => (
+              <span key={badge} className="px-3 py-1 text-xs font-semibold rounded-full
+                bg-brand-50 text-brand-700 border border-brand-100">
+                {badge}
+              </span>
+            ))}
+          </div>
         </div>
 
         <div className="grid sm:grid-cols-2 gap-6">
