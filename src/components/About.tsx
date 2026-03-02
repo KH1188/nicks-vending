@@ -1,7 +1,7 @@
 const WHY_CHOOSE = [
   {
     title: 'More sales, longer stays',
-    body: 'When nicotine is available on-site, customers don\'t leave to find it — they stay, they order more, and they come back. A vending machine that pays for itself while boosting your bottom line.',
+    body: 'When nicotine is available on-site, customers don\'t leave to find it — they stay, they order more, and they come back. Happy customers and a boosted bottom line, with nothing extra required from you.',
   },
   {
     title: 'We handle the Louisiana ATC',
