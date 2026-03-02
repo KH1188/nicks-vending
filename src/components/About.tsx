@@ -25,20 +25,23 @@ export default function About() {
             <h2 className="section-title mb-8">Local operator.<br />Serious service.</h2>
             <div className="space-y-5 text-slate-500 leading-relaxed">
               <p>
-                Nick's Vending is an independently owned and operated nicotine
-                vending company. We specialize in placing age-verified machines
-                in bars, clubs, casinos, and other adult venues where customers
-                are already looking for these products.
+                Nick's Vending is a locally owned and operated nicotine vending
+                company built on one principle: reliability. We show up, we restock,
+                and we handle every issue — so you never have to think about the
+                machine again.
               </p>
               <p>
-                From the initial site visit through ongoing restocking and maintenance,
-                we manage everything. You get a revenue-generating amenity for your
-                customers with no inventory responsibility and no upfront cost.
+                When customers don't have to step outside or leave your venue to get
+                nicotine, they don't. They stay at the bar, they keep ordering, and
+                they come back. Venues with our machines consistently see patrons
+                staying longer and spending more — a direct boost to your bottom line
+                with zero effort on your part.
               </p>
               <p>
-                As a local operation, you deal with one person — the person
-                who actually services your machine. No call centers, no
-                third-party logistics. Just a direct line and fast turnaround.
+                There's no upfront cost, no inventory to manage, and no staff
+                involvement. From placement to ongoing maintenance, we handle
+                everything. You get one reliable local operator — the same person
+                who answers your call and services your machine, 24/7.
               </p>
             </div>
           </div>
