@@ -3,10 +3,10 @@ import logo from '../assets/logo.png'
 
 const NAV_LINKS = [
   { label: 'Services',  href: '#services'  },
-  { label: 'Locations', href: '#locations' },
-  { label: 'Photos',    href: '#photos'    },
   { label: 'About',     href: '#about'     },
+  { label: 'Locations', href: '#locations' },
   { label: 'Contact',   href: '#contact'   },
+  { label: 'Photos',    href: '#photos'    },
 ]
 
 export default function Navbar() {
