@@ -52,7 +52,7 @@ const MACHINES: Machine[] = [
   {
     name: 'Slim Tower',
     tagline: 'Freestanding. Flexible. Smart.',
-    images: [slimTower1, slimTower2, slimTower3, slimTower4],
+    images: [slimTower1, slimTower3, slimTower4, slimTower2],
     description:
       'The Slim Tower is a freestanding unit that can be placed anywhere in your venue without wall installation. Ideal for venues that want flexibility in placement without sacrificing product capacity.',
   },
