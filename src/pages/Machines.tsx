@@ -29,7 +29,7 @@ const MACHINES: Machine[] = [
   {
     name: 'Mega Wall',
     tagline: 'Maximum capacity. Maximum revenue.',
-    images: [megaWall1, megaWall2, megaWall3, megaWall4],
+    images: [megaWall3, megaWall2, megaWall4, megaWall1],
     description:
       'The Mega Wall is our highest-capacity unit — built for high-traffic venues like casinos and large nightclubs. More SKUs, more sales, and the same smart technology keeping it running around the clock.',
   },
