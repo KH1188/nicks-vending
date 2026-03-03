@@ -28,7 +28,7 @@ function Carousel() {
       <img
         src={IMAGES[index]}
         alt={`Slim Wall ${index + 1}`}
-        className="w-full aspect-[4/3] object-cover transition-opacity duration-300"
+        className="w-full h-auto object-contain transition-opacity duration-300"
       />
 
       {/* Arrows */}
