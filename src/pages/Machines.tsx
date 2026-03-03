@@ -6,6 +6,10 @@ import slimWall2 from '../assets/Slim Wall/slim-wall-sleek-slim-wall-mounted-vtm
 import slimWall3 from '../assets/Slim Wall/slim-wall-vape-vending-machine-ad-banner-id-scanner.webp'
 import slimWall4 from '../assets/Slim Wall/slim-wall-vape-vending-machine-on-pedestal-stand.webp'
 import slimWall5 from '../assets/Slim Wall/slim-wall-vape-vending-machine-open-10-aisles-touchscreen.webp'
+import megaWall1 from '../assets/Mega Wall/mega-wall-2-0-open-interior-15-sku-capacity.webp'
+import megaWall2 from '../assets/Mega Wall/mega-wall-2-0-vape-vending-machine-alp-nicotine-pouch-ad.webp'
+import megaWall3 from '../assets/Mega Wall/mega-wall-2-0-vape-vending-machine-side-view-depth-alp-ad.webp'
+import megaWall4 from '../assets/Mega Wall/mega-wall-20-vape-machine-with-led-lights-electronic-lock-vtm-vapetm-260076.webp'
 
 type Machine = {
   name: string
@@ -25,6 +29,7 @@ const MACHINES: Machine[] = [
   {
     name: 'Mega Wall',
     tagline: 'Maximum capacity. Maximum revenue.',
+    images: [megaWall1, megaWall2, megaWall3, megaWall4],
     description:
       'The Mega Wall is our highest-capacity unit — built for high-traffic venues like casinos and large nightclubs. More SKUs, more sales, and the same smart technology keeping it running around the clock.',
   },
