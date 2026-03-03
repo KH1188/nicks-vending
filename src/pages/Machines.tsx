@@ -1,5 +1,6 @@
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
+import slimWallThumb from '../assets/Slim Wall/slim-wall-sleek-slim-wall-mounted-vtm-vapetm-486251.webp'
 
 type Machine = {
   name: string
@@ -12,6 +13,7 @@ const MACHINES: Machine[] = [
   {
     name: 'Slim Wall',
     tagline: 'Sleek. Space-saving. Always stocked.',
+    image: slimWallThumb,
     description:
       'The Slim Wall is designed for venues where space is at a premium. Mounts flush to the wall with a minimal footprint while holding a solid selection of top-selling products. Cashless, touchscreen, and always connected.',
   },
