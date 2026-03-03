@@ -10,6 +10,15 @@ import megaWall1 from '../assets/Mega Wall/mega-wall-2-0-open-interior-15-sku-ca
 import megaWall2 from '../assets/Mega Wall/mega-wall-2-0-vape-vending-machine-alp-nicotine-pouch-ad.webp'
 import megaWall3 from '../assets/Mega Wall/mega-wall-2-0-vape-vending-machine-side-view-depth-alp-ad.webp'
 import megaWall4 from '../assets/Mega Wall/mega-wall-20-vape-machine-with-led-lights-electronic-lock-vtm-vapetm-260076.webp'
+import miniWall1 from '../assets/Mini Wall/mini-wall-most-compact-wall-mounted-vape-vending-machine-vtm-vapetm-256986.webp'
+import miniWall2 from '../assets/Mini Wall/mini-wall-most-compact-wall-mounted-vending-machine-vtm-vapetm-306534.webp'
+import miniWall3 from '../assets/Mini Wall/mini-wall-most-compact-wall-mounted-vending-machine-vtm-vapetm-456147.webp'
+import miniWall4 from '../assets/Mini Wall/mini-wall-most-compact-wall-mounted-vending-machine-vtm-vapetm-655851.webp'
+import miniWall5 from '../assets/Mini Wall/mini-wall-most-compact-wall-mounted-vending-machine-vtm-vapetm-850501.webp'
+import slimTower1 from '../assets/Slim Tower/slim-tower-2-0-smart-vape-vending-machine-specs.webp'
+import slimTower2 from '../assets/Slim Tower/touchscreen-vape-vending-machine-slim-tower-2-0.webp'
+import slimTower3 from '../assets/Slim Tower/vapetm-slim-tower-2-0-smart-vending-kiosk-touchscreen.webp'
+import slimTower4 from '../assets/Slim Tower/vapetm-slim-tower-20-front-view-smart-vape-vending-machine-touchscreen.webp'
 
 type Machine = {
   name: string
@@ -36,12 +45,14 @@ const MACHINES: Machine[] = [
   {
     name: 'Mini Wall',
     tagline: 'Compact footprint. Big results.',
+    images: [miniWall1, miniWall2, miniWall3, miniWall4, miniWall5],
     description:
       'The Mini Wall fits where other machines can\'t. Perfect for smaller bars, lounges, or tight spaces that still see consistent foot traffic. Don\'t let the size fool you — it moves product.',
   },
   {
     name: 'Slim Tower',
     tagline: 'Freestanding. Flexible. Smart.',
+    images: [slimTower1, slimTower2, slimTower3, slimTower4],
     description:
       'The Slim Tower is a freestanding unit that can be placed anywhere in your venue without wall installation. Ideal for venues that want flexibility in placement without sacrificing product capacity.',
   },
