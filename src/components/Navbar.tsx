@@ -2,12 +2,12 @@ import { useState, useEffect } from 'react'
 import logo from '../assets/logo.png'
 
 const NAV_LINKS = [
-  { label: 'Services',  href: '#services'  },
-  { label: 'About',     href: '#about'     },
-  { label: 'Machines',  href: '/machines'  },
-  { label: 'Locations', href: '#locations' },
-  { label: 'Contact',   href: '#contact'   },
-  { label: 'Photos',    href: '#photos'    },
+  { label: 'Services',  href: '/#services'  },
+  { label: 'About',     href: '/#about'     },
+  { label: 'Machines',  href: '/machines'   },
+  { label: 'Locations', href: '/#locations' },
+  { label: 'Contact',   href: '/#contact'   },
+  { label: 'Photos',    href: '/#photos'    },
 ]
 
 export default function Navbar() {
@@ -32,7 +32,7 @@ export default function Navbar() {
     >
       <nav className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-[72px] flex items-center justify-between">
         {/* Logo */}
-        <a href="#hero" onClick={close} className="flex items-center gap-2.5 flex-shrink-0">
+        <a href="/" onClick={close} className="flex items-center gap-2.5 flex-shrink-0">
           <img
             src={logo}
             alt="Nick's Vending"
@@ -56,7 +56,7 @@ export default function Navbar() {
             </li>
           ))}
           <li className="ml-3">
-            <a href="#contact" className="btn-primary text-sm py-2 px-5">
+            <a href="/#contact" className="btn-primary text-sm py-2 px-5">
               Request Placement
             </a>
           </li>
