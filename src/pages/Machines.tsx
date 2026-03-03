@@ -19,6 +19,12 @@ import slimTower1 from '../assets/Slim Tower/slim-tower-2-0-smart-vape-vending-m
 import slimTower2 from '../assets/Slim Tower/touchscreen-vape-vending-machine-slim-tower-2-0.webp'
 import slimTower3 from '../assets/Slim Tower/vapetm-slim-tower-2-0-smart-vending-kiosk-touchscreen.webp'
 import slimTower4 from '../assets/Slim Tower/vapetm-slim-tower-20-front-view-smart-vape-vending-machine-touchscreen.webp'
+import tinLift1 from '../assets/Slim Wall - Tin Lift/alp-vapetm-vape-vending-machine-a-better-time-nicotine-pouches.webp'
+import tinLift2 from '../assets/Slim Wall - Tin Lift/nicotine-pouch-vending-machine-zyn.webp'
+import tinLift3 from '../assets/Slim Wall - Tin Lift/slim-wall-tin-lift-nicotine-pouch-only-vending-machine-angled-touchscreen.webp'
+import tinLift4 from '../assets/Slim Wall - Tin Lift/slim-wall-tin-lift-nicotine-pouch-vending-machine-dimensions.webp'
+import tinLift5 from '../assets/Slim Wall - Tin Lift/the-pouch-stacker-mega-americas-first-pouch-only-vending-machine-pre-order-now-pouch-vending-vapetm-109417.webp'
+import tinLift6 from '../assets/Slim Wall - Tin Lift/vapetm-slim-wall-tin-lift-nicotine-pouch-vending-machine.webp'
 
 type Machine = {
   name: string
@@ -59,6 +65,7 @@ const MACHINES: Machine[] = [
   {
     name: 'Slim Wall – Tin Lift',
     tagline: 'Purpose-built for nicotine pouches.',
+    images: [tinLift1, tinLift2, tinLift3, tinLift4, tinLift5, tinLift6],
     description:
       'A dedicated nicotine pouch machine. The Slim Wall Tin Lift is specifically designed to carry and dispense tin products like Zyn, Alp, and On! — giving pouch users exactly what they\'re looking for, right at the bar.',
   },
