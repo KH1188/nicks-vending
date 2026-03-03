@@ -65,7 +65,7 @@ const MACHINES: Machine[] = [
   {
     name: 'Slim Wall – Tin Lift',
     tagline: 'Purpose-built for nicotine pouches.',
-    images: [tinLift1, tinLift2, tinLift3, tinLift4, tinLift5, tinLift6],
+    images: [tinLift3, tinLift6, tinLift4, tinLift2, tinLift1, tinLift5],
     description:
       'A dedicated nicotine pouch machine. The Slim Wall Tin Lift is specifically designed to carry and dispense tin products like Zyn, Alp, and On! — giving pouch users exactly what they\'re looking for, right at the bar.',
   },
