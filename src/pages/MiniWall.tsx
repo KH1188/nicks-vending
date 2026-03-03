@@ -16,7 +16,7 @@ const SPECS = [
   { label: 'Display',   value: '21.5" Touchscreen' },
   { label: 'Aisles',    value: '8 (4 trays × 2 aisles per tray)' },
   { label: 'Mounting',  value: 'Wall or pedestal stand' },
-  { label: 'Payment',   value: 'Cashless via Nayax' },
+  { label: 'Payment',   value: 'Cashless via Nayax VPOS Touch Card Reader' },
 ]
 
 function Carousel() {
@@ -129,7 +129,20 @@ export default function MiniWall() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-3">
-                  <a href="/#contact" className="btn-primary justify-center text-sm py-3 px-6">
+                  <a
+                    href="https://go.vizbl.com/en/object/s8NB7hIOQLC_Aw2YHdwPxQ#"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-primary justify-center text-sm py-3 px-6"
+                  >
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round"
+                        d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
+                    </svg>
+                    View in AR
+                  </a>
+                  <a href="/#contact" className="btn-secondary justify-center text-sm py-3 px-6">
                     Request Placement
                   </a>
                 </div>

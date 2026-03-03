@@ -15,7 +15,7 @@ const SPECS = [
   { label: 'Depth',     value: '10.2"' },
   { label: 'Display',   value: '32" Touchscreen' },
   { label: 'Aisles',    value: '10 (5 trays × 2 aisles per tray)' },
-  { label: 'Payment',   value: 'Cashless via Nayax' },
+  { label: 'Payment',   value: 'Cashless via Nayax VPOS Touch Card Reader' },
 ]
 
 function Carousel() {
@@ -111,10 +111,10 @@ export default function SlimWall() {
                 </p>
                 <p className="text-slate-500 leading-relaxed mb-8">
                   The Slim Wall is designed for venues where space is at a premium. It mounts
-                  flush to the wall with a minimal footprint while holding a solid selection of
-                  top-selling products. Featuring a stunning 32" touchscreen and a slim, modern
-                  aesthetic, it looks at home in any upscale venue. Cashless, always connected,
-                  and fully managed by us.
+                  flush to the wall with a minimal footprint while carrying an impressive
+                  selection of top-selling products. Featuring a stunning 32" touchscreen and a
+                  slim, modern aesthetic, it looks at home in any upscale venue. Cashless, always
+                  connected, and fully managed by us.
                 </p>
 
                 {/* Specs */}

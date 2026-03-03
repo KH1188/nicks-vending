@@ -15,7 +15,7 @@ const SPECS = [
   { label: 'Display',   value: '32" Touchscreen' },
   { label: 'Lighting',  value: 'LED Accent Lighting' },
   { label: 'Aisles',    value: '15 (5 trays × 3 aisles per tray)' },
-  { label: 'Payment',   value: 'Cashless via Nayax' },
+  { label: 'Payment',   value: 'Cashless via Nayax VPOS Touch Card Reader' },
 ]
 
 function Carousel() {
@@ -101,15 +101,16 @@ export default function MegaWall() {
                 </p>
                 <h1 className="text-4xl font-extrabold text-slate-900 mb-2">Mega Wall</h1>
                 <p className="text-lg font-medium text-slate-500 italic mb-6">
-                  Maximum capacity. Maximum revenue.
+                  Largest wall unit. Same minimal footprint.
                 </p>
                 <p className="text-slate-500 leading-relaxed mb-8">
-                  The Mega Wall is our highest-capacity unit, built for high-traffic venues like
-                  casinos and large nightclubs. With 15 aisles across 5 trays, it holds more SKUs
-                  than any other wall-mounted unit in our lineup. Its sleek, modern design is
-                  elevated by LED accent lighting that draws attention on any floor. Featuring a
-                  32" touchscreen and cashless payment via Nayax — more product, more sales, zero
-                  effort on your part.
+                  The Mega Wall is our largest wall-mounted unit — built for high-traffic venues
+                  like casinos and large nightclubs where floor space is limited but demand is
+                  high. With 15 aisles across 5 trays, it delivers serious product capacity
+                  without requiring a single square foot of floor space. Its sleek, modern design
+                  is elevated by LED accent lighting that draws attention on any wall. Featuring a
+                  32" touchscreen and cashless payment via Nayax VPOS Touch Card Reader — more
+                  product, more sales, zero effort on your part.
                 </p>
 
                 <div className="rounded-xl border border-slate-100 overflow-hidden mb-8">
@@ -129,7 +130,20 @@ export default function MegaWall() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-3">
-                  <a href="/#contact" className="btn-primary justify-center text-sm py-3 px-6">
+                  <a
+                    href="https://go.vizbl.com/en/object/Nowa-fcsRrW1wKO9glsQLQ#"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-primary justify-center text-sm py-3 px-6"
+                  >
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round"
+                        d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
+                    </svg>
+                    View in AR
+                  </a>
+                  <a href="/#contact" className="btn-secondary justify-center text-sm py-3 px-6">
                     Request Placement
                   </a>
                 </div>

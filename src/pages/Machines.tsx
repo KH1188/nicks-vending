@@ -39,15 +39,15 @@ const MACHINES: Machine[] = [
     images: [slimWall1, slimWall2, slimWall3, slimWall4, slimWall5],
     detailUrl: '/machines/slim-wall',
     description:
-      'The Slim Wall is designed for venues where space is at a premium. Mounts flush to the wall with a minimal footprint while holding a solid selection of top-selling products. Cashless, touchscreen, and always connected.',
+      'The Slim Wall mounts flush to the wall with a minimal footprint while carrying an impressive selection of top-selling products. Sleek, modern, and built for upscale venues.',
   },
   {
     name: 'Mega Wall',
-    tagline: 'Maximum capacity. Maximum revenue.',
+    tagline: 'Largest wall unit. Same minimal footprint.',
     images: [megaWall3, megaWall2, megaWall4, megaWall1],
     detailUrl: '/machines/mega-wall',
     description:
-      'The Mega Wall is our highest-capacity unit — built for high-traffic venues like casinos and large nightclubs. More SKUs, more sales, and the same smart technology keeping it running around the clock.',
+      'Our largest wall-mounted machine. Built for high-traffic venues like casinos and nightclubs where floor space is limited but demand is high. LED accent lighting, 32" touchscreen, and cashless payment.',
   },
   {
     name: 'Mini Wall',
@@ -59,11 +59,11 @@ const MACHINES: Machine[] = [
   },
   {
     name: 'Slim Tower',
-    tagline: 'Freestanding. Flexible. Smart.',
+    tagline: 'Maximum product. Minimal footprint.',
     images: [slimTower1, slimTower4, slimTower3, slimTower2],
     detailUrl: '/machines/slim-tower',
     description:
-      'The Slim Tower is a freestanding unit that can be placed anywhere in your venue without wall installation. Ideal for venues that want flexibility in placement without sacrificing product capacity.',
+      'Our highest-capacity machine. The Slim Tower holds more product than any other unit in our lineup — freestanding, flexible, and built for venues that want maximum selection.',
   },
   {
     name: 'Slim Wall – Tin Lift',

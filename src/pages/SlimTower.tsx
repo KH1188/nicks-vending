@@ -14,7 +14,7 @@ const SPECS = [
   { label: 'Depth',     value: '13.7"' },
   { label: 'Display',   value: '43" Touchscreen' },
   { label: 'Aisles',    value: '24 (8 trays × 3 aisles per tray)' },
-  { label: 'Payment',   value: 'Cashless via Nayax' },
+  { label: 'Payment',   value: 'Cashless via Nayax VPOS Touch Card Reader' },
 ]
 
 function Carousel() {
@@ -100,13 +100,14 @@ export default function SlimTower() {
                 </p>
                 <h1 className="text-4xl font-extrabold text-slate-900 mb-2">Slim Tower</h1>
                 <p className="text-lg font-medium text-slate-500 italic mb-6">
-                  Freestanding. Flexible. Smart.
+                  Maximum product. Minimal footprint.
                 </p>
                 <p className="text-slate-500 leading-relaxed mb-8">
-                  The Slim Tower is a freestanding unit that goes anywhere in your venue — no wall
-                  installation required. With 24 aisles across 8 trays, it holds a serious selection
-                  of product without taking up much floor space. Ideal for venues that want placement
-                  flexibility without sacrificing capacity. Touchscreen, cashless, and always
+                  The Slim Tower is our highest-capacity machine in the lineup. With 24 aisles
+                  across 8 trays, it holds more product than any other unit we offer — giving your
+                  venue the widest selection possible. Freestanding and requiring no wall
+                  installation, it can go anywhere in your venue. Ideal for high-traffic locations
+                  that want maximum product availability. Touchscreen, cashless, and always
                   connected.
                 </p>
 
@@ -127,7 +128,20 @@ export default function SlimTower() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-3">
-                  <a href="/#contact" className="btn-primary justify-center text-sm py-3 px-6">
+                  <a
+                    href="https://go.vizbl.com/en/object/u_VmLhdFQt-b4WcvTO4nMQ#"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-primary justify-center text-sm py-3 px-6"
+                  >
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round"
+                        d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
+                    </svg>
+                    View in AR
+                  </a>
+                  <a href="/#contact" className="btn-secondary justify-center text-sm py-3 px-6">
                     Request Placement
                   </a>
                 </div>

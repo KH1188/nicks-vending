@@ -21,8 +21,8 @@ function Home() {
       <main>
         <Hero />
         <Services />
-        <About />
         <Machines />
+        <About />
         <Locations />
         <Contact />
         <Photos />
