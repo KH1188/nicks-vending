@@ -1,6 +1,4 @@
 import { useState } from 'react'
-import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
 import slimWall1 from '../assets/Slim Wall/slim-wall-sleek-slim-wall-mounted-vtm-vapetm-486251.webp'
 import slimWall2 from '../assets/Slim Wall/slim-wall-sleek-slim-wall-mounted-vtm-vapetm-769781.webp'
 import slimWall3 from '../assets/Slim Wall/slim-wall-vape-vending-machine-ad-banner-id-scanner.webp'
@@ -184,40 +182,34 @@ function MachineCard({ machine }: { machine: Machine }) {
 
 export default function Machines() {
   return (
-    <>
-      <Navbar />
-      <main className="pt-[72px]">
-        <section className="py-24 bg-white">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="machines" className="py-24 bg-white">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
-            <div className="mb-16">
-              <p className="section-label mb-3">Our machines</p>
-              <h1 className="section-title">Built for venues.<br />Built to perform.</h1>
-              <p className="section-subtitle mt-4 max-w-xl">
-                Every machine we place is a smart unit — cashless, touchscreen, and
-                always connected. Here's the lineup.
-              </p>
-            </div>
+        <div className="mb-16">
+          <p className="section-label mb-3">Our machines</p>
+          <h2 className="section-title">Built for venues.<br />Built to perform.</h2>
+          <p className="section-subtitle mt-4 max-w-xl">
+            Every machine we place is a smart unit — cashless, touchscreen, and
+            always connected. Here's the lineup.
+          </p>
+        </div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {MACHINES.map((machine) => (
-                <MachineCard key={machine.name} machine={machine} />
-              ))}
-            </div>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {MACHINES.map((machine) => (
+            <MachineCard key={machine.name} machine={machine} />
+          ))}
+        </div>
 
-            <div className="mt-16 text-center">
-              <p className="text-sm text-slate-400 mb-4">
-                Not sure which machine is right for your venue?
-              </p>
-              <a href="/#contact" className="btn-primary text-sm py-3 px-8">
-                Get in Touch
-              </a>
-            </div>
+        <div className="mt-16 text-center">
+          <p className="text-sm text-slate-400 mb-4">
+            Not sure which machine is right for your venue?
+          </p>
+          <a href="/#contact" className="btn-primary text-sm py-3 px-8">
+            Get in Touch
+          </a>
+        </div>
 
-          </div>
-        </section>
-      </main>
-      <Footer />
-    </>
+      </div>
+    </section>
   )
 }

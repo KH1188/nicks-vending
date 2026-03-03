@@ -22,6 +22,7 @@ function Home() {
         <Hero />
         <Services />
         <About />
+        <Machines />
         <Locations />
         <Contact />
         <Photos />
@@ -36,7 +37,6 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/machines" element={<Machines />} />
         <Route path="/machines/slim-wall" element={<SlimWall />} />
         <Route path="/machines/mega-wall" element={<MegaWall />} />
         <Route path="/machines/slim-tower" element={<SlimTower />} />
