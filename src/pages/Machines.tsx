@@ -31,6 +31,7 @@ type Machine = {
   tagline: string
   description: string
   images?: string[]
+  detailUrl?: string
 }
 
 const MACHINES: Machine[] = [
@@ -38,6 +39,7 @@ const MACHINES: Machine[] = [
     name: 'Slim Wall',
     tagline: 'Sleek. Space-saving. Always stocked.',
     images: [slimWall1, slimWall2, slimWall3, slimWall4, slimWall5],
+    detailUrl: '/machines/slim-wall',
     description:
       'The Slim Wall is designed for venues where space is at a premium. Mounts flush to the wall with a minimal footprint while holding a solid selection of top-selling products. Cashless, touchscreen, and always connected.',
   },
@@ -160,6 +162,17 @@ function MachineCard({ machine }: { machine: Machine }) {
         <h3 className="text-xl font-bold text-slate-900">{machine.name}</h3>
         <p className="text-sm font-medium text-slate-500 italic">{machine.tagline}</p>
         <p className="text-sm text-slate-500 leading-relaxed mt-1">{machine.description}</p>
+        {machine.detailUrl && (
+          <a href={machine.detailUrl}
+            className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold
+              text-brand-700 hover:text-brand-900 transition-colors">
+            View Details
+            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+            </svg>
+          </a>
+        )}
       </div>
     </article>
   )

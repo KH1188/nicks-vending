@@ -8,6 +8,7 @@ import Photos    from './components/Photos'
 import Contact   from './components/Contact'
 import Footer    from './components/Footer'
 import Machines  from './pages/Machines'
+import SlimWall  from './pages/SlimWall'
 
 function Home() {
   return (
@@ -32,6 +33,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/machines" element={<Machines />} />
+        <Route path="/machines/slim-wall" element={<SlimWall />} />
       </Routes>
     </BrowserRouter>
   )
