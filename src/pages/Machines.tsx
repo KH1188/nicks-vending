@@ -1,19 +1,24 @@
+import { useState } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
-import slimWallThumb from '../assets/Slim Wall/slim-wall-sleek-slim-wall-mounted-vtm-vapetm-486251.webp'
+import slimWall1 from '../assets/Slim Wall/slim-wall-sleek-slim-wall-mounted-vtm-vapetm-486251.webp'
+import slimWall2 from '../assets/Slim Wall/slim-wall-sleek-slim-wall-mounted-vtm-vapetm-769781.webp'
+import slimWall3 from '../assets/Slim Wall/slim-wall-vape-vending-machine-ad-banner-id-scanner.webp'
+import slimWall4 from '../assets/Slim Wall/slim-wall-vape-vending-machine-on-pedestal-stand.webp'
+import slimWall5 from '../assets/Slim Wall/slim-wall-vape-vending-machine-open-10-aisles-touchscreen.webp'
 
 type Machine = {
   name: string
   tagline: string
   description: string
-  image?: string
+  images?: string[]
 }
 
 const MACHINES: Machine[] = [
   {
     name: 'Slim Wall',
     tagline: 'Sleek. Space-saving. Always stocked.',
-    image: slimWallThumb,
+    images: [slimWall1, slimWall2, slimWall3, slimWall4, slimWall5],
     description:
       'The Slim Wall is designed for venues where space is at a premium. Mounts flush to the wall with a minimal footprint while holding a solid selection of top-selling products. Cashless, touchscreen, and always connected.',
   },
@@ -43,30 +48,86 @@ const MACHINES: Machine[] = [
   },
 ]
 
+function Carousel({ images, name }: { images: string[]; name: string }) {
+  const [index, setIndex] = useState(0)
+
+  const prev = () => setIndex(i => (i - 1 + images.length) % images.length)
+  const next = () => setIndex(i => (i + 1) % images.length)
+
+  return (
+    <div className="relative bg-slate-100 aspect-[4/3] overflow-hidden group">
+      <img
+        src={images[index]}
+        alt={`${name} ${index + 1}`}
+        className="w-full h-full object-cover transition-opacity duration-300"
+      />
+
+      {/* Arrows */}
+      <button
+        onClick={prev}
+        aria-label="Previous image"
+        className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full
+          bg-white/80 hover:bg-white shadow flex items-center justify-center
+          opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+      >
+        <svg className="w-4 h-4 text-slate-700" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor" strokeWidth={2.5}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+        </svg>
+      </button>
+      <button
+        onClick={next}
+        aria-label="Next image"
+        className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full
+          bg-white/80 hover:bg-white shadow flex items-center justify-center
+          opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+      >
+        <svg className="w-4 h-4 text-slate-700" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor" strokeWidth={2.5}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+        </svg>
+      </button>
+
+      {/* Dot indicators */}
+      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5">
+        {images.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setIndex(i)}
+            aria-label={`Go to image ${i + 1}`}
+            className={`w-1.5 h-1.5 rounded-full transition-all duration-200 ${
+              i === index ? 'bg-white scale-125' : 'bg-white/50'
+            }`}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function Placeholder() {
+  return (
+    <div className="bg-slate-100 aspect-[4/3] flex flex-col items-center justify-center gap-2 text-slate-400">
+      <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24"
+        stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round"
+          d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.775 48.775 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
+        <path strokeLinecap="round" strokeLinejoin="round"
+          d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z" />
+      </svg>
+      <span className="text-xs font-medium">Photo coming soon</span>
+    </div>
+  )
+}
+
 function MachineCard({ machine }: { machine: Machine }) {
   return (
     <article className="card overflow-hidden rounded-2xl flex flex-col">
-      {/* Image */}
-      <div className="bg-slate-100 aspect-[4/3] flex items-center justify-center">
-        {machine.image ? (
-          <img
-            src={machine.image}
-            alt={machine.name}
-            className="w-full h-full object-cover"
-          />
-        ) : (
-          <div className="flex flex-col items-center gap-2 text-slate-400">
-            <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24"
-              stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round"
-                d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.775 48.775 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
-              <path strokeLinecap="round" strokeLinejoin="round"
-                d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z" />
-            </svg>
-            <span className="text-xs font-medium">Photo coming soon</span>
-          </div>
-        )}
-      </div>
+      {machine.images?.length ? (
+        <Carousel images={machine.images} name={machine.name} />
+      ) : (
+        <Placeholder />
+      )}
 
       {/* Content */}
       <div className="p-7 flex flex-col gap-2">
