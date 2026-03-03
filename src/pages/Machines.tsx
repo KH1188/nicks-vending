@@ -69,7 +69,7 @@ function MachineCard({ machine }: { machine: Machine }) {
       {/* Content */}
       <div className="p-7 flex flex-col gap-2">
         <p className="text-xs font-semibold uppercase tracking-widest text-brand-700">
-          VapeTM
+          Smart Machine
         </p>
         <h3 className="text-xl font-bold text-slate-900">{machine.name}</h3>
         <p className="text-sm font-medium text-slate-500 italic">{machine.tagline}</p>
@@ -91,7 +91,7 @@ export default function Machines() {
               <p className="section-label mb-3">Our machines</p>
               <h1 className="section-title">Built for venues.<br />Built to perform.</h1>
               <p className="section-subtitle mt-4 max-w-xl">
-                Every machine we place is a VapeTM unit — cashless, touchscreen, and
+                Every machine we place is a smart unit — cashless, touchscreen, and
                 always connected. Here's the lineup.
               </p>
             </div>
