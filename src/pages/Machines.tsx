@@ -47,6 +47,7 @@ const MACHINES: Machine[] = [
     name: 'Mega Wall',
     tagline: 'Maximum capacity. Maximum revenue.',
     images: [megaWall3, megaWall2, megaWall4, megaWall1],
+    detailUrl: '/machines/mega-wall',
     description:
       'The Mega Wall is our highest-capacity unit — built for high-traffic venues like casinos and large nightclubs. More SKUs, more sales, and the same smart technology keeping it running around the clock.',
   },
@@ -54,6 +55,7 @@ const MACHINES: Machine[] = [
     name: 'Mini Wall',
     tagline: 'Compact footprint. Big results.',
     images: [miniWall1, miniWall2, miniWall5, miniWall3, miniWall4],
+    detailUrl: '/machines/mini-wall',
     description:
       'The Mini Wall fits where other machines can\'t. Perfect for smaller bars, lounges, or tight spaces that still see consistent foot traffic. Don\'t let the size fool you — it moves product.',
   },
@@ -61,6 +63,7 @@ const MACHINES: Machine[] = [
     name: 'Slim Tower',
     tagline: 'Freestanding. Flexible. Smart.',
     images: [slimTower1, slimTower4, slimTower3, slimTower2],
+    detailUrl: '/machines/slim-tower',
     description:
       'The Slim Tower is a freestanding unit that can be placed anywhere in your venue without wall installation. Ideal for venues that want flexibility in placement without sacrificing product capacity.',
   },
@@ -68,6 +71,7 @@ const MACHINES: Machine[] = [
     name: 'Slim Wall – Tin Lift',
     tagline: 'Purpose-built for nicotine pouches.',
     images: [tinLift3, tinLift6, tinLift4, tinLift2, tinLift1, tinLift5],
+    detailUrl: '/machines/slim-wall-tin-lift',
     description:
       'A dedicated nicotine pouch machine. The Slim Wall Tin Lift is specifically designed to carry and dispense tin products like Zyn, Alp, and On! — giving pouch users exactly what they\'re looking for, right at the bar.',
   },

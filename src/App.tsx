@@ -9,6 +9,10 @@ import Contact   from './components/Contact'
 import Footer    from './components/Footer'
 import Machines  from './pages/Machines'
 import SlimWall  from './pages/SlimWall'
+import MegaWall       from './pages/MegaWall'
+import SlimTower      from './pages/SlimTower'
+import MiniWall       from './pages/MiniWall'
+import SlimWallTinLift from './pages/SlimWallTinLift'
 
 function Home() {
   return (
@@ -34,6 +38,10 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/machines" element={<Machines />} />
         <Route path="/machines/slim-wall" element={<SlimWall />} />
+        <Route path="/machines/mega-wall" element={<MegaWall />} />
+        <Route path="/machines/slim-tower" element={<SlimTower />} />
+        <Route path="/machines/mini-wall" element={<MiniWall />} />
+        <Route path="/machines/slim-wall-tin-lift" element={<SlimWallTinLift />} />
       </Routes>
     </BrowserRouter>
   )
