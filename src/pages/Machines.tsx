@@ -45,7 +45,7 @@ const MACHINES: Machine[] = [
   {
     name: 'Mini Wall',
     tagline: 'Compact footprint. Big results.',
-    images: [miniWall1, miniWall2, miniWall3, miniWall4, miniWall5],
+    images: [miniWall1, miniWall2, miniWall5, miniWall3, miniWall4],
     description:
       'The Mini Wall fits where other machines can\'t. Perfect for smaller bars, lounges, or tight spaces that still see consistent foot traffic. Don\'t let the size fool you — it moves product.',
   },
