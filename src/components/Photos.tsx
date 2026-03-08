@@ -1,20 +1,21 @@
 import fingerRule from '../assets/finger-rule.png'
+import photo1 from '../assets/Photos Section/alp_wrap-your-vape-vending-machine-vtm-vapetm-132898.avif'
+import photo2 from '../assets/Photos Section/nicotine-pouch-vending-machine-zyn.webp'
+import photo3 from '../assets/Photos Section/vapetm-slim-tower-20-in-use-high-traffic-location.avif'
+import photo4 from '../assets/Photos Section/vapetm-vape-vending-machine-interior-open-door-stocked-trays.png'
 
-// Replace any of these placeholder entries with a real image import + src to add photos.
-// The `src` field is undefined for placeholders; add an actual import and set src to show a real photo.
 type PhotoSlot = {
   id: number
   label: string
   src?: string
-  span?: 'col' | 'row'
 }
 
 const PHOTO_SLOTS: PhotoSlot[] = [
-  { id: 1, label: 'Machine at a bar / lounge' },
-  { id: 2, label: 'Stocked with top disposable brands' },
-  { id: 3, label: 'Casino floor placement' },
-  { id: 4, label: 'Nicotine pouch selection' },
-  { id: 5, label: 'Hotel hallway install' },
+  { id: 1, label: 'Machine at a bar / lounge',        src: photo1 },
+  { id: 2, label: 'Nicotine pouch selection',          src: photo2 },
+  { id: 3, label: 'High-traffic location',             src: photo3 },
+  { id: 4, label: 'Stocked machine interior',          src: photo4 },
+  { id: 5, label: 'Casino floor placement' },
   { id: 6, label: 'Truck stop / travel center' },
 ]
 
