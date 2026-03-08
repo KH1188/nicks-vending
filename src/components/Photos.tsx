@@ -5,6 +5,7 @@ import photo1 from '../assets/Photos Section/alp_wrap-your-vape-vending-machine-
 import photo2 from '../assets/Photos Section/nicotine-pouch-vending-machine-zyn.webp'
 import photo3 from '../assets/Photos Section/vapetm-slim-tower-20-in-use-high-traffic-location.avif'
 import photo4 from '../assets/Photos Section/vapetm-vape-vending-machine-interior-open-door-stocked-trays.png'
+import photo5 from '../assets/Photos Section/vapetm-vape-vending-machine-bar-customer-touchscreen.avif'
 
 type PhotoSlot = {
   id: number
@@ -18,7 +19,7 @@ const PHOTO_SLOTS: PhotoSlot[] = [
   { id: 2, label: 'Stocked Tin Lift',                        title: 'Stocked Tin Lift',                        src: photo2 },
   { id: 3, label: 'Slim Tower In Use',                       title: 'Slim Tower In Use',                       src: photo3 },
   { id: 4, label: 'Fully Stocked — Ready for the Night',     title: 'Fully Stocked — Ready for the Night',     src: photo4 },
-  { id: 5, label: 'Casino floor placement' },
+  { id: 5, label: 'Slim Wall In Action', title: 'Slim Wall In Action', src: photo5 },
   { id: 6, label: 'Truck stop / travel center' },
 ]
 
