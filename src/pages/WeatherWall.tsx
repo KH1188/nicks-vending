@@ -2,20 +2,21 @@ import { useState, useRef } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import Lightbox from '../components/Lightbox'
-import slimTower1 from '../assets/Slim Tower/slim-tower-2-0-smart-vape-vending-machine-specs.webp'
-import slimTower2 from '../assets/Slim Tower/touchscreen-vape-vending-machine-slim-tower-2-0.webp'
-import slimTower3 from '../assets/Slim Tower/vapetm-slim-tower-2-0-smart-vending-kiosk-touchscreen.webp'
-import slimTower4 from '../assets/Slim Tower/vapetm-slim-tower-20-front-view-smart-vape-vending-machine-touchscreen.webp'
+import img1 from '../assets/WeatherWall/1.webp'
+import img2 from '../assets/WeatherWall/2.webp'
+import img3 from '../assets/WeatherWall/3.webp'
+import img4 from '../assets/WeatherWall/4.webp'
+import img5 from '../assets/WeatherWall/5.webp'
 
-const IMAGES = [slimTower1, slimTower4, slimTower3, slimTower2]
+const IMAGES = [img1, img2, img3, img4, img5]
 
 const SPECS = [
-  { label: 'Height',    value: '71.1"' },
-  { label: 'Width',     value: '27.5"' },
-  { label: 'Depth',     value: '13.7"' },
-  { label: 'Display',   value: '43" Touchscreen' },
-  { label: 'Aisles',    value: '24 (8 trays × 3 aisles per tray)' },
-  { label: 'Payment',   value: 'Cashless via Nayax VPOS Touch Card Reader' },
+  { label: 'Height',   value: '49.2"' },
+  { label: 'Width',    value: '16.5"' },
+  { label: 'Depth',    value: '23.6"' },
+  { label: 'Display',  value: '32" Touchscreen' },
+  { label: 'Aisles',   value: '12 (6 trays × 2 bays per aisle)' },
+  { label: 'Payment',  value: 'Cashless via Nayax VPOS Touch Card Reader' },
 ]
 
 function Carousel() {
@@ -46,7 +47,7 @@ function Carousel() {
         >
           {IMAGES.map((img, i) => (
             <div key={i} style={{ width: `${100 / IMAGES.length}%` }} className="cursor-zoom-in" onClick={() => setLightbox(true)}>
-              <img src={img} alt={`Slim Tower ${i + 1}`} className="w-full h-auto object-contain" loading="lazy" />
+              <img src={img} alt={`WeatherWall ${i + 1}`} className="w-full h-auto object-contain" loading="lazy" />
             </div>
           ))}
         </div>
@@ -91,12 +92,12 @@ function Carousel() {
         ))}
       </div>
     </div>
-    {lightbox && <Lightbox images={IMAGES} initialIndex={index} name="Slim Tower" onClose={() => setLightbox(false)} />}
+    {lightbox && <Lightbox images={IMAGES} initialIndex={index} name="WeatherWall" onClose={() => setLightbox(false)} />}
     </>
   )
 }
 
-export default function SlimTower() {
+export default function WeatherWall() {
   return (
     <>
       <Navbar />
@@ -122,17 +123,16 @@ export default function SlimTower() {
                 <p className="text-xs font-semibold uppercase tracking-widest text-brand-700 mb-2">
                   Smart Machine
                 </p>
-                <h1 className="text-4xl font-extrabold text-slate-900 mb-2">Slim Tower</h1>
+                <h1 className="text-4xl font-extrabold text-slate-900 mb-2">WeatherWall</h1>
                 <p className="text-lg font-medium text-slate-500 italic mb-6">
-                  Maximum product. Minimal footprint.
+                  Built for the elements. Built to last.
                 </p>
                 <p className="text-slate-500 leading-relaxed mb-8">
-                  The Slim Tower is our highest-capacity machine in the lineup. With 24 aisles
-                  across 8 trays, it holds more product than any other unit we offer — giving your
-                  venue the widest selection possible. Freestanding and requiring no wall
-                  installation, it can go anywhere in your venue. Ideal for high-traffic locations
-                  that want maximum product availability. Touchscreen, cashless, and always
-                  connected.
+                  The WeatherWall is engineered to perform where other machines won't. Built to
+                  withstand the elements, it's ideal for covered outdoor areas, patios, pool decks,
+                  and any venue where durability matters as much as performance. With 12 aisles
+                  across 6 trays, a 32" touchscreen, and cashless payment — it brings the full
+                  smart vending experience anywhere you need it, rain or shine.
                 </p>
 
                 <div className="rounded-xl border border-slate-100 overflow-hidden mb-8">
@@ -152,20 +152,7 @@ export default function SlimTower() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-3">
-                  <a
-                    href="https://go.vizbl.com/en/object/u_VmLhdFQt-b4WcvTO4nMQ#"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-primary justify-center text-sm py-3 px-6"
-                  >
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24"
-                      stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round"
-                        d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
-                    </svg>
-                    View in AR
-                  </a>
-                  <a href="/#contact" className="btn-secondary justify-center text-sm py-3 px-6">
+                  <a href="/#contact" className="btn-primary justify-center text-sm py-3 px-6">
                     Contact Us
                   </a>
                 </div>

@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
+import Lightbox from '../components/Lightbox'
 import slimWall1 from '../assets/Slim Wall/slim-wall-sleek-slim-wall-mounted-vtm-vapetm-486251.webp'
 import slimWall2 from '../assets/Slim Wall/slim-wall-sleek-slim-wall-mounted-vtm-vapetm-769781.webp'
 import slimWall3 from '../assets/Slim Wall/slim-wall-vape-vending-machine-ad-banner-id-scanner.webp'
@@ -23,6 +24,11 @@ import tinLift3 from '../assets/Slim Wall - Tin Lift/slim-wall-tin-lift-nicotine
 import tinLift4 from '../assets/Slim Wall - Tin Lift/slim-wall-tin-lift-nicotine-pouch-vending-machine-dimensions.webp'
 import tinLift5 from '../assets/Slim Wall - Tin Lift/the-pouch-stacker-mega-americas-first-pouch-only-vending-machine-pre-order-now-pouch-vending-vapetm-109417.webp'
 import tinLift6 from '../assets/Slim Wall - Tin Lift/vapetm-slim-wall-tin-lift-nicotine-pouch-vending-machine.webp'
+import weatherWall1 from '../assets/WeatherWall/1.webp'
+import weatherWall2 from '../assets/WeatherWall/2.webp'
+import weatherWall3 from '../assets/WeatherWall/3.webp'
+import weatherWall4 from '../assets/WeatherWall/4.webp'
+import weatherWall5 from '../assets/WeatherWall/5.webp'
 
 type Machine = {
   name: string
@@ -33,6 +39,14 @@ type Machine = {
 }
 
 const MACHINES: Machine[] = [
+  {
+    name: 'Mini Wall',
+    tagline: 'Compact footprint. Big results.',
+    images: [miniWall1, miniWall2, miniWall5, miniWall3, miniWall4],
+    detailUrl: '/machines/mini-wall',
+    description:
+      'The Mini Wall fits where other machines can\'t. Perfect for smaller bars, lounges, or tight spaces that still see consistent foot traffic. Don\'t let the size fool you — it moves product.',
+  },
   {
     name: 'Slim Wall',
     tagline: 'Sleek. Space-saving. Always stocked.',
@@ -50,20 +64,20 @@ const MACHINES: Machine[] = [
       'Our largest wall-mounted machine. Built for high-traffic venues like casinos and nightclubs where floor space is limited but demand is high. LED accent lighting, 32" touchscreen, and cashless payment.',
   },
   {
-    name: 'Mini Wall',
-    tagline: 'Compact footprint. Big results.',
-    images: [miniWall1, miniWall2, miniWall5, miniWall3, miniWall4],
-    detailUrl: '/machines/mini-wall',
-    description:
-      'The Mini Wall fits where other machines can\'t. Perfect for smaller bars, lounges, or tight spaces that still see consistent foot traffic. Don\'t let the size fool you — it moves product.',
-  },
-  {
     name: 'Slim Tower',
     tagline: 'Maximum product. Minimal footprint.',
     images: [slimTower1, slimTower4, slimTower3, slimTower2],
     detailUrl: '/machines/slim-tower',
     description:
       'Our highest-capacity machine. The Slim Tower holds more product than any other unit in our lineup — freestanding, flexible, and built for venues that want maximum selection.',
+  },
+  {
+    name: 'WeatherWall',
+    tagline: 'Built for the elements. Built to last.',
+    images: [weatherWall1, weatherWall2, weatherWall3, weatherWall4, weatherWall5],
+    detailUrl: '/machines/weather-wall',
+    description:
+      'The WeatherWall is engineered to perform where other machines won\'t. Built to withstand the elements, it\'s ideal for covered outdoor areas, patios, pool decks, and any venue where durability matters as much as performance.',
   },
   {
     name: 'Slim Wall – Tin Lift',
@@ -77,17 +91,36 @@ const MACHINES: Machine[] = [
 
 function Carousel({ images, name }: { images: string[]; name: string }) {
   const [index, setIndex] = useState(0)
+  const [lightbox, setLightbox] = useState(false)
+  const touchX = useRef<number | null>(null)
+  const touchY = useRef<number | null>(null)
 
   const prev = () => setIndex(i => (i - 1 + images.length) % images.length)
   const next = () => setIndex(i => (i + 1) % images.length)
 
   return (
-    <div className="relative bg-slate-100 aspect-[4/3] overflow-hidden group">
-      <img
-        src={images[index]}
-        alt={`${name} ${index + 1}`}
-        className="w-full h-full object-cover transition-opacity duration-300"
-      />
+    <>
+    <div
+      className="relative bg-slate-100 aspect-[4/3] overflow-hidden group"
+      onTouchStart={e => { touchX.current = e.touches[0].clientX; touchY.current = e.touches[0].clientY }}
+      onTouchEnd={e => {
+        if (touchX.current === null || touchY.current === null) return
+        const deltaX = touchX.current - e.changedTouches[0].clientX
+        const deltaY = touchY.current - e.changedTouches[0].clientY
+        if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) deltaX > 0 ? next() : prev()
+        touchX.current = null; touchY.current = null
+      }}
+    >
+      <div
+        className="flex h-full transition-transform duration-300 ease-in-out"
+        style={{ transform: `translateX(-${index * (100 / images.length)}%)`, width: `${images.length * 100}%` }}
+      >
+        {images.map((img, i) => (
+          <div key={i} className="h-full cursor-zoom-in" style={{ width: `${100 / images.length}%` }} onClick={() => setLightbox(true)}>
+            <img src={img} alt={`${name} ${i + 1}`} className="w-full h-full object-cover" loading="lazy" />
+          </div>
+        ))}
+      </div>
 
       {/* Arrows */}
       <button
@@ -95,7 +128,7 @@ function Carousel({ images, name }: { images: string[]; name: string }) {
         aria-label="Previous image"
         className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full
           bg-white/80 hover:bg-white shadow flex items-center justify-center
-          opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+          sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-200"
       >
         <svg className="w-4 h-4 text-slate-700" fill="none" viewBox="0 0 24 24"
           stroke="currentColor" strokeWidth={2.5}>
@@ -107,7 +140,7 @@ function Carousel({ images, name }: { images: string[]; name: string }) {
         aria-label="Next image"
         className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full
           bg-white/80 hover:bg-white shadow flex items-center justify-center
-          opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+          sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-200"
       >
         <svg className="w-4 h-4 text-slate-700" fill="none" viewBox="0 0 24 24"
           stroke="currentColor" strokeWidth={2.5}>
@@ -129,6 +162,8 @@ function Carousel({ images, name }: { images: string[]; name: string }) {
         ))}
       </div>
     </div>
+    {lightbox && <Lightbox images={images} initialIndex={index} name={name} onClose={() => setLightbox(false)} />}
+    </>
   )
 }
 

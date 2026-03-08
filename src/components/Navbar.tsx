@@ -4,7 +4,7 @@ import logo from '../assets/logo.png'
 const NAV_LINKS = [
   { label: 'Services',  href: '/#services'  },
   { label: 'Machines',  href: '/#machines'  },
-  { label: 'About',     href: '/#about'     },
+  { label: 'About',     href: '/about'      },
   { label: 'Locations', href: '/#locations' },
   { label: 'Contact',   href: '/#contact'   },
   { label: 'Photos',    href: '/#photos'    },
@@ -24,11 +24,9 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? 'bg-white/95 backdrop-blur-sm border-b border-slate-100 shadow-sm'
-          : 'bg-white/80 backdrop-blur-sm'
-      }`}
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300
+        border-b border-slate-100 shadow-sm bg-white
+        ${scrolled ? 'md:bg-white/95 md:backdrop-blur-sm' : 'md:bg-white/80 md:backdrop-blur-sm md:border-transparent md:shadow-none'}`}
     >
       <nav className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-[72px] flex items-center justify-between">
         {/* Logo */}
@@ -38,6 +36,9 @@ export default function Navbar() {
             alt="Nick's Vending"
             className="h-10 w-auto object-contain"
           />
+          <span className="font-brand font-black uppercase text-[15px] tracking-wide text-brand-900 leading-none">
+            Nick's Vending
+          </span>
         </a>
 
         {/* Desktop links */}
@@ -57,7 +58,7 @@ export default function Navbar() {
           ))}
           <li className="ml-3">
             <a href="/#contact" className="btn-primary text-sm py-2 px-5">
-              Request Placement
+              Contact Us
             </a>
           </li>
         </ul>
@@ -99,7 +100,7 @@ export default function Navbar() {
           ))}
           <li className="mt-2">
             <a href="#contact" onClick={close} className="btn-primary w-full text-sm justify-center">
-              Request Placement
+              Contact Us
             </a>
           </li>
         </ul>

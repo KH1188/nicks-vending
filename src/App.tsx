@@ -1,9 +1,10 @@
+import { useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Navbar    from './components/Navbar'
 import Hero      from './components/Hero'
 import Services  from './components/Services'
-import About     from './components/About'
 import Locations from './components/Locations'
+import AboutPage from './pages/AboutPage'
 import Photos    from './components/Photos'
 import Contact   from './components/Contact'
 import Footer    from './components/Footer'
@@ -13,16 +14,22 @@ import MegaWall       from './pages/MegaWall'
 import SlimTower      from './pages/SlimTower'
 import MiniWall       from './pages/MiniWall'
 import SlimWallTinLift from './pages/SlimWallTinLift'
-
+import WeatherWall     from './pages/WeatherWall'
 function Home() {
+  useEffect(() => {
+    if (window.location.hash) {
+      const el = document.getElementById(window.location.hash.slice(1))
+      if (el) el.scrollIntoView({ behavior: 'smooth' })
+    }
+  }, [])
+
   return (
     <>
       <Navbar />
       <main>
         <Hero />
-        <Services />
         <Machines />
-        <About />
+        <Services />
         <Locations />
         <Contact />
         <Photos />
@@ -42,6 +49,8 @@ export default function App() {
         <Route path="/machines/slim-tower" element={<SlimTower />} />
         <Route path="/machines/mini-wall" element={<MiniWall />} />
         <Route path="/machines/slim-wall-tin-lift" element={<SlimWallTinLift />} />
+        <Route path="/machines/weather-wall" element={<WeatherWall />} />
+        <Route path="/about" element={<AboutPage />} />
       </Routes>
     </BrowserRouter>
   )

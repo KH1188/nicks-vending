@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
+import Lightbox from '../components/Lightbox'
 import miniWall1 from '../assets/Mini Wall/mini-wall-most-compact-wall-mounted-vape-vending-machine-vtm-vapetm-256986.webp'
 import miniWall2 from '../assets/Mini Wall/mini-wall-most-compact-wall-mounted-vending-machine-vtm-vapetm-306534.webp'
 import miniWall3 from '../assets/Mini Wall/mini-wall-most-compact-wall-mounted-vending-machine-vtm-vapetm-456147.webp'
@@ -21,43 +22,64 @@ const SPECS = [
 
 function Carousel() {
   const [index, setIndex] = useState(0)
+  const [lightbox, setLightbox] = useState(false)
   const prev = () => setIndex(i => (i - 1 + IMAGES.length) % IMAGES.length)
   const next = () => setIndex(i => (i + 1) % IMAGES.length)
+  const touchX = useRef<number | null>(null)
+  const touchY = useRef<number | null>(null)
 
   return (
-    <div className="relative rounded-2xl overflow-hidden bg-slate-100 group">
-      <img
-        src={IMAGES[index]}
-        alt={`Mini Wall ${index + 1}`}
-        className="w-full h-auto object-contain transition-opacity duration-300"
-      />
+    <>
+    <div
+      className="rounded-2xl overflow-hidden bg-slate-100 group"
+      onTouchStart={e => { touchX.current = e.touches[0].clientX; touchY.current = e.touches[0].clientY }}
+      onTouchEnd={e => {
+        if (touchX.current === null || touchY.current === null) return
+        const deltaX = touchX.current - e.changedTouches[0].clientX
+        const deltaY = touchY.current - e.changedTouches[0].clientY
+        if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) deltaX > 0 ? next() : prev()
+        touchX.current = null; touchY.current = null
+      }}
+    >
+      <div className="relative">
+        <div
+          className="flex transition-transform duration-300 ease-in-out"
+          style={{ transform: `translateX(-${index * (100 / IMAGES.length)}%)`, width: `${IMAGES.length * 100}%` }}
+        >
+          {IMAGES.map((img, i) => (
+            <div key={i} style={{ width: `${100 / IMAGES.length}%` }} className="cursor-zoom-in" onClick={() => setLightbox(true)}>
+              <img src={img} alt={`Mini Wall ${i + 1}`} className="w-full h-auto object-contain" loading="lazy" />
+            </div>
+          ))}
+        </div>
 
-      <button onClick={prev} aria-label="Previous"
-        className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full
-          bg-white/80 hover:bg-white shadow flex items-center justify-center
-          opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-        <svg className="w-4 h-4 text-slate-700" fill="none" viewBox="0 0 24 24"
-          stroke="currentColor" strokeWidth={2.5}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-        </svg>
-      </button>
-      <button onClick={next} aria-label="Next"
-        className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full
-          bg-white/80 hover:bg-white shadow flex items-center justify-center
-          opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-        <svg className="w-4 h-4 text-slate-700" fill="none" viewBox="0 0 24 24"
-          stroke="currentColor" strokeWidth={2.5}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-        </svg>
-      </button>
+        <button onClick={prev} aria-label="Previous"
+          className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full
+            bg-white/80 hover:bg-white shadow flex items-center justify-center
+            sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-200">
+          <svg className="w-4 h-4 text-slate-700" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor" strokeWidth={2.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+          </svg>
+        </button>
+        <button onClick={next} aria-label="Next"
+          className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full
+            bg-white/80 hover:bg-white shadow flex items-center justify-center
+            sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-200">
+          <svg className="w-4 h-4 text-slate-700" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor" strokeWidth={2.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+          </svg>
+        </button>
 
-      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
-        {IMAGES.map((_, i) => (
-          <button key={i} onClick={() => setIndex(i)} aria-label={`Image ${i + 1}`}
-            className={`w-1.5 h-1.5 rounded-full transition-all duration-200 ${
-              i === index ? 'bg-white scale-125' : 'bg-white/50'
-            }`} />
-        ))}
+        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
+          {IMAGES.map((_, i) => (
+            <button key={i} onClick={() => setIndex(i)} aria-label={`Image ${i + 1}`}
+              className={`w-1.5 h-1.5 rounded-full transition-all duration-200 ${
+                i === index ? 'bg-white scale-125' : 'bg-white/50'
+              }`} />
+          ))}
+        </div>
       </div>
 
       <div className="flex gap-2 mt-3">
@@ -71,6 +93,8 @@ function Carousel() {
         ))}
       </div>
     </div>
+    {lightbox && <Lightbox images={IMAGES} initialIndex={index} name="Mini Wall" onClose={() => setLightbox(false)} />}
+    </>
   )
 }
 
@@ -82,14 +106,14 @@ export default function MiniWall() {
         <section className="py-16 bg-white">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
-            <a href="/machines"
+            <a href="/#machines"
               className="inline-flex items-center gap-2 text-sm text-slate-500
                 hover:text-brand-700 transition-colors mb-10">
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
               </svg>
-              Back to Machines
+              Return to Home
             </a>
 
             <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
@@ -143,7 +167,7 @@ export default function MiniWall() {
                     View in AR
                   </a>
                   <a href="/#contact" className="btn-secondary justify-center text-sm py-3 px-6">
-                    Request Placement
+                    Contact Us
                   </a>
                 </div>
               </div>

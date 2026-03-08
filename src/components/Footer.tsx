@@ -98,7 +98,7 @@ export default function Footer() {
                 <a href="#contact"
                   className="inline-flex items-center gap-2 text-xs font-semibold
                     text-brand-300 hover:text-brand-200 transition-colors">
-                  Request Placement →
+                  Contact Us →
                 </a>
               </li>
             </ul>

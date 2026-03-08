@@ -9,6 +9,7 @@ export default {
     extend: {
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        brand: ['Montserrat', 'sans-serif'],
       },
       colors: {
         brand: {

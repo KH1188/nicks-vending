@@ -1,4 +1,10 @@
 import { useState, FormEvent } from 'react'
+import emailjs from '@emailjs/browser'
+
+const EJS_SERVICE   = 'service_wyl6jvt'
+const EJS_TEMPLATE  = 'template_68vvsyq'
+const EJS_CONFIRM   = 'template_h42ujue'
+const EJS_PUBLIC    = 'wFObCt7fUUZCoWCVM'
 
 type FormState = {
   name: string
@@ -13,6 +19,8 @@ const EMPTY: FormState = { name: '', email: '', phone: '', business: '', message
 export default function Contact() {
   const [form, setForm]       = useState<FormState>(EMPTY)
   const [submitted, setSubmit] = useState(false)
+  const [sending, setSending]  = useState(false)
+  const [sendError, setSendError] = useState<string | null>(null)
   const [errors, setErrors]   = useState<Partial<FormState>>({})
 
   const validate = (): boolean => {
@@ -26,21 +34,32 @@ export default function Contact() {
     return Object.keys(e).length === 0
   }
 
-  const handleSubmit = (ev: FormEvent) => {
+  const handleSubmit = async (ev: FormEvent) => {
     ev.preventDefault()
     if (!validate()) return
 
-    // Mailto fallback — opens email client as a backup
-    const subject = encodeURIComponent(`Vending inquiry from ${form.name} — ${form.business || 'N/A'}`)
-    const body = encodeURIComponent(
-      `Name: ${form.name}\nEmail: ${form.email}\nPhone: ${form.phone || 'N/A'}\n` +
-      `Business: ${form.business || 'N/A'}\n\nMessage:\n${form.message}`
-    )
-    // Silently attempt the mailto; works if user has a mail client configured
-    window.location.href = `mailto:nicksvendingnola@gmail.com?subject=${subject}&body=${body}`
+    setSending(true)
+    setSendError(null)
 
-    setSubmit(true)
-    setForm(EMPTY)
+    try {
+      const data = {
+        from_name: form.name,
+        from_email: form.email,
+        phone:    form.phone || 'N/A',
+        business: form.business || 'N/A',
+        message:  form.message,
+      }
+
+      await emailjs.send(EJS_SERVICE, EJS_TEMPLATE, data, EJS_PUBLIC)
+      await emailjs.send(EJS_SERVICE, EJS_CONFIRM,  data, EJS_PUBLIC)
+      setSubmit(true)
+      setForm(EMPTY)
+    } catch (err) {
+      console.error('EmailJS error:', err)
+      setSendError('Something went wrong. Please call or email us directly.')
+    } finally {
+      setSending(false)
+    }
   }
 
   const field = (id: keyof FormState) => ({
@@ -122,9 +141,6 @@ export default function Contact() {
                 <div>
                   <p className="text-sm font-semibold text-slate-800">
                     Response within 1 business day
-                  </p>
-                  <p className="text-xs text-slate-400 mt-0.5">
-                    No automated replies — you'll hear from Nick directly.
                   </p>
                 </div>
               </div>
@@ -214,14 +230,20 @@ export default function Contact() {
                   {errors.message && <p className="text-xs text-red-500 mt-1">{errors.message}</p>}
                 </div>
 
-                <button type="submit" className="btn-primary w-full justify-center py-3">
-                  Send Message
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor" strokeWidth={2.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round"
-                      d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                  </svg>
+                <button type="submit" disabled={sending} className="btn-primary w-full justify-center py-3 disabled:opacity-60">
+                  {sending ? 'Sending…' : 'Send Message'}
+                  {!sending && (
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round"
+                        d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                    </svg>
+                  )}
                 </button>
+
+                {sendError && (
+                  <p className="text-xs text-red-500 text-center">{sendError}</p>
+                )}
 
                 <p className="text-[11px] text-slate-400 text-center">
                   No spam. We'll respond with next steps only.
