@@ -1,3 +1,5 @@
+import { useState } from 'react'
+import Lightbox from './Lightbox'
 import fingerRule from '../assets/finger-rule.png'
 import photo1 from '../assets/Photos Section/alp_wrap-your-vape-vending-machine-vtm-vapetm-132898.avif'
 import photo2 from '../assets/Photos Section/nicotine-pouch-vending-machine-zyn.webp'
@@ -7,17 +9,21 @@ import photo4 from '../assets/Photos Section/vapetm-vape-vending-machine-interio
 type PhotoSlot = {
   id: number
   label: string
+  title?: string
   src?: string
 }
 
 const PHOTO_SLOTS: PhotoSlot[] = [
-  { id: 1, label: 'Machine at a bar / lounge',        src: photo1 },
-  { id: 2, label: 'Nicotine pouch selection',          src: photo2 },
-  { id: 3, label: 'High-traffic location',             src: photo3 },
-  { id: 4, label: 'Stocked machine interior',          src: photo4 },
+  { id: 1, label: 'Alp Wrapped Slim Wall Tin Lift',          title: 'Alp Wrapped Slim Wall Tin Lift',          src: photo1 },
+  { id: 2, label: 'Stocked Tin Lift',                        title: 'Stocked Tin Lift',                        src: photo2 },
+  { id: 3, label: 'Slim Tower In Use',                       title: 'Slim Tower In Use',                       src: photo3 },
+  { id: 4, label: 'Fully Stocked — Ready for the Night',     title: 'Fully Stocked — Ready for the Night',     src: photo4 },
   { id: 5, label: 'Casino floor placement' },
   { id: 6, label: 'Truck stop / travel center' },
 ]
+
+const REAL_PHOTOS = PHOTO_SLOTS.filter(s => s.src).map(s => s.src as string)
+const REAL_NAMES  = PHOTO_SLOTS.filter(s => s.src).map(s => s.label)
 
 function Placeholder({ label }: { label: string }) {
   return (
@@ -43,6 +49,11 @@ function Placeholder({ label }: { label: string }) {
 }
 
 export default function Photos() {
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
+
+  // map a slot to its index within REAL_PHOTOS
+  let realIndex = -1
+
   return (
     <section id="photos" className="py-24 bg-slate-50">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -79,21 +90,30 @@ export default function Photos() {
           </div>
         </div>
 
-        {/* Photo grid — 6 placeholders */}
-        {/* To add photos: import your image at the top of this file, then set src on the slot */}
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {PHOTO_SLOTS.map((slot) => (
-            <div
-              key={slot.id}
-              className="aspect-[4/3] rounded-xl overflow-hidden"
-            >
-              {slot.src
-                ? <img src={slot.src} alt={slot.label}
-                    className="w-full h-full object-cover rounded-xl" />
-                : <Placeholder label={slot.label} />
-              }
-            </div>
-          ))}
+          {PHOTO_SLOTS.map((slot) => {
+            if (slot.src) realIndex++
+            const idx = slot.src ? realIndex : -1
+            return (
+              <div
+                key={slot.id}
+                className="aspect-[4/3] rounded-xl overflow-hidden relative"
+              >
+                {slot.src ? (
+                  <div className="relative w-full h-full cursor-zoom-in group" onClick={() => setLightboxIndex(idx)}>
+                    <img src={slot.src} alt={slot.label} className="w-full h-full object-cover" />
+                    {slot.title && (
+                      <div className="absolute bottom-2 left-2 bg-black/50 backdrop-blur-sm text-white text-xs font-semibold px-3 py-1 rounded-full">
+                        {slot.title}
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <Placeholder label={slot.label} />
+                )}
+              </div>
+            )
+          })}
         </div>
 
         <p className="mt-6 text-center text-xs text-slate-400">
@@ -104,6 +124,14 @@ export default function Photos() {
           to see machines in action at your venue.
         </p>
       </div>
+      {lightboxIndex !== null && (
+        <Lightbox
+          images={REAL_PHOTOS}
+          initialIndex={lightboxIndex}
+          name={REAL_NAMES[lightboxIndex]}
+          onClose={() => setLightboxIndex(null)}
+        />
+      )}
     </section>
   )
 }
