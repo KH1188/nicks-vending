@@ -4,9 +4,9 @@ import Navbar    from './components/Navbar'
 import Hero      from './components/Hero'
 import Services  from './components/Services'
 import Locations from './components/Locations'
-import AboutPage from './pages/AboutPage'
-import Photos    from './components/Photos'
-import Contact   from './components/Contact'
+import AboutPage  from './pages/AboutPage'
+import PhotosPage from './pages/PhotosPage'
+import Contact    from './components/Contact'
 import Footer    from './components/Footer'
 import Machines  from './pages/Machines'
 import SlimWall  from './pages/SlimWall'
@@ -32,7 +32,6 @@ function Home() {
         <Services />
         <Locations />
         <Contact />
-        <Photos />
       </main>
       <Footer />
     </>
@@ -51,6 +50,7 @@ export default function App() {
         <Route path="/machines/slim-wall-tin-lift" element={<SlimWallTinLift />} />
         <Route path="/machines/weather-wall" element={<WeatherWall />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/photos" element={<PhotosPage />} />
       </Routes>
     </BrowserRouter>
   )

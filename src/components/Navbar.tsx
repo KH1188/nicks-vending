@@ -7,7 +7,7 @@ const NAV_LINKS = [
   { label: 'About',     href: '/about'      },
   { label: 'Locations', href: '/#locations' },
   { label: 'Contact',   href: '/#contact'   },
-  { label: 'Photos',    href: '/#photos'    },
+  { label: 'Photos',    href: '/photos'    },
 ]
 
 export default function Navbar() {

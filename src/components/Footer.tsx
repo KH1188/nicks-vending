@@ -51,10 +51,10 @@ export default function Footer() {
             </p>
             <ul className="space-y-2.5 text-sm">
               {[
-                { label: 'About',     href: '#about'     },
-                { label: 'Locations', href: '#locations' },
-                { label: 'Photos',    href: '#photos'    },
-                { label: 'Contact',   href: '#contact'   },
+                { label: 'About',     href: '/about'     },
+                { label: 'Locations', href: '/#locations' },
+                { label: 'Photos',    href: '/photos'    },
+                { label: 'Contact',   href: '/#contact'   },
               ].map(({ label, href }) => (
                 <li key={href}>
                   <a href={href}

@@ -97,7 +97,7 @@ export default function Photos() {
 
         <p className="mt-6 text-center text-xs text-slate-400">
           Photos added as installations are documented.{' '}
-          <a href="#contact" className="text-brand-700 hover:underline font-medium">
+          <a href="/#contact" className="text-brand-700 hover:underline font-medium">
             Request placement
           </a>{' '}
           to see machines in action at your venue.
