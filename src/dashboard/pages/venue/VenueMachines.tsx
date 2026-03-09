@@ -38,11 +38,13 @@ const MODEL_URLS: Record<string, string> = {
 
 export default function VenueMachines() {
   const { machines, loading } = useVenueData()
-  const [rvLicenseUrl, setRvLicenseUrl] = useState<string | null>(null)
+  const [rvLicenseUrl, setRvLicenseUrl] = useState<string>('/rv-license.pdf')
 
   useEffect(() => {
     getDoc(doc(db, 'settings', 'licenses')).then(snap => {
-      if (snap.exists()) setRvLicenseUrl(snap.data().responsibleVendorLicenseUrl ?? null)
+      if (snap.exists() && snap.data().responsibleVendorLicenseUrl) {
+        setRvLicenseUrl(snap.data().responsibleVendorLicenseUrl)
+      }
     })
   }, [])
 
@@ -54,17 +56,15 @@ export default function VenueMachines() {
     <div>
       <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white mb-6">My Machine</h1>
 
-      {rvLicenseUrl && (
-        <div className="card rounded-2xl p-5 mb-6 flex items-center justify-between gap-4">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-1">Responsible Vendor License</p>
-            <p className="text-sm text-slate-600 dark:text-slate-300">Operator license on file — available for your records.</p>
-          </div>
-          <a href={rvLicenseUrl} target="_blank" rel="noopener noreferrer" className="btn-primary text-sm py-2 px-4 flex-shrink-0">
-            View PDF
-          </a>
+      <div className="card rounded-2xl p-5 mb-6 flex items-center justify-between gap-4">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-1">Responsible Vendor License</p>
+          <p className="text-sm text-slate-600 dark:text-slate-300">Operator license on file — available for your records.</p>
         </div>
-      )}
+        <a href={rvLicenseUrl} target="_blank" rel="noopener noreferrer" className="btn-primary text-sm py-2 px-4 flex-shrink-0">
+          View PDF
+        </a>
+      </div>
 
       {machines.length === 0 ? (
         <div className="card rounded-2xl p-12 text-center">
