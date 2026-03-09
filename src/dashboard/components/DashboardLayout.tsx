@@ -2,12 +2,14 @@ import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import DashboardSidebar from './DashboardSidebar'
 import DashboardTopbar from './DashboardTopbar'
+import { useDarkMode } from '../hooks/useDarkMode'
 
 export default function DashboardLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const { isDark, toggleDark } = useDarkMode()
 
   return (
-    <div className="flex h-screen bg-slate-50 overflow-hidden">
+    <div className="flex h-screen bg-slate-50 dark:bg-slate-950 overflow-hidden">
 
       {/* Mobile overlay */}
       {sidebarOpen && (
@@ -26,7 +28,11 @@ export default function DashboardLayout() {
 
       {/* Main content */}
       <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
-        <DashboardTopbar onMenuClick={() => setSidebarOpen(true)} />
+        <DashboardTopbar
+          onMenuClick={() => setSidebarOpen(true)}
+          isDark={isDark}
+          toggleDark={toggleDark}
+        />
         <main className="flex-1 overflow-y-auto p-6 lg:p-8">
           <Outlet />
         </main>

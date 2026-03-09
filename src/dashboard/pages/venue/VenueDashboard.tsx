@@ -15,27 +15,27 @@ export default function VenueDashboard() {
   return (
     <div>
       <div className="mb-8">
-        <h1 className="text-2xl font-extrabold text-slate-900">
+        <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white">
           Welcome back, {user?.displayName}
         </h1>
-        <p className="text-sm text-slate-500 mt-1">{venue?.name}</p>
+        <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{venue?.name}</p>
       </div>
 
       <div className="grid sm:grid-cols-3 gap-4 mb-8">
         <div className="card rounded-2xl p-6">
-          <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-1">Total Statements</p>
-          <p className="text-3xl font-extrabold text-slate-900">{statements.length}</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-1">Total Statements</p>
+          <p className="text-3xl font-extrabold text-slate-900 dark:text-white">{statements.length}</p>
         </div>
         <div className="card rounded-2xl p-6">
-          <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-1">Latest Payout</p>
-          <p className="text-3xl font-extrabold text-slate-900">
+          <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-1">Latest Payout</p>
+          <p className="text-3xl font-extrabold text-slate-900 dark:text-white">
             {latest ? `$${latest.venueShare.toFixed(2)}` : '—'}
           </p>
-          {latest && <p className="text-xs text-slate-400 mt-1">{latest.periodLabel}</p>}
+          {latest && <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">{latest.periodLabel}</p>}
         </div>
         <div className="card rounded-2xl p-6">
-          <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-1">Machine</p>
-          <p className="text-3xl font-extrabold text-slate-900">{machine ? machine.model : '—'}</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-1">Machine</p>
+          <p className="text-3xl font-extrabold text-slate-900 dark:text-white">{machine ? machine.model : '—'}</p>
           {machine && (
             <span className={`inline-block mt-1 text-xs font-semibold px-2 py-0.5 rounded-full ${
               machine.status === 'active'      ? 'bg-green-100 text-green-700' :
@@ -50,12 +50,12 @@ export default function VenueDashboard() {
 
       {latest && (
         <div className="card rounded-2xl p-6">
-          <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-3">Most Recent Statement</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-3">Most Recent Statement</p>
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div>
-              <p className="font-bold text-slate-900">{latest.periodLabel}</p>
-              <p className="text-sm text-slate-500 mt-0.5">
-                Total sales: <span className="font-semibold text-slate-700">${latest.totalSales.toFixed(2)}</span>
+              <p className="font-bold text-slate-900 dark:text-white">{latest.periodLabel}</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">
+                Total sales: <span className="font-semibold text-slate-700 dark:text-slate-200">${latest.totalSales.toFixed(2)}</span>
                 {' · '}
                 Your share: <span className="font-semibold text-green-600">${latest.venueShare.toFixed(2)}</span>
               </p>

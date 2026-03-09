@@ -4,6 +4,8 @@ import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
 import { db } from '../../../lib/firebase'
 import { useAdminData } from '../../hooks/useAdminData'
 
+const INPUT = "w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-700"
+
 export default function AdminVenues() {
   const { venues, machines, loading, refresh } = useAdminData()
   const [showForm, setShowForm] = useState(false)
@@ -30,7 +32,7 @@ export default function AdminVenues() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-extrabold text-slate-900">Venues</h1>
+        <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white">Venues</h1>
         <button onClick={() => setShowForm(v => !v)} className="btn-primary text-sm py-2 px-4">
           {showForm ? 'Cancel' : 'Add Venue'}
         </button>
@@ -38,7 +40,7 @@ export default function AdminVenues() {
 
       {showForm && (
         <form onSubmit={handleAdd} className="card rounded-2xl p-6 mb-6 space-y-4">
-          <h2 className="font-bold text-slate-900">New Venue</h2>
+          <h2 className="font-bold text-slate-900 dark:text-white">New Venue</h2>
           <div className="grid sm:grid-cols-2 gap-4">
             {[
               { key: 'name',         label: 'Venue Name',    placeholder: 'The Rusty Nail' },
@@ -47,23 +49,23 @@ export default function AdminVenues() {
               { key: 'contactPhone', label: 'Contact Phone', placeholder: '(504) 555-1234' },
             ].map(({ key, label, placeholder }) => (
               <div key={key}>
-                <label className="block text-sm font-medium text-slate-700 mb-1">{label}</label>
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">{label}</label>
                 <input
                   value={form[key as keyof typeof form]}
                   onChange={e => setForm(f => ({ ...f, [key]: e.target.value }))}
                   placeholder={placeholder}
-                  className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-700"
+                  className={INPUT}
                 />
               </div>
             ))}
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">Notes (internal)</label>
+            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Notes (internal)</label>
             <textarea
               value={form.notes}
               onChange={e => setForm(f => ({ ...f, notes: e.target.value }))}
               rows={2}
-              className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-700"
+              className={INPUT}
             />
           </div>
           <button type="submit" disabled={saving} className="btn-primary text-sm py-2 px-5">
@@ -80,21 +82,21 @@ export default function AdminVenues() {
         <div className="card rounded-2xl overflow-hidden">
           <table className="w-full text-sm">
             <thead>
-              <tr className="bg-slate-50 border-b border-slate-100">
-                <th className="text-left px-6 py-3.5 text-xs font-semibold uppercase tracking-widest text-slate-400">Venue</th>
-                <th className="text-left px-6 py-3.5 text-xs font-semibold uppercase tracking-widest text-slate-400 hidden sm:table-cell">Address</th>
-                <th className="text-left px-6 py-3.5 text-xs font-semibold uppercase tracking-widest text-slate-400 hidden md:table-cell">Contact</th>
-                <th className="text-center px-6 py-3.5 text-xs font-semibold uppercase tracking-widest text-slate-400">Machines</th>
+              <tr className="bg-slate-50 dark:bg-slate-700/50 border-b border-slate-100 dark:border-slate-700">
+                <th className="text-left px-6 py-3.5 text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">Venue</th>
+                <th className="text-left px-6 py-3.5 text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500 hidden sm:table-cell">Address</th>
+                <th className="text-left px-6 py-3.5 text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500 hidden md:table-cell">Contact</th>
+                <th className="text-center px-6 py-3.5 text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">Machines</th>
                 <th className="px-6 py-3.5" />
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
               {venues.map(v => (
-                <tr key={v.id} className="hover:bg-slate-50 transition-colors">
-                  <td className="px-6 py-4 font-semibold text-slate-900">{v.name}</td>
-                  <td className="px-6 py-4 text-slate-500 hidden sm:table-cell">{v.address}</td>
-                  <td className="px-6 py-4 text-slate-500 hidden md:table-cell">{v.contactName}</td>
-                  <td className="px-6 py-4 text-center text-slate-700 font-semibold">
+                <tr key={v.id} className="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+                  <td className="px-6 py-4 font-semibold text-slate-900 dark:text-slate-100">{v.name}</td>
+                  <td className="px-6 py-4 text-slate-500 dark:text-slate-400 hidden sm:table-cell">{v.address}</td>
+                  <td className="px-6 py-4 text-slate-500 dark:text-slate-400 hidden md:table-cell">{v.contactName}</td>
+                  <td className="px-6 py-4 text-center text-slate-700 dark:text-slate-300 font-semibold">
                     {machines.filter(m => m.venueId === v.id).length}
                   </td>
                   <td className="px-6 py-4 text-right">

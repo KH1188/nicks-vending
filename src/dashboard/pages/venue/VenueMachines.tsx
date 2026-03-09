@@ -24,7 +24,7 @@ export default function VenueMachines() {
 
   return (
     <div>
-      <h1 className="text-2xl font-extrabold text-slate-900 mb-6">My Machine</h1>
+      <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white mb-6">My Machine</h1>
 
       {machines.length === 0 ? (
         <div className="card rounded-2xl p-12 text-center">
@@ -37,7 +37,7 @@ export default function VenueMachines() {
               <div className="flex items-start justify-between mb-4">
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-widest text-brand-700 mb-1">Smart Machine</p>
-                  <h2 className="text-xl font-bold text-slate-900">{m.model}</h2>
+                  <h2 className="text-xl font-bold text-slate-900 dark:text-white">{m.model}</h2>
                 </div>
                 <span className={`text-xs font-semibold px-3 py-1 rounded-full ${STATUS_STYLES[m.status]}`}>
                   {m.status.charAt(0).toUpperCase() + m.status.slice(1)}
@@ -46,12 +46,12 @@ export default function VenueMachines() {
 
               <dl className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <dt className="text-slate-500">Serial Number</dt>
-                  <dd className="font-semibold text-slate-900">{m.serialNumber || '—'}</dd>
+                  <dt className="text-slate-500 dark:text-slate-400">Serial Number</dt>
+                  <dd className="font-semibold text-slate-900 dark:text-slate-100">{m.serialNumber || '—'}</dd>
                 </div>
                 <div className="flex justify-between">
-                  <dt className="text-slate-500">Placed</dt>
-                  <dd className="font-semibold text-slate-900">
+                  <dt className="text-slate-500 dark:text-slate-400">Placed</dt>
+                  <dd className="font-semibold text-slate-900 dark:text-slate-100">
                     {m.placedAt.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
                   </dd>
                 </div>

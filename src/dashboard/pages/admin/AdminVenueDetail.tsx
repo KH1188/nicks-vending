@@ -5,6 +5,7 @@ import { db } from '../../../lib/firebase'
 import type { Venue, Machine, Statement } from '../../hooks/useVenueData'
 
 const MACHINE_MODELS = ['Slim Wall', 'Mega Wall', 'Slim Tower', 'Mini Wall', 'Slim Wall – Tin Lift', 'WeatherWall']
+const INPUT = "w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-700"
 
 export default function AdminVenueDetail() {
   const { venueId } = useParams<{ venueId: string }>()
@@ -42,32 +43,32 @@ export default function AdminVenueDetail() {
   }
 
   if (loading) return <div className="flex justify-center py-20"><div className="w-8 h-8 border-4 border-brand-700 border-t-transparent rounded-full animate-spin" /></div>
-  if (!venue)  return <p className="text-slate-500">Venue not found.</p>
+  if (!venue)  return <p className="text-slate-500 dark:text-slate-400">Venue not found.</p>
 
   return (
     <div className="space-y-8">
       <div>
-        <Link to="/dashboard/admin/venues" className="text-sm text-slate-500 hover:text-brand-700 transition-colors">
+        <Link to="/dashboard/admin/venues" className="text-sm text-slate-500 dark:text-slate-400 hover:text-brand-700 transition-colors">
           ← Back to Venues
         </Link>
-        <h1 className="text-2xl font-extrabold text-slate-900 mt-2">{venue.name}</h1>
-        <p className="text-sm text-slate-500">{venue.address}</p>
+        <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white mt-2">{venue.name}</h1>
+        <p className="text-sm text-slate-500 dark:text-slate-400">{venue.address}</p>
       </div>
 
       {/* Venue info */}
       <div className="card rounded-2xl p-6">
-        <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-3">Contact</p>
+        <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-3">Contact</p>
         <dl className="grid sm:grid-cols-2 gap-3 text-sm">
-          <div><dt className="text-slate-500">Name</dt><dd className="font-semibold text-slate-900">{venue.contactName || '—'}</dd></div>
-          <div><dt className="text-slate-500">Phone</dt><dd className="font-semibold text-slate-900">{venue.contactPhone || '—'}</dd></div>
+          <div><dt className="text-slate-500 dark:text-slate-400">Name</dt><dd className="font-semibold text-slate-900 dark:text-slate-100">{venue.contactName || '—'}</dd></div>
+          <div><dt className="text-slate-500 dark:text-slate-400">Phone</dt><dd className="font-semibold text-slate-900 dark:text-slate-100">{venue.contactPhone || '—'}</dd></div>
         </dl>
-        {venue.notes && <p className="text-sm text-slate-500 mt-3 pt-3 border-t border-slate-100">{venue.notes}</p>}
+        {venue.notes && <p className="text-sm text-slate-500 dark:text-slate-400 mt-3 pt-3 border-t border-slate-100 dark:border-slate-700">{venue.notes}</p>}
       </div>
 
       {/* Machines */}
       <div>
         <div className="flex items-center justify-between mb-3">
-          <h2 className="font-bold text-slate-900">Machines</h2>
+          <h2 className="font-bold text-slate-900 dark:text-white">Machines</h2>
           <button onClick={() => setShowMachineForm(v => !v)} className="btn-secondary text-sm py-1.5 px-4">
             {showMachineForm ? 'Cancel' : 'Add Machine'}
           </button>
@@ -76,16 +77,16 @@ export default function AdminVenueDetail() {
           <form onSubmit={handleAddMachine} className="card rounded-2xl p-5 mb-4 space-y-3">
             <div className="grid sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Model</label>
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Model</label>
                 <select value={machineForm.model} onChange={e => setMachineForm(f => ({ ...f, model: e.target.value }))}
-                  className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-700">
+                  className={INPUT}>
                   {MACHINE_MODELS.map(m => <option key={m}>{m}</option>)}
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Serial Number</label>
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Serial Number</label>
                 <input value={machineForm.serialNumber} onChange={e => setMachineForm(f => ({ ...f, serialNumber: e.target.value }))}
-                  className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-700" />
+                  className={INPUT} />
               </div>
             </div>
             <button type="submit" disabled={saving} className="btn-primary text-sm py-2 px-5">
@@ -100,8 +101,8 @@ export default function AdminVenueDetail() {
             {machines.map(m => (
               <div key={m.id} className="card rounded-xl p-4 flex items-center justify-between">
                 <div>
-                  <p className="font-semibold text-slate-900">{m.model}</p>
-                  <p className="text-xs text-slate-500">{m.serialNumber ? `S/N: ${m.serialNumber}` : 'No serial number'}</p>
+                  <p className="font-semibold text-slate-900 dark:text-slate-100">{m.model}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">{m.serialNumber ? `S/N: ${m.serialNumber}` : 'No serial number'}</p>
                 </div>
                 <span className={`text-xs font-semibold px-3 py-1 rounded-full ${
                   m.status === 'active' ? 'bg-green-100 text-green-700' :
@@ -118,7 +119,7 @@ export default function AdminVenueDetail() {
       {/* Statements */}
       <div>
         <div className="flex items-center justify-between mb-3">
-          <h2 className="font-bold text-slate-900">Statements</h2>
+          <h2 className="font-bold text-slate-900 dark:text-white">Statements</h2>
           <Link to={`/dashboard/admin/statements/new?venueId=${venueId}`} className="btn-secondary text-sm py-1.5 px-4">
             Upload Statement
           </Link>
@@ -129,18 +130,18 @@ export default function AdminVenueDetail() {
           <div className="card rounded-2xl overflow-hidden">
             <table className="w-full text-sm">
               <thead>
-                <tr className="bg-slate-50 border-b border-slate-100">
-                  <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-widest text-slate-400">Period</th>
-                  <th className="text-right px-5 py-3 text-xs font-semibold uppercase tracking-widest text-slate-400">Sales</th>
-                  <th className="text-right px-5 py-3 text-xs font-semibold uppercase tracking-widest text-slate-400">Share</th>
+                <tr className="bg-slate-50 dark:bg-slate-700/50 border-b border-slate-100 dark:border-slate-700">
+                  <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">Period</th>
+                  <th className="text-right px-5 py-3 text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">Sales</th>
+                  <th className="text-right px-5 py-3 text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">Share</th>
                   <th className="px-5 py-3" />
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
                 {statements.map(s => (
-                  <tr key={s.id} className="hover:bg-slate-50">
-                    <td className="px-5 py-3.5 font-semibold text-slate-900">{s.periodLabel}</td>
-                    <td className="px-5 py-3.5 text-right text-slate-600">${s.totalSales.toFixed(2)}</td>
+                  <tr key={s.id} className="hover:bg-slate-50 dark:hover:bg-slate-700/50">
+                    <td className="px-5 py-3.5 font-semibold text-slate-900 dark:text-slate-100">{s.periodLabel}</td>
+                    <td className="px-5 py-3.5 text-right text-slate-600 dark:text-slate-300">${s.totalSales.toFixed(2)}</td>
                     <td className="px-5 py-3.5 text-right font-semibold text-green-600">${s.venueShare.toFixed(2)}</td>
                     <td className="px-5 py-3.5 text-right">
                       {s.pdfUrl && <a href={s.pdfUrl} target="_blank" rel="noopener noreferrer" className="text-brand-700 font-semibold hover:text-brand-900">PDF</a>}
