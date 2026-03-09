@@ -48,7 +48,7 @@ export default function LoginPage() {
         src={logo}
         alt=""
         aria-hidden="true"
-        className="absolute inset-0 w-full h-full object-contain opacity-70 dark:invert pointer-events-none select-none"
+        className="absolute inset-0 w-full h-full object-contain opacity-70 dark:invert blur-[2px] pointer-events-none select-none"
       />
       <button
         onClick={toggleDark}

@@ -1,37 +1,80 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { doc, setDoc, serverTimestamp } from 'firebase/firestore'
-import { db } from '../../../lib/firebase'
+import { initializeApp, deleteApp } from 'firebase/app'
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
+import { doc, setDoc, deleteDoc, updateDoc, serverTimestamp } from 'firebase/firestore'
+import { db, firebaseConfig } from '../../../lib/firebase'
 import { useAdminData } from '../../hooks/useAdminData'
 
 const INPUT = "w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-700"
 
+const AUTH_ERRORS: Record<string, string> = {
+  'auth/email-already-in-use': 'An account with this email already exists.',
+  'auth/invalid-email':        'Please enter a valid email address.',
+  'auth/weak-password':        'Password must be at least 6 characters.',
+}
+
 export default function AdminUsers() {
   const { users, venues, loading, refresh } = useAdminData()
-  const [showForm, setShowForm] = useState(false)
-  const [saving,   setSaving]   = useState(false)
-  const [form, setForm] = useState({ uid: '', email: '', displayName: '', venueId: '' })
-  const [success, setSuccess] = useState(false)
+  const [showForm,     setShowForm]     = useState(false)
+  const [saving,       setSaving]       = useState(false)
+  const [error,        setError]        = useState<string | null>(null)
+  const [success,      setSuccess]      = useState(false)
+  const [removingUser, setRemovingUser] = useState<string | null>(null)
+  const [form, setForm] = useState({ displayName: '', email: '', password: '', venueId: '' })
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setSaving(true)
+    setError(null)
+
+    // Use a secondary Firebase app so the admin doesn't get signed out
+    const secondaryApp = initializeApp(firebaseConfig, `create-user-${Date.now()}`)
+    const secondaryAuth = getAuth(secondaryApp)
+
     try {
-      await setDoc(doc(db, 'users', form.uid), {
+      // 1. Create the Firebase Auth account
+      const { user: newUser } = await createUserWithEmailAndPassword(
+        secondaryAuth, form.email, form.password
+      )
+
+      // 2. Create the Firestore user doc
+      await setDoc(doc(db, 'users', newUser.uid), {
         email:       form.email,
         displayName: form.displayName,
         role:        'venue_owner',
         venueId:     form.venueId || null,
         createdAt:   serverTimestamp(),
       })
-      setForm({ uid: '', email: '', displayName: '', venueId: '' })
+
+      // 3. Link the venue's ownerUid back to this user
+      if (form.venueId) {
+        await updateDoc(doc(db, 'venues', form.venueId), { ownerUid: newUser.uid })
+      }
+
+      setForm({ displayName: '', email: '', password: '', venueId: '' })
       setShowForm(false)
       setSuccess(true)
       setTimeout(() => setSuccess(false), 4000)
       refresh()
+    } catch (err: unknown) {
+      const code = (err as { code?: string }).code ?? ''
+      setError(AUTH_ERRORS[code] ?? 'Something went wrong. Please try again.')
     } finally {
+      await secondaryAuth.signOut().catch(() => {})
+      await deleteApp(secondaryApp).catch(() => {})
       setSaving(false)
     }
+  }
+
+  const handleRemoveUser = async (uid: string) => {
+    const userToRemove = users.find(u => u.id === uid)
+    if (userToRemove?.venueId) {
+      await updateDoc(doc(db, 'venues', userToRemove.venueId), { ownerUid: null })
+    }
+    await deleteDoc(doc(db, 'users', uid))
+    setRemovingUser(null)
+    refresh()
   }
 
   if (loading) return <div className="flex justify-center py-20"><div className="w-8 h-8 border-4 border-brand-700 border-t-transparent rounded-full animate-spin" /></div>
@@ -40,45 +83,54 @@ export default function AdminUsers() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white">Users</h1>
-        <button onClick={() => setShowForm(v => !v)} className="btn-primary text-sm py-2 px-4">
+        <button onClick={() => { setShowForm(v => !v); setError(null) }} className="btn-primary text-sm py-2 px-4">
           {showForm ? 'Cancel' : 'Add User'}
         </button>
       </div>
 
       {success && (
         <div className="bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-sm font-medium px-4 py-3 rounded-xl mb-4">
-          User linked successfully.
+          Account created and linked successfully.
         </div>
       )}
 
       {showForm && (
         <div className="card rounded-2xl p-6 mb-6 space-y-4">
-          <h2 className="font-bold text-slate-900 dark:text-white">Link Venue Owner Account</h2>
-          <p className="text-sm text-slate-500 dark:text-slate-400">
-            First create the account in{' '}
-            <a href="https://console.firebase.google.com" target="_blank" rel="noopener noreferrer" className="text-brand-700 underline">
-              Firebase Console
-            </a>
-            {' '}→ Authentication → Add user. Then paste their UID and details below.
-          </p>
+          <h2 className="font-bold text-slate-900 dark:text-white">Create Venue Owner Account</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid sm:grid-cols-2 gap-4">
-              {[
-                { key: 'uid',         label: 'Firebase UID',  placeholder: 'Paste from Firebase Console' },
-                { key: 'email',       label: 'Email',         placeholder: 'owner@example.com' },
-                { key: 'displayName', label: 'Display Name',  placeholder: 'The Rusty Nail' },
-              ].map(({ key, label, placeholder }) => (
-                <div key={key}>
-                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">{label}</label>
-                  <input
-                    required
-                    value={form[key as keyof typeof form]}
-                    onChange={e => setForm(f => ({ ...f, [key]: e.target.value }))}
-                    placeholder={placeholder}
-                    className={INPUT}
-                  />
-                </div>
-              ))}
+              <div>
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Display Name</label>
+                <input
+                  required
+                  value={form.displayName}
+                  onChange={e => setForm(f => ({ ...f, displayName: e.target.value }))}
+                  placeholder="e.g. Swamp Room Bar"
+                  className={INPUT}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Email</label>
+                <input
+                  required
+                  type="email"
+                  value={form.email}
+                  onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
+                  placeholder="owner@example.com"
+                  className={INPUT}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Password</label>
+                <input
+                  required
+                  type="password"
+                  value={form.password}
+                  onChange={e => setForm(f => ({ ...f, password: e.target.value }))}
+                  placeholder="Min 6 characters"
+                  className={INPUT}
+                />
+              </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Linked Venue</label>
                 <select
@@ -91,8 +143,11 @@ export default function AdminUsers() {
                 </select>
               </div>
             </div>
+            {error && (
+              <p className="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/30 px-4 py-2.5 rounded-lg">{error}</p>
+            )}
             <button type="submit" disabled={saving} className="btn-primary text-sm py-2 px-5">
-              {saving ? 'Saving…' : 'Link Account'}
+              {saving ? 'Creating account…' : 'Create Account'}
             </button>
           </form>
         </div>
@@ -111,24 +166,60 @@ export default function AdminUsers() {
                 <th className="text-left px-6 py-3.5 text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500 hidden sm:table-cell">Email</th>
                 <th className="text-left px-6 py-3.5 text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">Venue</th>
                 <th className="text-right px-6 py-3.5 text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">Created</th>
+                <th className="px-6 py-3.5" />
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
               {users.map(u => {
                 const venue = venues.find(v => v.id === u.venueId)
                 return (
-                  <tr key={u.id} className="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
-                    <td className="px-6 py-4 font-semibold text-slate-900 dark:text-slate-100">{u.displayName}</td>
-                    <td className="px-6 py-4 text-slate-500 dark:text-slate-400 hidden sm:table-cell">{u.email}</td>
-                    <td className="px-6 py-4 text-slate-600 dark:text-slate-300">
-                      {venue ? (
-                        <Link to={`/dashboard/admin/venues/${venue.id}`} className="text-brand-700 hover:underline">{venue.name}</Link>
-                      ) : <span className="text-slate-400 dark:text-slate-500">—</span>}
-                    </td>
-                    <td className="px-6 py-4 text-right text-slate-400 dark:text-slate-500">
-                      {u.createdAt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                    </td>
-                  </tr>
+                  <>
+                    <tr key={u.id} className="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+                      <td className="px-6 py-4 font-semibold text-slate-900 dark:text-slate-100">{u.displayName}</td>
+                      <td className="px-6 py-4 text-slate-500 dark:text-slate-400 hidden sm:table-cell">{u.email}</td>
+                      <td className="px-6 py-4 text-slate-600 dark:text-slate-300">
+                        {venue ? (
+                          <Link to={`/dashboard/admin/venues/${venue.id}`} className="text-brand-700 hover:underline">{venue.name}</Link>
+                        ) : <span className="text-slate-400 dark:text-slate-500">—</span>}
+                      </td>
+                      <td className="px-6 py-4 text-right text-slate-400 dark:text-slate-500">
+                        {u.createdAt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                      </td>
+                      <td className="px-6 py-4 text-right">
+                        {removingUser !== u.id && (
+                          <button
+                            onClick={() => setRemovingUser(u.id)}
+                            className="text-xs font-semibold text-red-400 hover:text-red-600 transition-colors"
+                          >
+                            Remove
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                    {removingUser === u.id && (
+                      <tr key={`${u.id}-confirm`} className="bg-red-50 dark:bg-red-900/20">
+                        <td colSpan={5} className="px-6 py-3">
+                          <div className="flex items-center gap-3 flex-wrap">
+                            <span className="text-sm text-red-700 dark:text-red-400 font-medium">
+                              Remove <strong>{u.displayName}</strong>? This removes their portal access.
+                            </span>
+                            <button
+                              onClick={() => handleRemoveUser(u.id)}
+                              className="text-sm font-bold text-white bg-red-600 hover:bg-red-700 px-3 py-1 rounded-lg transition-colors"
+                            >
+                              Yes, remove
+                            </button>
+                            <button
+                              onClick={() => setRemovingUser(null)}
+                              className="text-sm font-semibold text-slate-500 hover:text-slate-700 dark:text-slate-400 px-2 py-1 transition-colors"
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  </>
                 )
               })}
             </tbody>

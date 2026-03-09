@@ -1,5 +1,5 @@
 import { useAuth } from '../../../context/AuthContext'
-import { useVenueData } from '../../hooks/useVenueData'
+import { useVenueData, formatPeriod } from '../../hooks/useVenueData'
 
 export default function VenueDashboard() {
   const { user } = useAuth()
@@ -31,7 +31,7 @@ export default function VenueDashboard() {
           <p className="text-3xl font-extrabold text-slate-900 dark:text-white">
             {latest ? `$${latest.venueShare.toFixed(2)}` : '—'}
           </p>
-          {latest && <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">{latest.periodLabel}</p>}
+          {latest && <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">{formatPeriod(latest.periodLabel)}</p>}
         </div>
         <div className="card rounded-2xl p-6">
           <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-1">Machine</p>
@@ -53,7 +53,7 @@ export default function VenueDashboard() {
           <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-3">Most Recent Statement</p>
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div>
-              <p className="font-bold text-slate-900 dark:text-white">{latest.periodLabel}</p>
+              <p className="font-bold text-slate-900 dark:text-white">{formatPeriod(latest.periodLabel)}</p>
               <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">
                 Total sales: <span className="font-semibold text-slate-700 dark:text-slate-200">${latest.totalSales.toFixed(2)}</span>
                 {' · '}

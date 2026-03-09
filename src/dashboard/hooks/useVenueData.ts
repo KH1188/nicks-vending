@@ -4,22 +4,37 @@ import { db } from '../../lib/firebase'
 import { useAuth } from '../../context/AuthContext'
 
 export interface Venue {
-  id:           string
-  name:         string
-  address:      string
-  contactName:  string
-  contactPhone: string
-  notes:        string
+  id:             string
+  name:           string
+  address:        string
+  contactName:    string
+  contactPhone:   string
+  notes:          string
+  commissionRate: number   // percentage e.g. 12.5 means 12.5%
+  ownerUid:       string | null
+}
+
+export function formatPeriod(period: string): string {
+  // Handles both "YYYY-MM" (new) and free text like "February 2026" (legacy)
+  if (/^\d{4}-\d{2}$/.test(period)) {
+    const [year, month] = period.split('-')
+    return new Date(Number(year), Number(month) - 1).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+  }
+  return period
 }
 
 export interface Machine {
-  id:           string
-  venueId:      string
-  model:        string
-  serialNumber: string
-  placedAt:     Date
-  status:       'active' | 'inactive' | 'maintenance'
-  notes:        string
+  id:                     string
+  venueId:                string
+  model:                  string
+  serialNumber:           string
+  placedAt:               Date
+  status:                 'active' | 'inactive' | 'maintenance'
+  notes:                  string
+  operatorLicenseNumber:  string
+  operatorLicenseExpiry:  string   // YYYY-MM-DD
+  machineLicenseNumber:   string
+  machineLicenseExpiry:   string   // YYYY-MM-DD
 }
 
 export interface Statement {

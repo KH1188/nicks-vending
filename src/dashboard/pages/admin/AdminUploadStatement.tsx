@@ -4,6 +4,7 @@ import { collection, addDoc, getDocs, orderBy, query, serverTimestamp } from 'fi
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import { db, storage } from '../../../lib/firebase'
 import type { Venue } from '../../hooks/useVenueData'
+import { formatPeriod } from '../../hooks/useVenueData'
 
 const INPUT = "w-full px-3 py-2.5 rounded-lg border border-slate-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-700"
 
@@ -17,18 +18,39 @@ export default function AdminUploadStatement() {
   const [error,    setError]    = useState<string | null>(null)
 
   const [form, setForm] = useState({
-    venueId:     searchParams.get('venueId') ?? '',
-    periodLabel: '',
-    totalSales:  '',
-    venueShare:  '',
-    notes:       '',
+    venueId:    searchParams.get('venueId') ?? '',
+    period:     '',   // YYYY-MM
+    totalSales: '',
+    venueShare: '',
+    notes:      '',
   })
 
   useEffect(() => {
-    getDocs(query(collection(db, 'venues'), orderBy('name'))).then(snap => {
-      setVenues(snap.docs.map(d => ({ id: d.id, ...d.data() } as Venue)))
-    })
+    getDocs(query(collection(db, 'venues'), orderBy('name')))
+      .then(snap => setVenues(snap.docs.map(d => ({ id: d.id, ...d.data() } as Venue))))
   }, [])
+
+  // Auto-calculate venue share when total sales or venue changes
+  const selectedVenue = venues.find(v => v.id === form.venueId)
+  const rate = selectedVenue?.commissionRate ?? null
+
+  const handleTotalSalesChange = (value: string) => {
+    const sales = parseFloat(value)
+    if (!isNaN(sales) && rate != null) {
+      setForm(f => ({ ...f, totalSales: value, venueShare: ((sales * rate) / 100).toFixed(2) }))
+    } else {
+      setForm(f => ({ ...f, totalSales: value }))
+    }
+  }
+
+  const handleVenueChange = (venueId: string) => {
+    const v = venues.find(v => v.id === venueId)
+    const sales = parseFloat(form.totalSales)
+    const newShare = v?.commissionRate != null && !isNaN(sales)
+      ? ((sales * v.commissionRate) / 100).toFixed(2)
+      : form.venueShare
+    setForm(f => ({ ...f, venueId, venueShare: newShare }))
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -55,7 +77,7 @@ export default function AdminUploadStatement() {
 
       await addDoc(collection(db, 'statements'), {
         venueId:     form.venueId,
-        periodLabel: form.periodLabel,
+        periodLabel: form.period,
         totalSales:  parseFloat(form.totalSales),
         venueShare:  parseFloat(form.venueShare),
         pdfPath:     storagePath,
@@ -67,7 +89,7 @@ export default function AdminUploadStatement() {
       setSuccess(true)
       setFile(null)
       setProgress(0)
-      setForm(f => ({ ...f, periodLabel: '', totalSales: '', venueShare: '', notes: '' }))
+      setForm(f => ({ ...f, period: '', totalSales: '', venueShare: '', notes: '' }))
     } catch (err) {
       console.error(err)
       setError('Upload failed. Please try again.')
@@ -88,30 +110,62 @@ export default function AdminUploadStatement() {
       )}
 
       <form onSubmit={handleSubmit} className="card rounded-2xl p-6 space-y-5">
+
+        {/* Venue */}
         <div>
           <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Venue</label>
-          <select
-            required
-            value={form.venueId}
-            onChange={e => setForm(f => ({ ...f, venueId: e.target.value }))}
-            className={INPUT}
-          >
+          <select required value={form.venueId} onChange={e => handleVenueChange(e.target.value)} className={INPUT}>
             <option value="">Select a venue…</option>
             {venues.map(v => <option key={v.id} value={v.id}>{v.name}</option>)}
           </select>
+          {selectedVenue && (
+            <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">
+              Commission rate: <span className="font-semibold text-slate-600 dark:text-slate-300">{selectedVenue.commissionRate ?? '—'}%</span>
+            </p>
+          )}
         </div>
 
+        {/* Period — month + year dropdowns */}
         <div>
           <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Period</label>
-          <input
-            required
-            value={form.periodLabel}
-            onChange={e => setForm(f => ({ ...f, periodLabel: e.target.value }))}
-            placeholder="February 2026"
-            className={INPUT}
-          />
+          <div className="grid grid-cols-2 gap-3">
+            <select
+              required
+              value={form.period.split('-')[1] ?? ''}
+              onChange={e => {
+                const y = form.period.split('-')[0] || new Date().getFullYear().toString()
+                setForm(f => ({ ...f, period: e.target.value ? `${y}-${e.target.value}` : '' }))
+              }}
+              className={INPUT}
+            >
+              <option value="">Month…</option>
+              {['01','02','03','04','05','06','07','08','09','10','11','12'].map((m, i) => (
+                <option key={m} value={m}>
+                  {new Date(2000, i).toLocaleString('en-US', { month: 'long' })}
+                </option>
+              ))}
+            </select>
+            <select
+              required
+              value={form.period.split('-')[0] ?? ''}
+              onChange={e => {
+                const m = form.period.split('-')[1] || ''
+                setForm(f => ({ ...f, period: m ? `${e.target.value}-${m}` : '' }))
+              }}
+              className={INPUT}
+            >
+              <option value="">Year…</option>
+              {Array.from({ length: 5 }, (_, i) => new Date().getFullYear() - 1 + i).map(y => (
+                <option key={y} value={y}>{y}</option>
+              ))}
+            </select>
+          </div>
+          {form.period && form.period.includes('-') && form.period.split('-')[1] && (
+            <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">Displays as: <span className="font-semibold">{formatPeriod(form.period)}</span></p>
+          )}
         </div>
 
+        {/* Sales + Share */}
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Total Sales ($)</label>
@@ -121,13 +175,16 @@ export default function AdminUploadStatement() {
               min="0"
               step="0.01"
               value={form.totalSales}
-              onChange={e => setForm(f => ({ ...f, totalSales: e.target.value }))}
+              onChange={e => handleTotalSalesChange(e.target.value)}
               placeholder="0.00"
               className={INPUT}
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Venue Share ($)</label>
+            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+              Venue Share ($)
+              {rate != null && <span className="ml-1 text-xs text-slate-400 font-normal">auto-calculated</span>}
+            </label>
             <input
               required
               type="number"
@@ -141,6 +198,7 @@ export default function AdminUploadStatement() {
           </div>
         </div>
 
+        {/* PDF */}
         <div>
           <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">PDF Statement</label>
           <input
@@ -148,8 +206,8 @@ export default function AdminUploadStatement() {
             type="file"
             accept=".pdf"
             onChange={e => setFile(e.target.files?.[0] ?? null)}
-            className="w-full text-sm text-slate-500 dark:text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0
-              file:text-sm file:font-semibold file:bg-brand-700 file:text-white hover:file:bg-brand-800 cursor-pointer"
+            className="text-sm text-slate-500 dark:text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0
+              file:text-xs file:font-semibold file:bg-brand-700 file:text-white hover:file:bg-brand-800 cursor-pointer"
           />
         </div>
 
@@ -162,14 +220,10 @@ export default function AdminUploadStatement() {
           </div>
         )}
 
+        {/* Notes */}
         <div>
           <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Notes (optional)</label>
-          <textarea
-            value={form.notes}
-            onChange={e => setForm(f => ({ ...f, notes: e.target.value }))}
-            rows={2}
-            className={INPUT}
-          />
+          <textarea value={form.notes} onChange={e => setForm(f => ({ ...f, notes: e.target.value }))} rows={2} className={INPUT} />
         </div>
 
         {error && <p className="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/30 px-4 py-2.5 rounded-lg">{error}</p>}

@@ -53,7 +53,7 @@
   }
 
   .card {
-    @apply bg-white rounded-xl border border-slate-100 shadow-card
+    @apply bg-white rounded-xl border border-slate-300 shadow-card
       hover:shadow-card-hover hover:-translate-y-0.5
       transition-all duration-200;
   }

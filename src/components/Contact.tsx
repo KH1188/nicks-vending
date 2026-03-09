@@ -260,9 +260,6 @@ export default function Contact() {
                   <p className="text-xs text-red-500 text-center">{sendError}</p>
                 )}
 
-                <p className="text-[11px] text-slate-400 text-center">
-                  No spam. We'll respond with next steps only.
-                </p>
               </form>
             )}
           </div>

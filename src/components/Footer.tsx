@@ -16,7 +16,7 @@ export default function Footer() {
               className="h-10 w-auto object-contain brightness-0 invert mb-5"
             />
             <p className="text-sm leading-relaxed text-slate-400 max-w-xs">
-              Age-verified nicotine vending for bars, clubs, casinos, and
+              Smart nightlife vending for bars, clubs, casinos, and
               adult venues. Fully managed. No cost to you.
             </p>
           </div>
@@ -110,7 +110,7 @@ export default function Footer() {
         <div className="pt-8 border-t border-slate-800 flex flex-col sm:flex-row
           items-center justify-between gap-3 text-xs text-slate-600">
           <p>© {YEAR} Nick's Vending, LLC. All rights reserved.</p>
-          <p>Age-verified nicotine vending — compliant, fully managed, no cost to you.</p>
+          <p>Smart nightlife vending — compliant, fully managed, no cost to you.</p>
         </div>
       </div>
     </footer>

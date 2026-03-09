@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { collection, getDocs, orderBy, query } from 'firebase/firestore'
+import { collection, getDocsFromServer, orderBy, query } from 'firebase/firestore'
 import { db } from '../../lib/firebase'
 import type { Venue, Machine, Statement } from './useVenueData'
 
@@ -19,15 +19,17 @@ export function useAdminData() {
   const [users,      setUsers]      = useState<VenueUser[]>([])
   const [loading,    setLoading]    = useState(true)
   const [error,      setError]      = useState<string | null>(null)
+  const [tick,       setTick]       = useState(0)
 
   useEffect(() => {
+    setLoading(true)
     async function fetchData() {
       try {
         const [venuesSnap, machinesSnap, statementsSnap, usersSnap] = await Promise.all([
-          getDocs(query(collection(db, 'venues'), orderBy('name'))),
-          getDocs(collection(db, 'machines')),
-          getDocs(query(collection(db, 'statements'), orderBy('uploadedAt', 'desc'))),
-          getDocs(collection(db, 'users')),
+          getDocsFromServer(query(collection(db, 'venues'), orderBy('name'))),
+          getDocsFromServer(collection(db, 'machines')),
+          getDocsFromServer(query(collection(db, 'statements'), orderBy('uploadedAt', 'desc'))),
+          getDocsFromServer(collection(db, 'users')),
         ])
 
         setVenues(venuesSnap.docs.map(d => ({ id: d.id, ...d.data() } as Venue)))
@@ -57,12 +59,9 @@ export function useAdminData() {
     }
 
     fetchData()
-  }, [])
+  }, [tick])
 
-  const refresh = () => {
-    setLoading(true)
-    setError(null)
-  }
+  const refresh = () => setTick(t => t + 1)
 
   return { venues, machines, statements, users, loading, error, refresh }
 }

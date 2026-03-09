@@ -1,4 +1,4 @@
-import { useVenueData } from '../../hooks/useVenueData'
+import { useVenueData, formatPeriod } from '../../hooks/useVenueData'
 
 export default function VenueStatements() {
   const { statements, loading } = useVenueData()
@@ -30,7 +30,7 @@ export default function VenueStatements() {
             <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
               {statements.map(s => (
                 <tr key={s.id} className="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
-                  <td className="px-6 py-4 font-semibold text-slate-900 dark:text-slate-100">{s.periodLabel}</td>
+                  <td className="px-6 py-4 font-semibold text-slate-900 dark:text-slate-100">{formatPeriod(s.periodLabel)}</td>
                   <td className="px-6 py-4 text-right text-slate-600 dark:text-slate-300">${s.totalSales.toFixed(2)}</td>
                   <td className="px-6 py-4 text-right font-semibold text-green-600">${s.venueShare.toFixed(2)}</td>
                   <td className="px-6 py-4 text-right text-slate-400 dark:text-slate-500">

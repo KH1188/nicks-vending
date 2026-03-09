@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useAdminData } from '../../hooks/useAdminData'
+import { formatPeriod } from '../../hooks/useVenueData'
 
 export default function AdminDashboard() {
   const { venues, machines, statements, loading } = useAdminData()
@@ -57,7 +58,7 @@ export default function AdminDashboard() {
                 return (
                   <tr key={s.id} className="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
                     <td className="px-6 py-4 font-semibold text-slate-900 dark:text-slate-100">{venue?.name ?? '—'}</td>
-                    <td className="px-6 py-4 text-slate-600 dark:text-slate-300">{s.periodLabel}</td>
+                    <td className="px-6 py-4 text-slate-600 dark:text-slate-300">{formatPeriod(s.periodLabel)}</td>
                     <td className="px-6 py-4 text-right font-semibold text-green-600">${s.venueShare.toFixed(2)}</td>
                     <td className="px-6 py-4 text-right text-slate-400 dark:text-slate-500">
                       {s.uploadedAt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}

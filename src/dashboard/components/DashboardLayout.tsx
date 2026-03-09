@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom'
 import DashboardSidebar from './DashboardSidebar'
 import DashboardTopbar from './DashboardTopbar'
 import { useDarkMode } from '../hooks/useDarkMode'
+import logo from '../../assets/logo.png'
 
 export default function DashboardLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -33,8 +34,16 @@ export default function DashboardLayout() {
           isDark={isDark}
           toggleDark={toggleDark}
         />
-        <main className="flex-1 overflow-y-auto p-6 lg:p-8">
-          <Outlet />
+        <main className="flex-1 overflow-y-auto p-6 lg:p-8 relative">
+          <img
+            src={logo}
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 w-full h-full object-contain opacity-70 dark:invert blur-[2px] pointer-events-none select-none"
+          />
+          <div className="relative z-10">
+            <Outlet />
+          </div>
         </main>
       </div>
     </div>
