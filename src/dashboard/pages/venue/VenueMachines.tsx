@@ -1,3 +1,6 @@
+import { useState, useEffect } from 'react'
+import { doc, getDoc } from 'firebase/firestore'
+import { db } from '../../../lib/firebase'
 import { useVenueData } from '../../hooks/useVenueData'
 
 const STATUS_STYLES = {
@@ -35,6 +38,13 @@ const MODEL_URLS: Record<string, string> = {
 
 export default function VenueMachines() {
   const { machines, loading } = useVenueData()
+  const [rvLicenseUrl, setRvLicenseUrl] = useState<string | null>(null)
+
+  useEffect(() => {
+    getDoc(doc(db, 'settings', 'licenses')).then(snap => {
+      if (snap.exists()) setRvLicenseUrl(snap.data().responsibleVendorLicenseUrl ?? null)
+    })
+  }, [])
 
   if (loading) {
     return <div className="flex justify-center py-20"><div className="w-8 h-8 border-4 border-brand-700 border-t-transparent rounded-full animate-spin" /></div>
@@ -43,6 +53,18 @@ export default function VenueMachines() {
   return (
     <div>
       <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white mb-6">My Machine</h1>
+
+      {rvLicenseUrl && (
+        <div className="card rounded-2xl p-5 mb-6 flex items-center justify-between gap-4">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-1">Responsible Vendor License</p>
+            <p className="text-sm text-slate-600 dark:text-slate-300">Operator license on file — available for your records.</p>
+          </div>
+          <a href={rvLicenseUrl} target="_blank" rel="noopener noreferrer" className="btn-primary text-sm py-2 px-4 flex-shrink-0">
+            View PDF
+          </a>
+        </div>
+      )}
 
       {machines.length === 0 ? (
         <div className="card rounded-2xl p-12 text-center">
