@@ -1,5 +1,6 @@
-import { useState, FormEvent } from 'react'
+import { useState, useRef, FormEvent } from 'react'
 import emailjs from '@emailjs/browser'
+import ReCAPTCHA from 'react-google-recaptcha'
 
 const EJS_SERVICE   = 'service_wyl6jvt'
 const EJS_TEMPLATE  = 'template_68vvsyq'
@@ -22,6 +23,7 @@ export default function Contact() {
   const [sending, setSending]  = useState(false)
   const [sendError, setSendError] = useState<string | null>(null)
   const [errors, setErrors]   = useState<Partial<FormState>>({})
+  const recaptchaRef = useRef<ReCAPTCHA>(null)
 
   const validate = (): boolean => {
     const e: Partial<FormState> = {}
@@ -37,6 +39,12 @@ export default function Contact() {
   const handleSubmit = async (ev: FormEvent) => {
     ev.preventDefault()
     if (!validate()) return
+
+    const captchaToken = recaptchaRef.current?.getValue()
+    if (!captchaToken) {
+      setSendError('Please complete the CAPTCHA before sending.')
+      return
+    }
 
     setSending(true)
     setSendError(null)
@@ -54,9 +62,11 @@ export default function Contact() {
       await emailjs.send(EJS_SERVICE, EJS_CONFIRM,  data, EJS_PUBLIC)
       setSubmit(true)
       setForm(EMPTY)
+      recaptchaRef.current?.reset()
     } catch (err) {
       console.error('EmailJS error:', err)
       setSendError('Something went wrong. Please call or email us directly.')
+      recaptchaRef.current?.reset()
     } finally {
       setSending(false)
     }
@@ -172,7 +182,7 @@ export default function Contact() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} noValidate className="space-y-5">
-                <h3 className="text-lg font-bold text-slate-900 mb-1">Request Placement</h3>
+                <h3 className="text-lg font-bold text-slate-900 mb-1">Contact Us</h3>
                 <p className="text-sm text-slate-400 mb-6">
                   Tell us about your venue and we'll reach out with options.
                 </p>
@@ -229,6 +239,11 @@ export default function Contact() {
                   />
                   {errors.message && <p className="text-xs text-red-500 mt-1">{errors.message}</p>}
                 </div>
+
+                <ReCAPTCHA
+                  ref={recaptchaRef}
+                  sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+                />
 
                 <button type="submit" disabled={sending} className="btn-primary w-full justify-center py-3 disabled:opacity-60">
                   {sending ? 'Sending…' : 'Send Message'}
