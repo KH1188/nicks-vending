@@ -52,7 +52,7 @@ export default function Services() {
           <h2 className="section-title">Fully managed.<br />Start to finish.</h2>
         </div>
 
-        <div className="grid sm:grid-cols-2 gap-6">
+        <div className="grid sm:grid-cols-3 gap-6">
           {SERVICES.map((svc) => (
             <article key={svc.title} className="card p-8 flex gap-5">
               <div className="w-11 h-11 rounded-lg bg-brand-50 flex items-center justify-center
