@@ -29,8 +29,9 @@ export default function Locations() {
               Where adults gather,<br />we belong.
             </h2>
             <p className="text-lg text-white/80 leading-relaxed mb-12 max-w-md">
-              Nicotine vending thrives where people spend time. We place machines
-              in high-traffic adult venues and keep them stocked.
+              Our machines thrive where adults spend time. We place machines in
+              high-traffic adult venues and keep them stocked with all the
+              essentials to enjoy the night at your venue.
             </p>
 
             <ul className="space-y-2">
