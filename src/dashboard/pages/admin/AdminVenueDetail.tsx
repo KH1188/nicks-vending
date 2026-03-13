@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
-import { doc, getDoc, getDocs, setDoc, collection, query, where, orderBy, addDoc, deleteDoc, updateDoc, serverTimestamp } from 'firebase/firestore'
-import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
-import { db, storage } from '../../../lib/firebase'
+import { doc, getDoc, getDocs, collection, query, where, orderBy, addDoc, deleteDoc, updateDoc, serverTimestamp } from 'firebase/firestore'
+import { db } from '../../../lib/firebase'
 import type { Venue, Machine, Statement } from '../../hooks/useVenueData'
 import { formatPeriod } from '../../hooks/useVenueData'
 import type { VenueUser } from '../../hooks/useAdminData'
@@ -48,10 +47,6 @@ export default function AdminVenueDetail() {
   const [assigningOwner, setAssigningOwner] = useState(false)
   const [selectedOwnerUid, setSelectedOwnerUid] = useState('')
   const [savingOwner, setSavingOwner] = useState(false)
-  const [rvLicense, setRvLicense] = useState<{ url: string; uploadedAt: Date } | null>(null)
-  const [rvFile, setRvFile] = useState<File | null>(null)
-  const [rvUploading, setRvUploading] = useState(false)
-  const [rvProgress, setRvProgress] = useState(0)
 
   useEffect(() => {
     if (!venueId) return
@@ -68,10 +63,6 @@ export default function AdminVenueDetail() {
       setUsers(usersSnap.docs
         .filter(d => d.data().role === 'venue_owner')
         .map(d => ({ id: d.id, uid: d.id, ...d.data(), createdAt: d.data().createdAt?.toDate() ?? new Date() } as VenueUser)))
-      const rvSnap = await getDoc(doc(db, 'settings', 'licenses'))
-      if (rvSnap.exists() && rvSnap.data().responsibleVendorLicenseUrl) {
-        setRvLicense({ url: rvSnap.data().responsibleVendorLicenseUrl, uploadedAt: rvSnap.data().uploadedAt?.toDate() ?? new Date() })
-      }
       setLoading(false)
     }
     fetch().catch(err => {
@@ -124,30 +115,6 @@ export default function AdminVenueDetail() {
     } finally {
       setSavingOwner(false)
     }
-  }
-
-  const handleUploadRvLicense = async () => {
-    if (!rvFile) return
-    setRvUploading(true)
-    setRvProgress(0)
-    const storageRef = ref(storage, 'licenses/responsible-vendor-license.pdf')
-    const uploadTask = uploadBytesResumable(storageRef, rvFile)
-    await new Promise<void>((resolve, reject) => {
-      uploadTask.on('state_changed',
-        snap => setRvProgress(Math.round((snap.bytesTransferred / snap.totalBytes) * 100)),
-        reject,
-        resolve,
-      )
-    })
-    const url = await getDownloadURL(uploadTask.snapshot.ref)
-    await setDoc(doc(db, 'settings', 'licenses'), {
-      responsibleVendorLicenseUrl: url,
-      uploadedAt: serverTimestamp(),
-    }, { merge: true })
-    setRvLicense({ url, uploadedAt: new Date() })
-    setRvFile(null)
-    setRvUploading(false)
-    setRvProgress(0)
   }
 
   const handleAddMachine = async (e: React.FormEvent) => {
@@ -362,53 +329,17 @@ export default function AdminVenueDetail() {
       <div>
         <h2 className="font-bold text-slate-900 dark:text-white mb-3">Compliance</h2>
 
-        {/* Responsible Vendor License — global, shared across all venues */}
+        {/* Responsible Vendor License — served as static file */}
         <div className="card rounded-2xl p-5 mb-4">
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-1">Responsible Vendor License</p>
-              {rvLicense ? (
-                <div className="flex items-center gap-3 flex-wrap">
-                  <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-700">On file</span>
-                  <span className="text-xs text-slate-400 dark:text-slate-500">
-                    Updated {rvLicense.uploadedAt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                  </span>
-                  <a href={rvLicense.url} target="_blank" rel="noopener noreferrer"
-                    className="text-xs font-semibold text-brand-700 hover:text-brand-900 transition-colors">
-                    View PDF
-                  </a>
-                </div>
-              ) : (
-                <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-400">Not uploaded</span>
-              )}
-              <p className="text-xs text-slate-400 dark:text-slate-500 mt-2">Visible to all venue owners in their portal.</p>
-            </div>
+          <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-1">Responsible Vendor License</p>
+          <div className="flex items-center gap-3 flex-wrap mt-1">
+            <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-700">On file</span>
+            <a href="/rv-license.pdf" target="_blank" rel="noopener noreferrer"
+              className="text-xs font-semibold text-brand-700 hover:text-brand-900 transition-colors">
+              View PDF
+            </a>
           </div>
-          <div className="mt-4 flex items-center gap-3 flex-wrap">
-            <input
-              type="file"
-              accept=".pdf"
-              onChange={e => setRvFile(e.target.files?.[0] ?? null)}
-              className="text-sm text-slate-500 dark:text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0
-                file:text-xs file:font-semibold file:bg-brand-700 file:text-white hover:file:bg-brand-800 cursor-pointer"
-            />
-            {rvFile && (
-              <button
-                onClick={handleUploadRvLicense}
-                disabled={rvUploading}
-                className="btn-primary text-sm py-1.5 px-4"
-              >
-                {rvUploading ? `Uploading… ${rvProgress}%` : rvLicense ? 'Replace' : 'Upload'}
-              </button>
-            )}
-          </div>
-          {rvUploading && (
-            <div className="mt-3">
-              <div className="h-1.5 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
-                <div className="h-full bg-brand-700 rounded-full transition-all duration-200" style={{ width: `${rvProgress}%` }} />
-              </div>
-            </div>
-          )}
+          <p className="text-xs text-slate-400 dark:text-slate-500 mt-2">Visible to all venue owners in their portal. To update, replace <code className="font-mono">public/rv-license.pdf</code> and redeploy.</p>
         </div>
 
         {machines.length === 0 ? (
