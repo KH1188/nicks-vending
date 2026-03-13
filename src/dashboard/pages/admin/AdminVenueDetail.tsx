@@ -47,9 +47,9 @@ export default function AdminVenueDetail() {
   const [assigningOwner, setAssigningOwner] = useState(false)
   const [selectedOwnerUid, setSelectedOwnerUid] = useState('')
   const [savingOwner, setSavingOwner] = useState(false)
-  const [editingContract, setEditingContract] = useState(false)
-  const [contractUrl, setContractUrl] = useState('')
-  const [savingContract, setSavingContract] = useState(false)
+  const [editingDocs, setEditingDocs] = useState(false)
+  const [docsForm, setDocsForm] = useState({ contractUrl: '', operatorPermitUrl: '', retailDealerPermitUrl: '', vendingMachinePermitUrl: '' })
+  const [savingDocs, setSavingDocs] = useState(false)
 
   useEffect(() => {
     if (!venueId) return
@@ -120,13 +120,19 @@ export default function AdminVenueDetail() {
     }
   }
 
-  const handleSaveContract = async () => {
+  const handleSaveDocs = async () => {
     if (!venueId) return
-    setSavingContract(true)
-    await updateDoc(doc(db, 'venues', venueId), { contractUrl: contractUrl.trim() || null })
-    setVenue(v => v ? { ...v, contractUrl: contractUrl.trim() || undefined } : v)
-    setEditingContract(false)
-    setSavingContract(false)
+    setSavingDocs(true)
+    const updates = {
+      contractUrl:           docsForm.contractUrl.trim() || null,
+      operatorPermitUrl:     docsForm.operatorPermitUrl.trim() || null,
+      retailDealerPermitUrl: docsForm.retailDealerPermitUrl.trim() || null,
+      vendingMachinePermitUrl: docsForm.vendingMachinePermitUrl.trim() || null,
+    }
+    await updateDoc(doc(db, 'venues', venueId), updates)
+    setVenue(v => v ? { ...v, contractUrl: updates.contractUrl ?? undefined, operatorPermitUrl: updates.operatorPermitUrl ?? undefined, retailDealerPermitUrl: updates.retailDealerPermitUrl ?? undefined, vendingMachinePermitUrl: updates.vendingMachinePermitUrl ?? undefined } : v)
+    setEditingDocs(false)
+    setSavingDocs(false)
   }
 
   const handleAddMachine = async (e: React.FormEvent) => {
@@ -256,40 +262,63 @@ export default function AdminVenueDetail() {
 
         {venue.notes && <p className="text-sm text-slate-500 dark:text-slate-400 mt-3 pt-3 border-t border-slate-100 dark:border-slate-700">{venue.notes}</p>}
 
-        {/* Contract URL */}
+        {/* Compliance Documents */}
         <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-700">
-          <div className="flex items-center justify-between gap-4">
-            <div className="text-sm">
-              <p className="text-slate-500 dark:text-slate-400 mb-0.5">Contract</p>
-              {venue.contractUrl
-                ? <a href={venue.contractUrl} target="_blank" rel="noopener noreferrer" className="font-semibold text-brand-700 hover:text-brand-900 transition-colors">View Contract</a>
-                : <span className="text-slate-400 dark:text-slate-500">No contract linked</span>
-              }
-            </div>
-            {!editingContract && (
+          <div className="flex items-center justify-between gap-4 mb-3">
+            <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">Compliance Documents</p>
+            {!editingDocs && (
               <button
-                onClick={() => { setContractUrl(venue.contractUrl ?? ''); setEditingContract(true) }}
+                onClick={() => { setDocsForm({ contractUrl: venue.contractUrl ?? '', operatorPermitUrl: venue.operatorPermitUrl ?? '', retailDealerPermitUrl: venue.retailDealerPermitUrl ?? '', vendingMachinePermitUrl: venue.vendingMachinePermitUrl ?? '' }); setEditingDocs(true) }}
                 className="text-sm font-semibold text-brand-700 hover:text-brand-900 transition-colors flex-shrink-0"
               >
-                {venue.contractUrl ? 'Change' : 'Add Link'}
+                Edit
               </button>
             )}
           </div>
-          {editingContract && (
-            <div className="mt-3 flex items-center gap-2 flex-wrap">
-              <input
-                type="url"
-                value={contractUrl}
-                onChange={e => setContractUrl(e.target.value)}
-                placeholder="https://drive.google.com/..."
-                className={`${INPUT} max-w-sm`}
-              />
-              <button onClick={handleSaveContract} disabled={savingContract} className="btn-primary text-sm py-1.5 px-4">
-                {savingContract ? 'Saving…' : 'Save'}
-              </button>
-              <button onClick={() => setEditingContract(false)} className="text-sm font-semibold text-slate-500 hover:text-slate-700 dark:text-slate-400 px-2 py-1.5">
-                Cancel
-              </button>
+          {editingDocs ? (
+            <div className="space-y-3">
+              {[
+                { label: 'Contract', key: 'contractUrl' },
+                { label: 'Operator Permit', key: 'operatorPermitUrl' },
+                { label: 'Retail Dealer Permit', key: 'retailDealerPermitUrl' },
+                { label: 'Vending Machine Permit', key: 'vendingMachinePermitUrl' },
+              ].map(({ label, key }) => (
+                <div key={key}>
+                  <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">{label}</label>
+                  <input
+                    type="url"
+                    value={docsForm[key as keyof typeof docsForm]}
+                    onChange={e => setDocsForm(f => ({ ...f, [key]: e.target.value }))}
+                    placeholder="https://drive.google.com/..."
+                    className={INPUT}
+                  />
+                </div>
+              ))}
+              <div className="flex gap-2 pt-1">
+                <button onClick={handleSaveDocs} disabled={savingDocs} className="btn-primary text-sm py-1.5 px-4">
+                  {savingDocs ? 'Saving…' : 'Save'}
+                </button>
+                <button onClick={() => setEditingDocs(false)} className="text-sm font-semibold text-slate-500 hover:text-slate-700 dark:text-slate-400 px-2 py-1.5">
+                  Cancel
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="grid sm:grid-cols-2 gap-2 text-sm">
+              {[
+                { label: 'Contract', url: venue.contractUrl },
+                { label: 'Operator Permit', url: venue.operatorPermitUrl },
+                { label: 'Retail Dealer Permit', url: venue.retailDealerPermitUrl },
+                { label: 'Vending Machine Permit', url: venue.vendingMachinePermitUrl },
+              ].map(({ label, url }) => (
+                <div key={label}>
+                  <span className="text-slate-500 dark:text-slate-400">{label}: </span>
+                  {url
+                    ? <a href={url} target="_blank" rel="noopener noreferrer" className="font-semibold text-brand-700 hover:text-brand-900 transition-colors">View</a>
+                    : <span className="text-slate-400 dark:text-slate-500">Not linked</span>
+                  }
+                </div>
+              ))}
             </div>
           )}
         </div>

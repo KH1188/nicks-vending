@@ -12,7 +12,7 @@ const venueLinks = [
   { label: 'Overview',    href: '/dashboard/venue' },
   { label: 'Statements',  href: '/dashboard/venue/statements' },
   { label: 'My Machine',  href: '/dashboard/venue/machines' },
-  { label: 'Contract',    href: '/dashboard/venue/contract' },
+  { label: 'Compliance',  href: '/dashboard/venue/compliance' },
 ]
 
 interface Props { onClose?: () => void }

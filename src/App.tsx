@@ -6,7 +6,7 @@ import LoginPage           from './dashboard/pages/LoginPage'
 import VenueDashboard      from './dashboard/pages/venue/VenueDashboard'
 import VenueStatements     from './dashboard/pages/venue/VenueStatements'
 import VenueMachines       from './dashboard/pages/venue/VenueMachines'
-import VenueContract      from './dashboard/pages/venue/VenueContract'
+import VenueCompliance    from './dashboard/pages/venue/VenueCompliance'
 import AdminDashboard      from './dashboard/pages/admin/AdminDashboard'
 import AdminVenues         from './dashboard/pages/admin/AdminVenues'
 import AdminVenueDetail    from './dashboard/pages/admin/AdminVenueDetail'
@@ -74,7 +74,7 @@ export default function App() {
           <Route index element={<VenueDashboard />} />
           <Route path="statements" element={<VenueStatements />} />
           <Route path="machines" element={<VenueMachines />} />
-          <Route path="contract" element={<VenueContract />} />
+          <Route path="compliance" element={<VenueCompliance />} />
         </Route>
 
         <Route path="/dashboard/admin" element={
