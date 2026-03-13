@@ -47,6 +47,9 @@ export default function AdminVenueDetail() {
   const [assigningOwner, setAssigningOwner] = useState(false)
   const [selectedOwnerUid, setSelectedOwnerUid] = useState('')
   const [savingOwner, setSavingOwner] = useState(false)
+  const [editingContract, setEditingContract] = useState(false)
+  const [contractUrl, setContractUrl] = useState('')
+  const [savingContract, setSavingContract] = useState(false)
 
   useEffect(() => {
     if (!venueId) return
@@ -115,6 +118,15 @@ export default function AdminVenueDetail() {
     } finally {
       setSavingOwner(false)
     }
+  }
+
+  const handleSaveContract = async () => {
+    if (!venueId) return
+    setSavingContract(true)
+    await updateDoc(doc(db, 'venues', venueId), { contractUrl: contractUrl.trim() || null })
+    setVenue(v => v ? { ...v, contractUrl: contractUrl.trim() || undefined } : v)
+    setEditingContract(false)
+    setSavingContract(false)
   }
 
   const handleAddMachine = async (e: React.FormEvent) => {
@@ -243,6 +255,44 @@ export default function AdminVenueDetail() {
         })()}
 
         {venue.notes && <p className="text-sm text-slate-500 dark:text-slate-400 mt-3 pt-3 border-t border-slate-100 dark:border-slate-700">{venue.notes}</p>}
+
+        {/* Contract URL */}
+        <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-700">
+          <div className="flex items-center justify-between gap-4">
+            <div className="text-sm">
+              <p className="text-slate-500 dark:text-slate-400 mb-0.5">Contract</p>
+              {venue.contractUrl
+                ? <a href={venue.contractUrl} target="_blank" rel="noopener noreferrer" className="font-semibold text-brand-700 hover:text-brand-900 transition-colors">View Contract</a>
+                : <span className="text-slate-400 dark:text-slate-500">No contract linked</span>
+              }
+            </div>
+            {!editingContract && (
+              <button
+                onClick={() => { setContractUrl(venue.contractUrl ?? ''); setEditingContract(true) }}
+                className="text-sm font-semibold text-brand-700 hover:text-brand-900 transition-colors flex-shrink-0"
+              >
+                {venue.contractUrl ? 'Change' : 'Add Link'}
+              </button>
+            )}
+          </div>
+          {editingContract && (
+            <div className="mt-3 flex items-center gap-2 flex-wrap">
+              <input
+                type="url"
+                value={contractUrl}
+                onChange={e => setContractUrl(e.target.value)}
+                placeholder="https://drive.google.com/..."
+                className={`${INPUT} max-w-sm`}
+              />
+              <button onClick={handleSaveContract} disabled={savingContract} className="btn-primary text-sm py-1.5 px-4">
+                {savingContract ? 'Saving…' : 'Save'}
+              </button>
+              <button onClick={() => setEditingContract(false)} className="text-sm font-semibold text-slate-500 hover:text-slate-700 dark:text-slate-400 px-2 py-1.5">
+                Cancel
+              </button>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Machines */}
