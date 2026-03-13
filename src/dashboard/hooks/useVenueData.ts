@@ -11,11 +11,8 @@ export interface Venue {
   contactPhone:   string
   notes:          string
   commissionRate: number   // percentage e.g. 12.5 means 12.5%
-  ownerUid:              string | null
-  contractUrl?:          string
-  operatorPermitUrl?:    string
-  retailDealerPermitUrl?: string
-  vendingMachinePermitUrl?: string
+  ownerUid:          string | null
+  complianceSlug?:   string
 }
 
 export function formatPeriod(period: string): string {

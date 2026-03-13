@@ -1,12 +1,12 @@
 import { useVenueData } from '../../hooks/useVenueData'
 
 const DOCS = [
-  { label: 'Responsible Vendor License', staticUrl: '/rv-license.pdf', key: null },
-  { label: 'Contract',                   staticUrl: null, key: 'contractUrl' },
-  { label: 'Operator Permit',            staticUrl: null, key: 'operatorPermitUrl' },
-  { label: 'Retail Dealer Permit',       staticUrl: null, key: 'retailDealerPermitUrl' },
-  { label: 'Vending Machine Permit',     staticUrl: null, key: 'vendingMachinePermitUrl' },
-] as const
+  { label: 'Responsible Vendor License', file: null, staticUrl: '/rv-license.pdf' },
+  { label: 'Contract',                   file: 'contract.pdf',              staticUrl: null },
+  { label: 'Operator Permit',            file: 'operator-permit.pdf',       staticUrl: null },
+  { label: 'Retail Dealer Permit',       file: 'retail-dealer-permit.pdf',  staticUrl: null },
+  { label: 'Vending Machine Permit',     file: 'vending-machine-permit.pdf', staticUrl: null },
+]
 
 export default function VenueCompliance() {
   const { venue, loading } = useVenueData()
@@ -20,14 +20,11 @@ export default function VenueCompliance() {
       <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white mb-6">Compliance</h1>
 
       <div className="card rounded-2xl divide-y divide-slate-100 dark:divide-slate-700 overflow-hidden">
-        {DOCS.map(({ label, staticUrl, key }) => {
-          const url = staticUrl ?? (key ? venue?.[key] : null)
+        {DOCS.map(({ label, file, staticUrl }) => {
+          const url = staticUrl ?? (venue?.complianceSlug && file ? `/compliance/${venue.complianceSlug}/${file}` : null)
           return (
             <div key={label} className="flex items-center justify-between px-6 py-4 gap-4">
-              <div>
-                <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">{label}</p>
-                {!url && <p className="text-xs text-slate-400 mt-0.5">Not on file yet</p>}
-              </div>
+              <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">{label}</p>
               {url
                 ? <a href={url} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-brand-700 hover:text-brand-900 transition-colors flex-shrink-0">View PDF</a>
                 : <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-400">Pending</span>
