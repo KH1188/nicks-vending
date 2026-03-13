@@ -1,6 +1,3 @@
-import { useState, useEffect } from 'react'
-import { doc, getDoc } from 'firebase/firestore'
-import { db } from '../../../lib/firebase'
 import { useVenueData } from '../../hooks/useVenueData'
 
 const STATUS_STYLES = {
@@ -9,44 +6,17 @@ const STATUS_STYLES = {
   inactive:    'bg-slate-100 text-slate-500',
 }
 
-function licenseStatus(expiry: string): 'valid' | 'expiring' | 'expired' | 'none' {
-  if (!expiry) return 'none'
-  const days = Math.floor((new Date(expiry).getTime() - Date.now()) / 86400000)
-  if (days < 0)   return 'expired'
-  if (days <= 60) return 'expiring'
-  return 'valid'
-}
-
-const LICENSE_BADGE: Record<string, string> = {
-  valid:    'bg-green-100 text-green-700',
-  expiring: 'bg-yellow-100 text-yellow-700',
-  expired:  'bg-red-100 text-red-600',
-  none:     'bg-slate-100 text-slate-400',
-}
-const LICENSE_LABEL: Record<string, string> = {
-  valid: 'Valid', expiring: 'Expiring Soon', expired: 'Expired', none: 'Not on file',
-}
-
 const MODEL_URLS: Record<string, string> = {
-  'Slim Wall':           '/machines/slim-wall',
-  'Mega Wall':           '/machines/mega-wall',
-  'Slim Tower':          '/machines/slim-tower',
-  'Mini Wall':           '/machines/mini-wall',
+  'Slim Wall':            '/machines/slim-wall',
+  'Mega Wall':            '/machines/mega-wall',
+  'Slim Tower':           '/machines/slim-tower',
+  'Mini Wall':            '/machines/mini-wall',
   'Slim Wall – Tin Lift': '/machines/slim-wall-tin-lift',
-  'WeatherWall':         '/machines/weather-wall',
+  'WeatherWall':          '/machines/weather-wall',
 }
 
 export default function VenueMachines() {
   const { machines, loading } = useVenueData()
-  const [rvLicenseUrl, setRvLicenseUrl] = useState<string>('/rv-license.pdf')
-
-  useEffect(() => {
-    getDoc(doc(db, 'settings', 'licenses')).then(snap => {
-      if (snap.exists() && snap.data().responsibleVendorLicenseUrl) {
-        setRvLicenseUrl(snap.data().responsibleVendorLicenseUrl)
-      }
-    })
-  }, [])
 
   if (loading) {
     return <div className="flex justify-center py-20"><div className="w-8 h-8 border-4 border-brand-700 border-t-transparent rounded-full animate-spin" /></div>
@@ -55,16 +25,6 @@ export default function VenueMachines() {
   return (
     <div>
       <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white mb-6">My Machine</h1>
-
-      <div className="card rounded-2xl p-5 mb-6 flex items-center justify-between gap-4">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-1">Responsible Vendor License</p>
-          <p className="text-sm text-slate-600 dark:text-slate-300">Operator license on file — available for your records.</p>
-        </div>
-        <a href={rvLicenseUrl} target="_blank" rel="noopener noreferrer" className="btn-primary text-sm py-2 px-4 flex-shrink-0">
-          View PDF
-        </a>
-      </div>
 
       {machines.length === 0 ? (
         <div className="card rounded-2xl p-12 text-center">
@@ -96,26 +56,6 @@ export default function VenueMachines() {
                   </dd>
                 </div>
               </dl>
-
-              {/* Compliance */}
-              <div className="mt-5 pt-4 border-t border-slate-100 dark:border-slate-700 space-y-3">
-                <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">Compliance</p>
-                {(['operator', 'machine'] as const).map(type => {
-                  const num    = type === 'operator' ? m.operatorLicenseNumber  : m.machineLicenseNumber
-                  const expiry = type === 'operator' ? m.operatorLicenseExpiry  : m.machineLicenseExpiry
-                  const status = licenseStatus(expiry)
-                  return (
-                    <div key={type}>
-                      <p className="text-xs text-slate-500 dark:text-slate-400 mb-0.5">{type === 'operator' ? 'Operator License' : 'Machine License'}</p>
-                      <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">{num || '—'}</p>
-                      <div className="flex items-center gap-2 mt-0.5">
-                        <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${LICENSE_BADGE[status]}`}>{LICENSE_LABEL[status]}</span>
-                        {expiry && <span className="text-xs text-slate-400">Expires {new Date(expiry).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>}
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
 
               {MODEL_URLS[m.model] && (
                 <a href={MODEL_URLS[m.model]}
