@@ -1,18 +1,10 @@
+import { Link } from 'react-router-dom'
 import { useVenueData } from '../../hooks/useVenueData'
 
 const STATUS_STYLES = {
   active:      'bg-green-100 text-green-700',
   maintenance: 'bg-yellow-100 text-yellow-700',
   inactive:    'bg-slate-100 text-slate-500',
-}
-
-const MODEL_URLS: Record<string, string> = {
-  'Slim Wall':            '/machines/slim-wall',
-  'Mega Wall':            '/machines/mega-wall',
-  'Slim Tower':           '/machines/slim-tower',
-  'Mini Wall':            '/machines/mini-wall',
-  'Slim Wall – Tin Lift': '/machines/slim-wall-tin-lift',
-  'WeatherWall':          '/machines/weather-wall',
 }
 
 export default function VenueMachines() {
@@ -57,15 +49,13 @@ export default function VenueMachines() {
                 </div>
               </dl>
 
-              {MODEL_URLS[m.model] && (
-                <a href={MODEL_URLS[m.model]}
-                  className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700 hover:text-brand-900 transition-colors">
-                  View machine details
-                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                  </svg>
-                </a>
-              )}
+              <Link to="/dashboard/venue/performance"
+                className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700 hover:text-brand-900 transition-colors">
+                View revenue & statements
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </Link>
             </div>
           ))}
         </div>
