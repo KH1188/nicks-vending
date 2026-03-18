@@ -50,6 +50,9 @@ export default function AdminVenueDetail() {
   const [editingSlug, setEditingSlug] = useState(false)
   const [slugInput, setSlugInput] = useState('')
   const [savingSlug, setSavingSlug] = useState(false)
+  const [editingContact, setEditingContact] = useState(false)
+  const [contactForm, setContactForm] = useState({ contactName: '', contactPhone: '', commissionRate: '' })
+  const [savingContact, setSavingContact] = useState(false)
 
   useEffect(() => {
     if (!venueId) return
@@ -130,6 +133,20 @@ export default function AdminVenueDetail() {
     setSavingSlug(false)
   }
 
+  const handleSaveContact = async () => {
+    if (!venueId) return
+    setSavingContact(true)
+    const updates = {
+      contactName:    contactForm.contactName.trim(),
+      contactPhone:   contactForm.contactPhone.trim(),
+      commissionRate: parseFloat(contactForm.commissionRate) || 0,
+    }
+    await updateDoc(doc(db, 'venues', venueId), updates)
+    setVenue(v => v ? { ...v, ...updates } : v)
+    setEditingContact(false)
+    setSavingContact(false)
+  }
+
   const handleAddMachine = async (e: React.FormEvent) => {
     e.preventDefault()
     setSaving(true)
@@ -191,12 +208,49 @@ export default function AdminVenueDetail() {
 
       {/* Venue info */}
       <div className="card rounded-2xl p-6">
-        <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-3">Contact</p>
-        <dl className="grid sm:grid-cols-3 gap-3 text-sm">
-          <div><dt className="text-slate-500 dark:text-slate-400">Name</dt><dd className="font-semibold text-slate-900 dark:text-slate-100">{venue.contactName || '—'}</dd></div>
-          <div><dt className="text-slate-500 dark:text-slate-400">Phone</dt><dd className="font-semibold text-slate-900 dark:text-slate-100">{venue.contactPhone || '—'}</dd></div>
-          <div><dt className="text-slate-500 dark:text-slate-400">Commission Rate</dt><dd className="font-semibold text-slate-900 dark:text-slate-100">{venue.commissionRate ?? '—'}%</dd></div>
-        </dl>
+        <div className="flex items-center justify-between mb-3">
+          <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">Contact</p>
+          {!editingContact && (
+            <button
+              onClick={() => { setContactForm({ contactName: venue.contactName ?? '', contactPhone: venue.contactPhone ?? '', commissionRate: String(venue.commissionRate ?? '') }); setEditingContact(true) }}
+              className="text-sm font-semibold text-brand-700 hover:text-brand-900 transition-colors"
+            >
+              Edit
+            </button>
+          )}
+        </div>
+        {editingContact ? (
+          <div className="space-y-3">
+            <div className="grid sm:grid-cols-3 gap-3">
+              <div>
+                <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">Name</label>
+                <input value={contactForm.contactName} onChange={e => setContactForm(f => ({ ...f, contactName: e.target.value }))} className={INPUT} placeholder="Jane Smith" />
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">Phone</label>
+                <input value={contactForm.contactPhone} onChange={e => setContactForm(f => ({ ...f, contactPhone: e.target.value }))} className={INPUT} placeholder="(504) 555-1234" />
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">Commission Rate (%)</label>
+                <input value={contactForm.commissionRate} onChange={e => setContactForm(f => ({ ...f, commissionRate: e.target.value }))} className={INPUT} placeholder="10" />
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <button onClick={handleSaveContact} disabled={savingContact} className="btn-primary text-sm py-1.5 px-4">
+                {savingContact ? 'Saving…' : 'Save'}
+              </button>
+              <button onClick={() => setEditingContact(false)} className="text-sm font-semibold text-slate-500 hover:text-slate-700 dark:text-slate-400 px-2 py-1.5">
+                Cancel
+              </button>
+            </div>
+          </div>
+        ) : (
+          <dl className="grid sm:grid-cols-3 gap-3 text-sm">
+            <div><dt className="text-slate-500 dark:text-slate-400">Name</dt><dd className="font-semibold text-slate-900 dark:text-slate-100">{venue.contactName || '—'}</dd></div>
+            <div><dt className="text-slate-500 dark:text-slate-400">Phone</dt><dd className="font-semibold text-slate-900 dark:text-slate-100">{venue.contactPhone || '—'}</dd></div>
+            <div><dt className="text-slate-500 dark:text-slate-400">Commission Rate</dt><dd className="font-semibold text-slate-900 dark:text-slate-100">{venue.commissionRate ?? '—'}%</dd></div>
+          </dl>
+        )}
 
         {/* Owner assignment */}
         {(() => {
