@@ -2,9 +2,8 @@ import { useVenueData } from '../../hooks/useVenueData'
 
 const DOCS = [
   { label: 'Responsible Vendor License', file: null, staticUrl: '/rv-license.pdf' },
-  { label: 'Contract',                   file: 'contract.pdf',              staticUrl: null },
-  { label: 'Operator Permit',            file: 'operator-permit.pdf',       staticUrl: null },
-  { label: 'Retail Dealer Permit',       file: 'retail-dealer-permit.pdf',  staticUrl: null },
+  { label: 'Contract',                   file: 'contract.pdf',               staticUrl: null },
+  { label: 'Operator Permit',            file: 'operator-permit.pdf',        staticUrl: null },
   { label: 'Vending Machine Permit',     file: 'vending-machine-permit.pdf', staticUrl: null },
 ]
 

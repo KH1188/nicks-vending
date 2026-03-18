@@ -53,6 +53,9 @@ export default function AdminVenueDetail() {
   const [editingContact, setEditingContact] = useState(false)
   const [contactForm, setContactForm] = useState({ contactName: '', contactPhone: '', commissionRate: '' })
   const [savingContact, setSavingContact] = useState(false)
+  const [editingRdp, setEditingRdp] = useState(false)
+  const [rdpInput, setRdpInput] = useState('')
+  const [savingRdp, setSavingRdp] = useState(false)
 
   useEffect(() => {
     if (!venueId) return
@@ -131,6 +134,16 @@ export default function AdminVenueDetail() {
     setVenue(v => v ? { ...v, complianceSlug: slug ?? undefined } : v)
     setEditingSlug(false)
     setSavingSlug(false)
+  }
+
+  const handleSaveRdp = async () => {
+    if (!venueId) return
+    setSavingRdp(true)
+    const url = rdpInput.trim() || null
+    await updateDoc(doc(db, 'venues', venueId), { retailDealerPermitUrl: url })
+    setVenue(v => v ? { ...v, retailDealerPermitUrl: url ?? undefined } : v)
+    setEditingRdp(false)
+    setSavingRdp(false)
   }
 
   const handleSaveContact = async () => {
@@ -342,6 +355,44 @@ export default function AdminVenueDetail() {
                 {savingSlug ? 'Saving…' : 'Save'}
               </button>
               <button onClick={() => setEditingSlug(false)} className="text-sm font-semibold text-slate-500 hover:text-slate-700 dark:text-slate-400 px-2 py-1.5">
+                Cancel
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* Retail Dealer Permit — owner handles this, stored here for admin records */}
+        <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-700">
+          <div className="flex items-center justify-between gap-4">
+            <div className="text-sm">
+              <p className="text-slate-500 dark:text-slate-400 mb-0.5">Retail Dealer Permit <span className="text-xs font-normal text-slate-400">(owner's copy, for your records)</span></p>
+              {venue.retailDealerPermitUrl
+                ? <a href={venue.retailDealerPermitUrl} target="_blank" rel="noopener noreferrer" className="font-semibold text-brand-700 hover:text-brand-900 transition-colors">View</a>
+                : <span className="text-slate-400 dark:text-slate-500">Not on file</span>
+              }
+            </div>
+            {!editingRdp && (
+              <button
+                onClick={() => { setRdpInput(venue.retailDealerPermitUrl ?? ''); setEditingRdp(true) }}
+                className="text-sm font-semibold text-brand-700 hover:text-brand-900 transition-colors flex-shrink-0"
+              >
+                {venue.retailDealerPermitUrl ? 'Change' : 'Add'}
+              </button>
+            )}
+          </div>
+          {editingRdp && (
+            <div className="mt-3 flex items-center gap-2 flex-wrap">
+              <input
+                type="url"
+                value={rdpInput}
+                onChange={e => setRdpInput(e.target.value)}
+                placeholder="https://drive.google.com/..."
+                className={`${INPUT} max-w-sm`}
+              />
+              <button onClick={handleSaveRdp} disabled={savingRdp} className="btn-primary text-sm py-1.5 px-4">
+                {savingRdp ? 'Saving…' : 'Save'}
+              </button>
+              <button onClick={() => setEditingRdp(false)} className="text-sm font-semibold text-slate-500 hover:text-slate-700 dark:text-slate-400 px-2 py-1.5">
                 Cancel
               </button>
             </div>
