@@ -59,6 +59,9 @@ export default function AdminVenueDetail() {
   const [editingRdpDates, setEditingRdpDates] = useState(false)
   const [rdpDatesForm, setRdpDatesForm] = useState({ parish: '', rdpIssueDate: '', rdpExpiryDate: '' })
   const [savingRdpDates, setSavingRdpDates] = useState(false)
+  const [editingNotes, setEditingNotes] = useState(false)
+  const [notesInput, setNotesInput] = useState('')
+  const [savingNotes, setSavingNotes] = useState(false)
 
   useEffect(() => {
     if (!venueId) return
@@ -161,6 +164,15 @@ export default function AdminVenueDetail() {
     setVenue(v => v ? { ...v, parish: updates.parish ?? undefined, rdpIssueDate: updates.rdpIssueDate ?? undefined, rdpExpiryDate: updates.rdpExpiryDate ?? undefined } : v)
     setEditingRdpDates(false)
     setSavingRdpDates(false)
+  }
+
+  const handleSaveNotes = async () => {
+    if (!venueId) return
+    setSavingNotes(true)
+    await updateDoc(doc(db, 'venues', venueId), { notes: notesInput.trim() })
+    setVenue(v => v ? { ...v, notes: notesInput.trim() } : v)
+    setEditingNotes(false)
+    setSavingNotes(false)
   }
 
   const handleSaveContact = async () => {
@@ -339,7 +351,41 @@ export default function AdminVenueDetail() {
           )
         })()}
 
-        {venue.notes && <p className="text-sm text-slate-500 dark:text-slate-400 mt-3 pt-3 border-t border-slate-100 dark:border-slate-700">{venue.notes}</p>}
+        {/* Notes */}
+        <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-700">
+          <div className="flex items-center justify-between gap-4 mb-1">
+            <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">Notes (internal)</p>
+            {!editingNotes && (
+              <button
+                onClick={() => { setNotesInput(venue.notes ?? ''); setEditingNotes(true) }}
+                className="text-sm font-semibold text-brand-700 hover:text-brand-900 transition-colors flex-shrink-0"
+              >
+                Edit
+              </button>
+            )}
+          </div>
+          {editingNotes ? (
+            <div className="space-y-2 mt-2">
+              <textarea
+                rows={3}
+                value={notesInput}
+                onChange={e => setNotesInput(e.target.value)}
+                className={INPUT}
+                placeholder="Internal notes about this venue…"
+              />
+              <div className="flex gap-2">
+                <button onClick={handleSaveNotes} disabled={savingNotes} className="btn-primary text-sm py-1.5 px-4">
+                  {savingNotes ? 'Saving…' : 'Save'}
+                </button>
+                <button onClick={() => setEditingNotes(false)} className="text-sm font-semibold text-slate-500 hover:text-slate-700 dark:text-slate-400 px-2 py-1.5">
+                  Cancel
+                </button>
+              </div>
+            </div>
+          ) : (
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{venue.notes || <span className="italic text-slate-400">No notes.</span>}</p>
+          )}
+        </div>
 
         {/* Compliance Folder */}
         <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-700">
