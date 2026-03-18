@@ -163,7 +163,7 @@ export default function AdminUsers() {
             <thead>
               <tr className="bg-slate-50 dark:bg-slate-700/50 border-b border-slate-100 dark:border-slate-700">
                 <th className="text-left px-6 py-3.5 text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">Name</th>
-                <th className="text-left px-6 py-3.5 text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500 hidden sm:table-cell">Email</th>
+                <th className="text-left px-6 py-3.5 text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">Email</th>
                 <th className="text-left px-6 py-3.5 text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">Venue</th>
                 <th className="text-right px-6 py-3.5 text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">Created</th>
                 <th className="px-6 py-3.5" />
@@ -176,7 +176,7 @@ export default function AdminUsers() {
                   <>
                     <tr key={u.id} className="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
                       <td className="px-6 py-4 font-semibold text-slate-900 dark:text-slate-100">{u.displayName}</td>
-                      <td className="px-6 py-4 text-slate-500 dark:text-slate-400 hidden sm:table-cell">{u.email}</td>
+                      <td className="px-6 py-4 text-slate-500 dark:text-slate-400">{u.email}</td>
                       <td className="px-6 py-4 text-slate-600 dark:text-slate-300">
                         {venue ? (
                           <Link to={`/dashboard/admin/venues/${venue.id}`} className="text-brand-700 hover:underline">{venue.name}</Link>
