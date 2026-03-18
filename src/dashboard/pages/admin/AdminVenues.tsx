@@ -14,8 +14,11 @@ const AUTH_ERRORS: Record<string, string> = {
   'auth/weak-password':        'Password must be at least 6 characters.',
 }
 
+const PARISHES = ['East Baton Rouge', 'Orleans', 'Jefferson', 'St. Tammany', 'Tangipahoa']
+
 const EMPTY_FORM = {
   name: '', address: '', contactName: '', contactPhone: '', notes: '', commissionRate: '10',
+  parish: '', rdpIssueDate: '', rdpExpiryDate: '',
   ownerName: '', ownerEmail: '', ownerPassword: '',
 }
 
@@ -52,6 +55,9 @@ export default function AdminVenues() {
         contactPhone:   form.contactPhone,
         notes:          form.notes,
         commissionRate: parseFloat(form.commissionRate) || 10,
+        parish:         form.parish || null,
+        rdpIssueDate:   form.rdpIssueDate || null,
+        rdpExpiryDate:  form.rdpExpiryDate || null,
         ownerUid:       null,
         createdAt:      serverTimestamp(),
       })
@@ -130,6 +136,21 @@ export default function AdminVenues() {
               <div>
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Commission Rate (%)</label>
                 <input placeholder="10" className={INPUT} {...field('commissionRate')} />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Parish</label>
+                <select className={INPUT} value={form.parish} onChange={e => setForm(f => ({ ...f, parish: e.target.value }))}>
+                  <option value="">— Select parish —</option>
+                  {PARISHES.map(p => <option key={p} value={p}>{p}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">RDP Issue Date</label>
+                <input type="date" className={INPUT} {...field('rdpIssueDate')} />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">RDP Expiry Date</label>
+                <input type="date" className={INPUT} {...field('rdpExpiryDate')} />
               </div>
             </div>
             <div className="mt-4">

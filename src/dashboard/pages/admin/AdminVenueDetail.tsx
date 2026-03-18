@@ -56,6 +56,9 @@ export default function AdminVenueDetail() {
   const [editingRdp, setEditingRdp] = useState(false)
   const [rdpInput, setRdpInput] = useState('')
   const [savingRdp, setSavingRdp] = useState(false)
+  const [editingRdpDates, setEditingRdpDates] = useState(false)
+  const [rdpDatesForm, setRdpDatesForm] = useState({ parish: '', rdpIssueDate: '', rdpExpiryDate: '' })
+  const [savingRdpDates, setSavingRdpDates] = useState(false)
 
   useEffect(() => {
     if (!venueId) return
@@ -144,6 +147,20 @@ export default function AdminVenueDetail() {
     setVenue(v => v ? { ...v, retailDealerPermitUrl: url ?? undefined } : v)
     setEditingRdp(false)
     setSavingRdp(false)
+  }
+
+  const handleSaveRdpDates = async () => {
+    if (!venueId) return
+    setSavingRdpDates(true)
+    const updates = {
+      parish:        rdpDatesForm.parish || null,
+      rdpIssueDate:  rdpDatesForm.rdpIssueDate || null,
+      rdpExpiryDate: rdpDatesForm.rdpExpiryDate || null,
+    }
+    await updateDoc(doc(db, 'venues', venueId), updates)
+    setVenue(v => v ? { ...v, parish: updates.parish ?? undefined, rdpIssueDate: updates.rdpIssueDate ?? undefined, rdpExpiryDate: updates.rdpExpiryDate ?? undefined } : v)
+    setEditingRdpDates(false)
+    setSavingRdpDates(false)
   }
 
   const handleSaveContact = async () => {
@@ -396,6 +413,71 @@ export default function AdminVenueDetail() {
                 Cancel
               </button>
             </div>
+          )}
+        </div>
+
+        {/* RDP Parish & Dates */}
+        <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-700">
+          <div className="flex items-center justify-between gap-4 mb-3">
+            <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">Retail Dealer Permit — Dates</p>
+            {!editingRdpDates && (
+              <button
+                onClick={() => { setRdpDatesForm({ parish: venue.parish ?? '', rdpIssueDate: venue.rdpIssueDate ?? '', rdpExpiryDate: venue.rdpExpiryDate ?? '' }); setEditingRdpDates(true) }}
+                className="text-sm font-semibold text-brand-700 hover:text-brand-900 transition-colors flex-shrink-0"
+              >
+                Edit
+              </button>
+            )}
+          </div>
+          {editingRdpDates ? (
+            <div className="space-y-3">
+              <div className="grid sm:grid-cols-3 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">Parish</label>
+                  <select value={rdpDatesForm.parish} onChange={e => setRdpDatesForm(f => ({ ...f, parish: e.target.value }))} className={INPUT}>
+                    <option value="">— Select —</option>
+                    {['East Baton Rouge', 'Orleans', 'Jefferson', 'St. Tammany', 'Tangipahoa'].map(p => <option key={p} value={p}>{p}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">Issue Date</label>
+                  <input type="date" value={rdpDatesForm.rdpIssueDate} onChange={e => setRdpDatesForm(f => ({ ...f, rdpIssueDate: e.target.value }))} className={INPUT} />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">Expiry Date</label>
+                  <input type="date" value={rdpDatesForm.rdpExpiryDate} onChange={e => setRdpDatesForm(f => ({ ...f, rdpExpiryDate: e.target.value }))} className={INPUT} />
+                </div>
+              </div>
+              <div className="flex gap-2">
+                <button onClick={handleSaveRdpDates} disabled={savingRdpDates} className="btn-primary text-sm py-1.5 px-4">
+                  {savingRdpDates ? 'Saving…' : 'Save'}
+                </button>
+                <button onClick={() => setEditingRdpDates(false)} className="text-sm font-semibold text-slate-500 hover:text-slate-700 dark:text-slate-400 px-2 py-1.5">
+                  Cancel
+                </button>
+              </div>
+            </div>
+          ) : (
+            <dl className="grid sm:grid-cols-3 gap-3 text-sm">
+              <div><dt className="text-slate-500 dark:text-slate-400">Parish</dt><dd className="font-semibold text-slate-900 dark:text-slate-100">{venue.parish || '—'}</dd></div>
+              <div><dt className="text-slate-500 dark:text-slate-400">Issue Date</dt><dd className="font-semibold text-slate-900 dark:text-slate-100">{venue.rdpIssueDate ? new Date(venue.rdpIssueDate + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '—'}</dd></div>
+              <div>
+                <dt className="text-slate-500 dark:text-slate-400">Expiry Date</dt>
+                <dd className="font-semibold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+                  {venue.rdpExpiryDate ? (
+                    <>
+                      {new Date(venue.rdpExpiryDate + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                      {(() => {
+                        const days = Math.floor((new Date(venue.rdpExpiryDate).getTime() - Date.now()) / 86400000)
+                        const badge = days < 0 ? 'bg-red-100 text-red-600' : days <= 60 ? 'bg-yellow-100 text-yellow-700' : 'bg-green-100 text-green-700'
+                        const label = days < 0 ? 'Expired' : days <= 60 ? 'Expiring Soon' : 'Valid'
+                        return <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${badge}`}>{label}</span>
+                      })()}
+                    </>
+                  ) : '—'}
+                </dd>
+              </div>
+            </dl>
           )}
         </div>
       </div>
