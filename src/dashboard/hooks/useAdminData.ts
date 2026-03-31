@@ -8,7 +8,7 @@ export interface VenueUser {
   uid:         string
   email:       string
   displayName: string
-  venueId:     string | null
+  venueIds:    string[]
   createdAt:   Date
 }
 
@@ -43,12 +43,19 @@ export function useAdminData() {
         } as Statement)))
         setUsers(usersSnap.docs
           .filter(d => d.data().role === 'venue_owner')
-          .map(d => ({
-            id: d.id,
-            uid: d.id,
-            ...d.data(),
-            createdAt: d.data().createdAt?.toDate() ?? new Date(),
-          } as VenueUser)))
+          .map(d => {
+            const data = d.data()
+            // Backward-compat: old docs have venueId (string), new docs have venueIds (array)
+            const venueIds: string[] =
+              data.venueIds ?? (data.venueId ? [data.venueId] : [])
+            return {
+              id: d.id, uid: d.id,
+              email:       data.email       ?? '',
+              displayName: data.displayName ?? '',
+              venueIds,
+              createdAt: data.createdAt?.toDate() ?? new Date(),
+            } as VenueUser
+          }))
 
       } catch (e) {
         setError('Failed to load data.')

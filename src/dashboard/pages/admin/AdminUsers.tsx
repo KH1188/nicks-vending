@@ -38,12 +38,12 @@ export default function AdminUsers() {
         secondaryAuth, form.email, form.password
       )
 
-      // 2. Create the Firestore user doc
+      // 2. Create the Firestore user doc with venueIds array
       await setDoc(doc(db, 'users', newUser.uid), {
         email:       form.email,
         displayName: form.displayName,
         role:        'venue_owner',
-        venueId:     form.venueId || null,
+        venueIds:    form.venueId ? [form.venueId] : [],
         createdAt:   serverTimestamp(),
       })
 
@@ -69,9 +69,12 @@ export default function AdminUsers() {
 
   const handleRemoveUser = async (uid: string) => {
     const userToRemove = users.find(u => u.id === uid)
-    if (userToRemove?.venueId) {
-      await updateDoc(doc(db, 'venues', userToRemove.venueId), { ownerUid: null })
-    }
+    // Clear ownerUid on every venue this user was linked to
+    await Promise.all(
+      (userToRemove?.venueIds ?? []).map(vid =>
+        updateDoc(doc(db, 'venues', vid), { ownerUid: null })
+      )
+    )
     await deleteDoc(doc(db, 'users', uid))
     setRemovingUser(null)
     refresh()
@@ -132,7 +135,7 @@ export default function AdminUsers() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Linked Venue</label>
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Initial Venue (optional)</label>
                 <select
                   value={form.venueId}
                   onChange={e => setForm(f => ({ ...f, venueId: e.target.value }))}
@@ -141,6 +144,7 @@ export default function AdminUsers() {
                   <option value="">— No venue yet —</option>
                   {venues.map(v => <option key={v.id} value={v.id}>{v.name}</option>)}
                 </select>
+                <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">More venues can be added from each venue's detail page.</p>
               </div>
             </div>
             {error && (
@@ -164,23 +168,31 @@ export default function AdminUsers() {
               <tr className="bg-slate-50 dark:bg-slate-700/50 border-b border-slate-100 dark:border-slate-700">
                 <th className="text-left px-6 py-3.5 text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">Name</th>
                 <th className="text-left px-6 py-3.5 text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">Email</th>
-                <th className="text-left px-6 py-3.5 text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">Venue</th>
+                <th className="text-left px-6 py-3.5 text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">Venues</th>
                 <th className="text-right px-6 py-3.5 text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">Created</th>
                 <th className="px-6 py-3.5" />
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
               {users.map(u => {
-                const venue = venues.find(v => v.id === u.venueId)
+                const userVenues = venues.filter(v => u.venueIds.includes(v.id))
                 return (
                   <>
                     <tr key={u.id} className="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
                       <td className="px-6 py-4 font-semibold text-slate-900 dark:text-slate-100">{u.displayName}</td>
                       <td className="px-6 py-4 text-slate-500 dark:text-slate-400">{u.email}</td>
                       <td className="px-6 py-4 text-slate-600 dark:text-slate-300">
-                        {venue ? (
-                          <Link to={`/dashboard/admin/venues/${venue.id}`} className="text-brand-700 hover:underline">{venue.name}</Link>
-                        ) : <span className="text-slate-400 dark:text-slate-500">—</span>}
+                        {userVenues.length === 0 ? (
+                          <span className="text-slate-400 dark:text-slate-500">—</span>
+                        ) : (
+                          <div className="flex flex-wrap gap-x-2 gap-y-1">
+                            {userVenues.map(v => (
+                              <Link key={v.id} to={`/dashboard/admin/venues/${v.id}`} className="text-brand-700 hover:underline">
+                                {v.name}
+                              </Link>
+                            ))}
+                          </div>
+                        )}
                       </td>
                       <td className="px-6 py-4 text-right text-slate-400 dark:text-slate-500">
                         {u.createdAt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
@@ -201,7 +213,8 @@ export default function AdminUsers() {
                         <td colSpan={5} className="px-6 py-3">
                           <div className="flex items-center gap-3 flex-wrap">
                             <span className="text-sm text-red-700 dark:text-red-400 font-medium">
-                              Remove <strong>{u.displayName}</strong>? This removes their portal access.
+                              Remove <strong>{u.displayName}</strong>? This removes their portal access
+                              {userVenues.length > 0 && ` and unlinks ${userVenues.length === 1 ? '1 venue' : `${userVenues.length} venues`}`}.
                             </span>
                             <button
                               onClick={() => handleRemoveUser(u.id)}

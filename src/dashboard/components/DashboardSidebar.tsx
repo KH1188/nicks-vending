@@ -1,4 +1,7 @@
+import { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
+import { collection, getDocs, query, where, documentId } from 'firebase/firestore'
+import { db } from '../../lib/firebase'
 import { useAuth } from '../../context/AuthContext'
 
 const adminLinks = [
@@ -18,8 +21,18 @@ const venueLinks = [
 interface Props { onClose?: () => void }
 
 export default function DashboardSidebar({ onClose }: Props) {
-  const { user } = useAuth()
+  const { user, activeVenueId, setActiveVenueId } = useAuth()
   const links = user?.role === 'admin' ? adminLinks : venueLinks
+
+  // Venue names for the switcher — only fetched when owner has multiple venues
+  const [venueNames, setVenueNames] = useState<{ id: string; name: string }[]>([])
+
+  useEffect(() => {
+    if (!user || user.role !== 'venue_owner' || user.venueIds.length <= 1) return
+    getDocs(query(collection(db, 'venues'), where(documentId(), 'in', user.venueIds)))
+      .then(snap => setVenueNames(snap.docs.map(d => ({ id: d.id, name: d.data().name as string }))))
+      .catch(() => {})
+  }, [user])
 
   return (
     <div className="flex flex-col h-full bg-slate-900 text-white w-64">
@@ -31,6 +44,22 @@ export default function DashboardSidebar({ onClose }: Props) {
           {user?.role === 'admin' ? 'Admin Panel' : 'Owner Portal'}
         </p>
       </div>
+
+      {/* Venue switcher — only shown when owner has multiple venues */}
+      {user?.role === 'venue_owner' && user.venueIds.length > 1 && venueNames.length > 0 && (
+        <div className="px-4 py-3 border-b border-slate-700">
+          <p className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-1.5">Active Venue</p>
+          <select
+            value={activeVenueId ?? ''}
+            onChange={e => { setActiveVenueId(e.target.value); onClose?.() }}
+            className="w-full bg-slate-800 text-white text-sm rounded-lg px-3 py-2 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-700"
+          >
+            {venueNames.map(v => (
+              <option key={v.id} value={v.id}>{v.name}</option>
+            ))}
+          </select>
+        </div>
+      )}
 
       <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
         {links.map(({ label, href }) => (

@@ -10,21 +10,24 @@ export interface UserProfile {
   email:       string
   displayName: string
   role:        UserRole
-  venueId:     string | null
+  venueIds:    string[]   // all venues this owner manages
 }
 
 interface AuthContextValue {
-  user:    UserProfile | null
-  loading: boolean
-  signIn:  (email: string, password: string) => Promise<void>
-  signOut: () => Promise<void>
+  user:             UserProfile | null
+  loading:          boolean
+  activeVenueId:    string | null
+  setActiveVenueId: (id: string) => void
+  signIn:           (email: string, password: string) => Promise<void>
+  signOut:          () => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null)
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser]       = useState<UserProfile | null>(null)
-  const [loading, setLoading] = useState(true)
+  const [user,          setUser]          = useState<UserProfile | null>(null)
+  const [loading,       setLoading]       = useState(true)
+  const [activeVenueId, setActiveVenueId] = useState<string | null>(null)
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, async (firebaseUser) => {
@@ -32,18 +35,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const snap = await getDoc(doc(db, 'users', firebaseUser.uid))
         if (snap.exists()) {
           const data = snap.data()
+          // Backward-compat: old docs have venueId (string), new docs have venueIds (array)
+          const venueIds: string[] =
+            data.venueIds ?? (data.venueId ? [data.venueId] : [])
           setUser({
             uid:         firebaseUser.uid,
             email:       firebaseUser.email ?? '',
             displayName: data.displayName ?? '',
             role:        data.role,
-            venueId:     data.venueId ?? null,
+            venueIds,
           })
+          setActiveVenueId(prev => venueIds.includes(prev ?? '') ? prev : (venueIds[0] ?? null))
         } else {
           setUser(null)
+          setActiveVenueId(null)
         }
       } else {
         setUser(null)
+        setActiveVenueId(null)
       }
       setLoading(false)
     })
@@ -57,10 +66,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const signOut = async () => {
     await firebaseSignOut(auth)
     setUser(null)
+    setActiveVenueId(null)
   }
 
   return (
-    <AuthContext.Provider value={{ user, loading, signIn, signOut }}>
+    <AuthContext.Provider value={{ user, loading, activeVenueId, setActiveVenueId, signIn, signOut }}>
       {children}
     </AuthContext.Provider>
   )

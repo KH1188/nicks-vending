@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
-import { doc, getDoc, getDocs, collection, query, where, orderBy, addDoc, deleteDoc, updateDoc, serverTimestamp } from 'firebase/firestore'
+import { doc, getDoc, getDocs, collection, query, where, orderBy, addDoc, deleteDoc, updateDoc, serverTimestamp, arrayUnion, arrayRemove } from 'firebase/firestore'
 import { db } from '../../../lib/firebase'
 import type { Venue, Machine, Statement } from '../../hooks/useVenueData'
 import { formatPeriod } from '../../hooks/useVenueData'
@@ -117,16 +117,13 @@ export default function AdminVenueDetail() {
     setSavingOwner(true)
     try {
       const oldUid = venue?.ownerUid ?? null
-      // Clear old owner's venueId if they were pointing to this venue
+      // Remove this venue from the old owner's venueIds array
       if (oldUid && oldUid !== newUid) {
-        const oldUser = users.find(u => u.id === oldUid)
-        if (oldUser?.venueId === venueId) {
-          await updateDoc(doc(db, 'users', oldUid), { venueId: null })
-        }
+        await updateDoc(doc(db, 'users', oldUid), { venueIds: arrayRemove(venueId) })
       }
-      // Set new owner's venueId
+      // Add this venue to the new owner's venueIds array
       if (newUid) {
-        await updateDoc(doc(db, 'users', newUid), { venueId: venueId })
+        await updateDoc(doc(db, 'users', newUid), { venueIds: arrayUnion(venueId) })
       }
       // Update venue's ownerUid
       await updateDoc(doc(db, 'venues', venueId), { ownerUid: newUid || null })

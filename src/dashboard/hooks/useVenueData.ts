@@ -55,7 +55,7 @@ export interface Statement {
 }
 
 export function useVenueData() {
-  const { user } = useAuth()
+  const { activeVenueId } = useAuth()
   const [venue,      setVenue]      = useState<Venue | null>(null)
   const [machines,   setMachines]   = useState<Machine[]>([])
   const [statements, setStatements] = useState<Statement[]>([])
@@ -63,11 +63,11 @@ export function useVenueData() {
   const [error,      setError]      = useState<string | null>(null)
 
   useEffect(() => {
-    if (!user?.venueId) return
+    if (!activeVenueId) return
 
     async function fetchData() {
       try {
-        const venueId = user!.venueId!
+        const venueId = activeVenueId!
 
         const venueSnap = await getDoc(doc(db, 'venues', venueId))
         if (venueSnap.exists()) {
@@ -101,7 +101,7 @@ export function useVenueData() {
     }
 
     fetchData()
-  }, [user?.venueId])
+  }, [activeVenueId])
 
   return { venue, machines, statements, loading, error }
 }
