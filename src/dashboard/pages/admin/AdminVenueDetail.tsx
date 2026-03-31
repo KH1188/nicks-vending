@@ -38,7 +38,9 @@ export default function AdminVenueDetail() {
   const [fetchError, setFetchError] = useState<string | null>(null)
   const [showMachineForm, setShowMachineForm] = useState(false)
   const [saving, setSaving] = useState(false)
-  const [removeStep, setRemoveStep] = useState(0) // 0=idle, 1=first confirm, 2=deleting
+  const [showRemoveDialog, setShowRemoveDialog] = useState(false)
+  const [removeConfirmText, setRemoveConfirmText] = useState('')
+  const [removing, setRemoving] = useState(false)
   const [removingMachine, setRemovingMachine] = useState<string | null>(null)
   const [editingLicense, setEditingLicense] = useState<string | null>(null) // machineId being edited
   const [licenseForm, setLicenseForm] = useState({ operatorLicenseNumber: '', operatorLicenseExpiry: '', machineLicenseNumber: '', machineLicenseExpiry: '' })
@@ -88,7 +90,10 @@ export default function AdminVenueDetail() {
   }, [venueId])
 
   const handleRemoveVenue = async () => {
-    setRemoveStep(2)
+    if (!venue || removeConfirmText !== venue.name) return
+    setRemoving(true)
+    // Cascade-delete all machines at this venue
+    await Promise.all(machines.map(m => deleteDoc(doc(db, 'machines', m.id))))
     await deleteDoc(doc(db, 'venues', venueId!))
     navigate('/dashboard/admin/venues')
   }
@@ -214,34 +219,49 @@ export default function AdminVenueDetail() {
             <p className="text-sm text-slate-500 dark:text-slate-400">{venue.address}</p>
           </div>
 
-          {/* Remove venue — two-step confirmation */}
+          {/* Remove venue — type-to-confirm */}
           <div className="flex items-center gap-2">
-            {removeStep === 0 && (
+            {!showRemoveDialog && (
               <button
-                onClick={() => setRemoveStep(1)}
+                onClick={() => { setShowRemoveDialog(true); setRemoveConfirmText('') }}
                 className="text-sm font-semibold text-red-500 hover:text-red-700 border border-red-200 hover:border-red-400 px-3 py-1.5 rounded-lg transition-colors"
               >
                 Remove Venue
               </button>
             )}
-            {removeStep === 1 && (
-              <div className="flex items-center gap-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-lg px-3 py-2">
-                <span className="text-sm text-red-700 dark:text-red-400 font-medium">Are you sure? This cannot be undone.</span>
-                <button
-                  onClick={handleRemoveVenue}
-                  className="text-sm font-bold text-white bg-red-600 hover:bg-red-700 px-3 py-1 rounded-lg transition-colors"
-                >
-                  Yes, remove
-                </button>
-                <button
-                  onClick={() => setRemoveStep(0)}
-                  className="text-sm font-semibold text-slate-500 hover:text-slate-700 dark:text-slate-400 px-2 py-1 transition-colors"
-                >
-                  Cancel
-                </button>
+            {showRemoveDialog && !removing && (
+              <div className="flex flex-col gap-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-lg px-4 py-3 min-w-[280px]">
+                <p className="text-sm text-red-700 dark:text-red-400 font-medium">
+                  This will permanently delete the venue and all its machines.
+                </p>
+                <p className="text-xs text-slate-600 dark:text-slate-400">
+                  Type <span className="font-bold text-slate-800 dark:text-slate-200">{venue.name}</span> to confirm:
+                </p>
+                <input
+                  autoFocus
+                  value={removeConfirmText}
+                  onChange={e => setRemoveConfirmText(e.target.value)}
+                  className="w-full px-3 py-1.5 rounded-lg border border-red-300 dark:border-red-600 dark:bg-slate-700 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
+                  placeholder={venue.name}
+                />
+                <div className="flex gap-2">
+                  <button
+                    onClick={handleRemoveVenue}
+                    disabled={removeConfirmText !== venue.name}
+                    className="text-sm font-bold text-white bg-red-600 hover:bg-red-700 disabled:opacity-40 disabled:cursor-not-allowed px-3 py-1 rounded-lg transition-colors"
+                  >
+                    Delete permanently
+                  </button>
+                  <button
+                    onClick={() => { setShowRemoveDialog(false); setRemoveConfirmText('') }}
+                    className="text-sm font-semibold text-slate-500 hover:text-slate-700 dark:text-slate-400 px-2 py-1 transition-colors"
+                  >
+                    Cancel
+                  </button>
+                </div>
               </div>
             )}
-            {removeStep === 2 && (
+            {removing && (
               <span className="text-sm text-slate-400">Removing…</span>
             )}
           </div>
