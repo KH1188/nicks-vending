@@ -53,7 +53,7 @@ export default function AdminVenueDetail() {
   const [slugInput, setSlugInput] = useState('')
   const [savingSlug, setSavingSlug] = useState(false)
   const [editingContact, setEditingContact] = useState(false)
-  const [contactForm, setContactForm] = useState({ contactName: '', contactPhone: '', commissionRate: '' })
+  const [contactForm, setContactForm] = useState({ contactName: '', contactPhone: '', commissionRate: '', shareType: 'revenue' as 'revenue' | 'profit' })
   const [savingContact, setSavingContact] = useState(false)
   const [editingRdp, setEditingRdp] = useState(false)
   const [rdpInput, setRdpInput] = useState('')
@@ -184,6 +184,7 @@ export default function AdminVenueDetail() {
       contactName:    contactForm.contactName.trim(),
       contactPhone:   contactForm.contactPhone.trim(),
       commissionRate: parseFloat(contactForm.commissionRate) || 0,
+      shareType:      contactForm.shareType,
     }
     await updateDoc(doc(db, 'venues', venueId), updates)
     setVenue(v => v ? { ...v, ...updates } : v)
@@ -271,7 +272,7 @@ export default function AdminVenueDetail() {
           <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">Contact</p>
           {!editingContact && (
             <button
-              onClick={() => { setContactForm({ contactName: venue.contactName ?? '', contactPhone: venue.contactPhone ?? '', commissionRate: String(venue.commissionRate ?? '') }); setEditingContact(true) }}
+              onClick={() => { setContactForm({ contactName: venue.contactName ?? '', contactPhone: venue.contactPhone ?? '', commissionRate: String(venue.commissionRate ?? ''), shareType: venue.shareType ?? 'revenue' }); setEditingContact(true) }}
               className="text-sm font-semibold text-brand-700 hover:text-brand-900 transition-colors"
             >
               Edit
@@ -290,8 +291,15 @@ export default function AdminVenueDetail() {
                 <input value={contactForm.contactPhone} onChange={e => setContactForm(f => ({ ...f, contactPhone: e.target.value }))} className={INPUT} placeholder="(504) 555-1234" />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">Commission Rate (%)</label>
+                <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">Venue Share (%)</label>
                 <input value={contactForm.commissionRate} onChange={e => setContactForm(f => ({ ...f, commissionRate: e.target.value }))} className={INPUT} placeholder="10" />
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">Share Based On</label>
+                <select value={contactForm.shareType} onChange={e => setContactForm(f => ({ ...f, shareType: e.target.value as 'revenue' | 'profit' }))} className={INPUT}>
+                  <option value="revenue">Revenue</option>
+                  <option value="profit">Profit</option>
+                </select>
               </div>
             </div>
             <div className="flex gap-2">
@@ -307,7 +315,7 @@ export default function AdminVenueDetail() {
           <dl className="grid sm:grid-cols-3 gap-3 text-sm">
             <div><dt className="text-slate-500 dark:text-slate-400">Name</dt><dd className="font-semibold text-slate-900 dark:text-slate-100">{venue.contactName || '—'}</dd></div>
             <div><dt className="text-slate-500 dark:text-slate-400">Phone</dt><dd className="font-semibold text-slate-900 dark:text-slate-100">{venue.contactPhone || '—'}</dd></div>
-            <div><dt className="text-slate-500 dark:text-slate-400">Commission Rate</dt><dd className="font-semibold text-slate-900 dark:text-slate-100">{venue.commissionRate ?? '—'}%</dd></div>
+            <div><dt className="text-slate-500 dark:text-slate-400">Venue Share</dt><dd className="font-semibold text-slate-900 dark:text-slate-100">{venue.commissionRate ?? '—'}% of {venue.shareType === 'profit' ? 'Profit' : 'Revenue'}</dd></div>
           </dl>
         )}
 

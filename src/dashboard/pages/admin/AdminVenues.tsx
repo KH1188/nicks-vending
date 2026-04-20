@@ -18,6 +18,7 @@ const PARISHES = ['East Baton Rouge', 'Orleans', 'Jefferson', 'St. Tammany', 'Ta
 
 const EMPTY_FORM = {
   name: '', address: '', contactName: '', contactPhone: '', notes: '', commissionRate: '10',
+  shareType: 'revenue' as 'revenue' | 'profit',
   parish: '', rdpIssueDate: '', rdpExpiryDate: '',
   ownerName: '', ownerEmail: '', ownerPassword: '',
 }
@@ -55,6 +56,7 @@ export default function AdminVenues() {
         contactPhone:   form.contactPhone,
         notes:          form.notes,
         commissionRate: parseFloat(form.commissionRate) || 10,
+        shareType:      form.shareType,
         parish:         form.parish || null,
         rdpIssueDate:   form.rdpIssueDate || null,
         rdpExpiryDate:  form.rdpExpiryDate || null,
@@ -134,8 +136,15 @@ export default function AdminVenues() {
                 <input placeholder="(504) 555-1234" className={INPUT} {...field('contactPhone')} />
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Commission Rate (%)</label>
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Venue Share (%)</label>
                 <input placeholder="10" className={INPUT} {...field('commissionRate')} />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Share Based On</label>
+                <select className={INPUT} value={form.shareType} onChange={e => setForm(f => ({ ...f, shareType: e.target.value as 'revenue' | 'profit' }))}>
+                  <option value="revenue">Revenue</option>
+                  <option value="profit">Profit</option>
+                </select>
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Parish</label>

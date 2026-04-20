@@ -10,7 +10,8 @@ export interface Venue {
   contactName:    string
   contactPhone:   string
   notes:          string
-  commissionRate: number   // percentage e.g. 12.5 means 12.5%
+  commissionRate: number          // percentage e.g. 12.5 means 12.5%
+  shareType?:     'revenue' | 'profit'
   ownerUid:               string | null
   complianceSlug?:        string
   retailDealerPermitUrl?: string

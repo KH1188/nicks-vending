@@ -32,6 +32,11 @@ export default function VenueDashboard() {
             {latest ? `$${latest.venueShare.toFixed(2)}` : '—'}
           </p>
           {latest && <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">{formatPeriod(latest.periodLabel)}</p>}
+          {venue?.commissionRate != null && (
+            <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">
+              {venue.commissionRate}% of {venue.shareType === 'profit' ? 'Profit' : 'Revenue'}
+            </p>
+          )}
         </div>
         <div className="card rounded-2xl p-6">
           <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-1">Machine</p>
