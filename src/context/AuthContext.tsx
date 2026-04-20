@@ -36,8 +36,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         if (snap.exists()) {
           const data = snap.data()
           // Backward-compat: old docs have venueId (string), new docs have venueIds (array)
-          const venueIds: string[] =
-            data.venueIds ?? (data.venueId ? [data.venueId] : [])
+          const venueIds: string[] = [
+            ...new Set([
+              ...(data.venueIds ?? []),
+              ...(data.venueId ? [data.venueId] : []),
+            ])
+          ]
           setUser({
             uid:         firebaseUser.uid,
             email:       firebaseUser.email ?? '',
