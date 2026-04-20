@@ -35,7 +35,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const snap = await getDoc(doc(db, 'users', firebaseUser.uid))
         if (snap.exists()) {
           const data = snap.data()
-          // Backward-compat: old docs have venueId (string), new docs have venueIds (array)
+          // Venue ID resolution — two fields exist due to a data model evolution:
+          //
+          // - venueId (string):  legacy field. Written when a venue+owner are created
+          //   together via the "Add Venue" form in AdminVenues.tsx.
+          //
+          // - venueIds (string[]): newer field. Written via arrayUnion() when an owner
+          //   is assigned or reassigned through the "Assign Owner" button in
+          //   AdminVenueDetail.tsx. Supports multi-venue ownership.
+          //
+          // Both fields are merged here so neither is lost. This matters because
+          // assigning an owner to a second venue adds to venueIds without copying
+          // the original venueId into it — leaving the first venue stranded if we
+          // only read venueIds. Always use this merged array as the source of truth.
+          // Do NOT change new account creation to write venueIds only until all
+          // existing docs have been migrated, or the merge logic below is removed.
           const venueIds: string[] = [
             ...new Set([
               ...(data.venueIds ?? []),
