@@ -18,11 +18,13 @@ export default function AdminUploadStatement() {
   const [error,    setError]    = useState<string | null>(null)
 
   const [form, setForm] = useState({
-    venueId:    searchParams.get('venueId') ?? '',
-    period:     '',   // YYYY-MM
-    totalSales: '',
-    venueShare: '',
-    notes:      '',
+    venueId:       searchParams.get('venueId') ?? '',
+    period:        '',   // YYYY-MM
+    totalSales:    '',
+    venueShare:    '',
+    notes:         '',
+    paymentStatus: 'not_paid' as 'not_paid' | 'en_route' | 'paid',
+    paymentMethod: '' as '' | 'Zelle' | 'ACH' | 'Venmo' | 'Check' | 'Cash' | 'Cashapp',
   })
 
   useEffect(() => {
@@ -76,20 +78,22 @@ export default function AdminUploadStatement() {
       const pdfUrl = await getDownloadURL(uploadTask.snapshot.ref)
 
       await addDoc(collection(db, 'statements'), {
-        venueId:     form.venueId,
-        periodLabel: form.period,
-        totalSales:  parseFloat(form.totalSales),
-        venueShare:  parseFloat(form.venueShare),
-        pdfPath:     storagePath,
+        venueId:       form.venueId,
+        periodLabel:   form.period,
+        totalSales:    parseFloat(form.totalSales),
+        venueShare:    parseFloat(form.venueShare),
+        pdfPath:       storagePath,
         pdfUrl,
-        notes:       form.notes,
-        uploadedAt:  serverTimestamp(),
+        notes:         form.notes,
+        paymentStatus: form.paymentStatus,
+        paymentMethod: form.paymentMethod || null,
+        uploadedAt:    serverTimestamp(),
       })
 
       setSuccess(true)
       setFile(null)
       setProgress(0)
-      setForm(f => ({ ...f, period: '', totalSales: '', venueShare: '', notes: '' }))
+      setForm(f => ({ ...f, period: '', totalSales: '', venueShare: '', notes: '', paymentStatus: 'not_paid', paymentMethod: '' }))
     } catch (err) {
       console.error(err)
       setError('Upload failed. Please try again.')
@@ -219,6 +223,30 @@ export default function AdminUploadStatement() {
             <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">{progress}% uploaded</p>
           </div>
         )}
+
+        {/* Payment status + method */}
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Payment Status</label>
+            <select value={form.paymentStatus} onChange={e => setForm(f => ({ ...f, paymentStatus: e.target.value as typeof f.paymentStatus }))} className={INPUT}>
+              <option value="not_paid">Not Paid</option>
+              <option value="en_route">Payment En Route</option>
+              <option value="paid">Paid</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Payment Method</label>
+            <select value={form.paymentMethod} onChange={e => setForm(f => ({ ...f, paymentMethod: e.target.value as typeof f.paymentMethod }))} className={INPUT}>
+              <option value="">— Optional —</option>
+              <option>Zelle</option>
+              <option>ACH</option>
+              <option>Venmo</option>
+              <option>Check</option>
+              <option>Cash</option>
+              <option>Cashapp</option>
+            </select>
+          </div>
+        </div>
 
         {/* Notes */}
         <div>

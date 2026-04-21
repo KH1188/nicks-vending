@@ -24,6 +24,7 @@ export default function VenueStatements() {
                 <th className="text-right px-6 py-3.5 text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">Total Sales</th>
                 <th className="text-right px-6 py-3.5 text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">Your Share</th>
                 <th className="text-right px-6 py-3.5 text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">Date</th>
+                <th className="text-left px-6 py-3.5 text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">Status</th>
                 <th className="px-6 py-3.5" />
               </tr>
             </thead>
@@ -35,6 +36,25 @@ export default function VenueStatements() {
                   <td className="px-6 py-4 text-right font-semibold text-green-600">${s.venueShare.toFixed(2)}</td>
                   <td className="px-6 py-4 text-right text-slate-400 dark:text-slate-500">
                     {s.uploadedAt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                  </td>
+                  <td className="px-6 py-4">
+                    {(() => {
+                      const status = s.paymentStatus
+                      const badge =
+                        status === 'paid'     ? 'bg-green-100 text-green-700' :
+                        status === 'en_route' ? 'bg-yellow-100 text-yellow-700' :
+                                                'bg-red-100 text-red-600'
+                      const label =
+                        status === 'paid'     ? 'Paid' :
+                        status === 'en_route' ? 'En Route' :
+                                                'Not Paid'
+                      return (
+                        <div className="flex flex-col gap-1">
+                          <span className={`text-xs font-semibold px-2 py-0.5 rounded-full w-fit ${badge}`}>{label}</span>
+                          {s.paymentMethod && <span className="text-xs text-slate-400 dark:text-slate-500">{s.paymentMethod}</span>}
+                        </div>
+                      )
+                    })()}
                   </td>
                   <td className="px-6 py-4 text-right">
                     {s.pdfUrl && (

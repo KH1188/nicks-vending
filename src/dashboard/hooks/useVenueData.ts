@@ -44,15 +44,17 @@ export interface Machine {
 }
 
 export interface Statement {
-  id:          string
-  venueId:     string
-  periodLabel: string
-  totalSales:  number
-  venueShare:  number
-  pdfUrl:      string
-  pdfPath:     string
-  uploadedAt:  Date
-  notes:       string
+  id:              string
+  venueId:         string
+  periodLabel:     string
+  totalSales:      number
+  venueShare:      number
+  pdfUrl:          string
+  pdfPath:         string
+  uploadedAt:      Date
+  notes:           string
+  paymentStatus?:  'not_paid' | 'en_route' | 'paid'
+  paymentMethod?:  'Zelle' | 'ACH' | 'Venmo' | 'Check' | 'Cash' | 'Cashapp'
 }
 
 export function useVenueData() {
