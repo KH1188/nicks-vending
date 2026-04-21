@@ -46,6 +46,9 @@ export default function AdminVenueDetail() {
   const [licenseForm, setLicenseForm] = useState({ operatorLicenseNumber: '', operatorLicenseExpiry: '', machineLicenseNumber: '', machineLicenseExpiry: '' })
   const [savingLicense, setSavingLicense] = useState(false)
   const [machineForm, setMachineForm] = useState({ model: 'Slim Wall', serialNumber: '', status: 'active', notes: '', placedAt: new Date().toISOString().split('T')[0] })
+  const [editingMachine, setEditingMachine] = useState<string | null>(null)
+  const [machineEditForm, setMachineEditForm] = useState({ model: '', serialNumber: '', status: 'active', placedAt: '' })
+  const [savingMachineEdit, setSavingMachineEdit] = useState(false)
   const [removingStatement, setRemovingStatement] = useState<string | null>(null)
   const [assigningOwner, setAssigningOwner] = useState(false)
   const [selectedOwnerUid, setSelectedOwnerUid] = useState('')
@@ -202,6 +205,29 @@ export default function AdminVenueDetail() {
     setShowMachineForm(false)
     setSaving(false)
     window.location.reload()
+  }
+
+  const handleSaveMachineEdit = async (machineId: string) => {
+    setSavingMachineEdit(true)
+    const placedAt = machineEditForm.placedAt
+      ? Timestamp.fromDate(new Date(machineEditForm.placedAt + 'T12:00:00'))
+      : undefined
+    const updates: Record<string, unknown> = {
+      model: machineEditForm.model,
+      serialNumber: machineEditForm.serialNumber,
+      status: machineEditForm.status,
+    }
+    if (placedAt) updates.placedAt = placedAt
+    await updateDoc(doc(db, 'machines', machineId), updates)
+    setMachines(ms => ms.map(m => m.id === machineId ? {
+      ...m,
+      model: machineEditForm.model,
+      serialNumber: machineEditForm.serialNumber,
+      status: machineEditForm.status as Machine['status'],
+      placedAt: placedAt ? new Date(machineEditForm.placedAt + 'T12:00:00') : m.placedAt,
+    } : m))
+    setEditingMachine(null)
+    setSavingMachineEdit(false)
   }
 
   const handleRemoveStatement = async (statementId: string) => {
@@ -605,7 +631,11 @@ export default function AdminVenueDetail() {
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="font-semibold text-slate-900 dark:text-slate-100">{m.model}</p>
-                    <p className="text-xs text-slate-500 dark:text-slate-400">{m.serialNumber ? `S/N: ${m.serialNumber}` : 'No serial number'}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
+                      {m.serialNumber ? `S/N: ${m.serialNumber}` : 'No serial number'}
+                      {' · '}
+                      Placed {m.placedAt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                    </p>
                   </div>
                   <div className="flex items-center gap-3">
                     <span className={`text-xs font-semibold px-3 py-1 rounded-full ${
@@ -614,7 +644,23 @@ export default function AdminVenueDetail() {
                     }`}>
                       {m.status.charAt(0).toUpperCase() + m.status.slice(1)}
                     </span>
-                    {removingMachine !== m.id && (
+                    {editingMachine !== m.id && removingMachine !== m.id && (
+                      <button
+                        onClick={() => {
+                          setMachineEditForm({
+                            model: m.model,
+                            serialNumber: m.serialNumber ?? '',
+                            status: m.status,
+                            placedAt: m.placedAt.toISOString().split('T')[0],
+                          })
+                          setEditingMachine(m.id)
+                        }}
+                        className="text-xs font-semibold text-brand-700 hover:text-brand-900 transition-colors"
+                      >
+                        Edit
+                      </button>
+                    )}
+                    {removingMachine !== m.id && editingMachine !== m.id && (
                       <button
                         onClick={() => setRemovingMachine(m.id)}
                         className="text-xs font-semibold text-red-400 hover:text-red-600 transition-colors"
@@ -624,6 +670,44 @@ export default function AdminVenueDetail() {
                     )}
                   </div>
                 </div>
+
+                {editingMachine === m.id && (
+                  <div className="mt-3 space-y-3">
+                    <div className="grid sm:grid-cols-4 gap-3">
+                      <div>
+                        <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">Model</label>
+                        <select value={machineEditForm.model} onChange={e => setMachineEditForm(f => ({ ...f, model: e.target.value }))} className={INPUT}>
+                          {MACHINE_MODELS.map(m => <option key={m}>{m}</option>)}
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">Serial Number</label>
+                        <input value={machineEditForm.serialNumber} onChange={e => setMachineEditForm(f => ({ ...f, serialNumber: e.target.value }))} className={INPUT} />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">Status</label>
+                        <select value={machineEditForm.status} onChange={e => setMachineEditForm(f => ({ ...f, status: e.target.value }))} className={INPUT}>
+                          <option value="active">Active</option>
+                          <option value="maintenance">Maintenance</option>
+                          <option value="inactive">Inactive</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">Placement Date</label>
+                        <input type="date" value={machineEditForm.placedAt} onChange={e => setMachineEditForm(f => ({ ...f, placedAt: e.target.value }))} className={INPUT} />
+                      </div>
+                    </div>
+                    <div className="flex gap-2">
+                      <button onClick={() => handleSaveMachineEdit(m.id)} disabled={savingMachineEdit} className="btn-primary text-sm py-1.5 px-4">
+                        {savingMachineEdit ? 'Saving…' : 'Save'}
+                      </button>
+                      <button onClick={() => setEditingMachine(null)} className="text-sm font-semibold text-slate-500 hover:text-slate-700 dark:text-slate-400 px-2 py-1.5">
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                )}
+
                 {removingMachine === m.id && (
                   <div className="mt-3 flex items-center gap-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-lg px-3 py-2">
                     <span className="text-sm text-red-700 dark:text-red-400 font-medium">Remove this machine? This cannot be undone.</span>
