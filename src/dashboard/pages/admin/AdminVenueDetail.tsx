@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
-import { doc, getDoc, getDocs, collection, query, where, orderBy, addDoc, deleteDoc, updateDoc, serverTimestamp, arrayUnion, arrayRemove } from 'firebase/firestore'
+import { doc, getDoc, getDocs, collection, query, where, orderBy, addDoc, deleteDoc, updateDoc, serverTimestamp, Timestamp, arrayUnion, arrayRemove } from 'firebase/firestore'
 import { db } from '../../../lib/firebase'
 import type { Venue, Machine, Statement } from '../../hooks/useVenueData'
 import { formatPeriod } from '../../hooks/useVenueData'
@@ -45,7 +45,8 @@ export default function AdminVenueDetail() {
   const [editingLicense, setEditingLicense] = useState<string | null>(null) // machineId being edited
   const [licenseForm, setLicenseForm] = useState({ operatorLicenseNumber: '', operatorLicenseExpiry: '', machineLicenseNumber: '', machineLicenseExpiry: '' })
   const [savingLicense, setSavingLicense] = useState(false)
-  const [machineForm, setMachineForm] = useState({ model: 'Slim Wall', serialNumber: '', status: 'active', notes: '' })
+  const [machineForm, setMachineForm] = useState({ model: 'Slim Wall', serialNumber: '', status: 'active', notes: '', placedAt: new Date().toISOString().split('T')[0] })
+  const [removingStatement, setRemovingStatement] = useState<string | null>(null)
   const [assigningOwner, setAssigningOwner] = useState(false)
   const [selectedOwnerUid, setSelectedOwnerUid] = useState('')
   const [savingOwner, setSavingOwner] = useState(false)
@@ -195,10 +196,18 @@ export default function AdminVenueDetail() {
   const handleAddMachine = async (e: React.FormEvent) => {
     e.preventDefault()
     setSaving(true)
-    await addDoc(collection(db, 'machines'), { ...machineForm, venueId, placedAt: serverTimestamp() })
+    const { placedAt, ...rest } = machineForm
+    const placedAtTimestamp = placedAt ? Timestamp.fromDate(new Date(placedAt + 'T12:00:00')) : serverTimestamp()
+    await addDoc(collection(db, 'machines'), { ...rest, venueId, placedAt: placedAtTimestamp })
     setShowMachineForm(false)
     setSaving(false)
     window.location.reload()
+  }
+
+  const handleRemoveStatement = async (statementId: string) => {
+    await deleteDoc(doc(db, 'statements', statementId))
+    setStatements(ss => ss.filter(s => s.id !== statementId))
+    setRemovingStatement(null)
   }
 
   if (loading) return <div className="flex justify-center py-20"><div className="w-8 h-8 border-4 border-brand-700 border-t-transparent rounded-full animate-spin" /></div>
@@ -563,7 +572,7 @@ export default function AdminVenueDetail() {
         </div>
         {showMachineForm && (
           <form onSubmit={handleAddMachine} className="card rounded-2xl p-5 mb-4 space-y-3">
-            <div className="grid sm:grid-cols-2 gap-3">
+            <div className="grid sm:grid-cols-3 gap-3">
               <div>
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Model</label>
                 <select value={machineForm.model} onChange={e => setMachineForm(f => ({ ...f, model: e.target.value }))}
@@ -574,6 +583,11 @@ export default function AdminVenueDetail() {
               <div>
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Serial Number</label>
                 <input value={machineForm.serialNumber} onChange={e => setMachineForm(f => ({ ...f, serialNumber: e.target.value }))}
+                  className={INPUT} />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Placement Date</label>
+                <input type="date" value={machineForm.placedAt} onChange={e => setMachineForm(f => ({ ...f, placedAt: e.target.value }))}
                   className={INPUT} />
               </div>
             </div>
@@ -762,14 +776,38 @@ export default function AdminVenueDetail() {
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
                 {statements.map(s => (
-                  <tr key={s.id} className="hover:bg-slate-50 dark:hover:bg-slate-700/50">
-                    <td className="px-5 py-3.5 font-semibold text-slate-900 dark:text-slate-100">{formatPeriod(s.periodLabel)}</td>
-                    <td className="px-5 py-3.5 text-right text-slate-600 dark:text-slate-300">${s.totalSales.toFixed(2)}</td>
-                    <td className="px-5 py-3.5 text-right font-semibold text-green-600">${s.venueShare.toFixed(2)}</td>
-                    <td className="px-5 py-3.5 text-right">
-                      {s.pdfUrl && <a href={s.pdfUrl} target="_blank" rel="noopener noreferrer" className="text-brand-700 font-semibold hover:text-brand-900">PDF</a>}
-                    </td>
-                  </tr>
+                  <>
+                    <tr key={s.id} className="hover:bg-slate-50 dark:hover:bg-slate-700/50">
+                      <td className="px-5 py-3.5 font-semibold text-slate-900 dark:text-slate-100">{formatPeriod(s.periodLabel)}</td>
+                      <td className="px-5 py-3.5 text-right text-slate-600 dark:text-slate-300">${s.totalSales.toFixed(2)}</td>
+                      <td className="px-5 py-3.5 text-right font-semibold text-green-600">${s.venueShare.toFixed(2)}</td>
+                      <td className="px-5 py-3.5 text-right">
+                        <div className="flex items-center justify-end gap-3">
+                          {s.pdfUrl && <a href={s.pdfUrl} target="_blank" rel="noopener noreferrer" className="text-brand-700 font-semibold hover:text-brand-900">PDF</a>}
+                          {removingStatement !== s.id && (
+                            <button onClick={() => setRemovingStatement(s.id)} className="text-xs font-semibold text-red-400 hover:text-red-600 transition-colors">
+                              Remove
+                            </button>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                    {removingStatement === s.id && (
+                      <tr key={`${s.id}-confirm`} className="bg-red-50 dark:bg-red-900/20">
+                        <td colSpan={4} className="px-5 py-3">
+                          <div className="flex items-center gap-3 flex-wrap">
+                            <span className="text-sm text-red-700 dark:text-red-400 font-medium">Remove this statement? This cannot be undone.</span>
+                            <button onClick={() => handleRemoveStatement(s.id)} className="text-sm font-bold text-white bg-red-600 hover:bg-red-700 px-3 py-1 rounded-lg transition-colors">
+                              Yes, remove
+                            </button>
+                            <button onClick={() => setRemovingStatement(null)} className="text-sm font-semibold text-slate-500 hover:text-slate-700 dark:text-slate-400 px-2 py-1 transition-colors">
+                              Cancel
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  </>
                 ))}
               </tbody>
             </table>
