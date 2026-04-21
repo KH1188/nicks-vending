@@ -8,6 +8,7 @@ const adminLinks = [
   { label: 'Overview',          href: '/dashboard/admin' },
   { label: 'Venues',            href: '/dashboard/admin/venues' },
   { label: 'Machines',          href: '/dashboard/admin/machines' },
+  { label: 'Users',             href: '/dashboard/admin/users' },
   { label: 'Upload Statement',  href: '/dashboard/admin/statements/new' },
 ]
 
