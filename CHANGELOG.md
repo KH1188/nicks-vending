@@ -7,6 +7,14 @@ Entries are grouped by date, newest first.
 
 ## 2026-04-21
 
+### Infrastructure
+- Upgraded Firebase project to Blaze (pay-as-you-go) plan to enable Storage uploads
+- Set Firebase Storage security rules to allow authenticated users to read/write (required for statement PDF uploads)
+
+---
+
+## 2026-04-21
+
 ### Admin Portal
 - Added Payment Status dropdown to Upload Statement form (Not Paid, Payment En Route, Paid)
 - Added Payment Method dropdown to Upload Statement form (Zelle, ACH, Venmo, Check, Cash, Cashapp) — optional field
