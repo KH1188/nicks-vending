@@ -1,11 +1,39 @@
+import { useState, useEffect } from 'react'
 import { useVenueData } from '../../hooks/useVenueData'
 
 const DOCS = [
-  { label: 'Responsible Vendor License', file: null, staticUrl: '/rv-license.pdf' },
-  { label: 'Contract',                   file: 'contract.pdf',               staticUrl: null },
-  { label: 'Operator Permit',            file: 'operator-permit.pdf',        staticUrl: null },
-  { label: 'Vending Machine Permit',     file: 'vending-machine-permit.pdf', staticUrl: null },
+  { label: 'Responsible Vendor License', base: null,                    staticUrl: '/rv-license' },
+  { label: 'Contract',                   base: 'contract',              staticUrl: null },
+  { label: 'Operator Permit',            base: 'operator-permit',       staticUrl: null },
+  { label: 'Vending Machine Permit',     base: 'vending-machine-permit',staticUrl: null },
 ]
+
+// Tries basePath.pdf first, then basePath.jpg — returns whichever exists or null
+function DocLink({ basePath }: { basePath: string }) {
+  const [url, setUrl] = useState<string | null>(null)
+  const [checked, setChecked] = useState(false)
+
+  useEffect(() => {
+    let cancelled = false
+    async function detect() {
+      for (const ext of ['.pdf', '.jpg', '.jpeg', '.png']) {
+        try {
+          const res = await fetch(basePath + ext, { method: 'HEAD' })
+          if (res.ok && !cancelled) { setUrl(basePath + ext); break }
+        } catch {}
+      }
+      if (!cancelled) setChecked(true)
+    }
+    detect()
+    return () => { cancelled = true }
+  }, [basePath])
+
+  if (!checked) return <span className="text-xs text-slate-400">…</span>
+
+  return url
+    ? <a href={url} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-brand-700 hover:text-brand-900 transition-colors flex-shrink-0">View</a>
+    : <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-400">Pending</span>
+}
 
 export default function VenueCompliance() {
   const { venue, loading } = useVenueData()
@@ -27,13 +55,13 @@ export default function VenueCompliance() {
 
       {/* Documents */}
       <div className="card rounded-2xl divide-y divide-slate-100 dark:divide-slate-700 overflow-hidden mb-6">
-        {DOCS.map(({ label, file, staticUrl }) => {
-          const url = staticUrl ?? (venue?.complianceSlug && file ? `/compliance/${venue.complianceSlug}/${file}` : null)
+        {DOCS.map(({ label, base, staticUrl }) => {
+          const basePath = staticUrl ?? (venue?.complianceSlug && base ? `/compliance/${venue.complianceSlug}/${base}` : null)
           return (
             <div key={label} className="flex items-center justify-between px-6 py-4 gap-4">
               <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">{label}</p>
-              {url
-                ? <a href={url} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-brand-700 hover:text-brand-900 transition-colors flex-shrink-0">View PDF</a>
+              {basePath
+                ? <DocLink basePath={basePath} />
                 : <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-400">Pending</span>
               }
             </div>
@@ -42,7 +70,15 @@ export default function VenueCompliance() {
       </div>
 
       {/* Retail Dealer Permit status */}
-      <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-3">Retail Dealer Permit</h2>
+      <div className="flex items-center justify-between mb-3">
+        <h2 className="text-lg font-bold text-slate-900 dark:text-white">Retail Dealer Permit</h2>
+        {venue?.retailDealerPermitUrl && (
+          <a href={venue.retailDealerPermitUrl} target="_blank" rel="noopener noreferrer"
+            className="text-sm font-semibold text-brand-700 hover:text-brand-900 transition-colors">
+            View PDF
+          </a>
+        )}
+      </div>
       <div className="card rounded-2xl p-6">
         <dl className="grid sm:grid-cols-3 gap-4 text-sm">
           <div>
