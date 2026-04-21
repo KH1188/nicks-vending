@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Fragment } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { doc, getDoc, getDocs, collection, query, where, orderBy, addDoc, deleteDoc, updateDoc, serverTimestamp, Timestamp, arrayUnion, arrayRemove } from 'firebase/firestore'
 import { db } from '../../../lib/firebase'
@@ -776,8 +776,8 @@ export default function AdminVenueDetail() {
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
                 {statements.map(s => (
-                  <>
-                    <tr key={s.id} className="hover:bg-slate-50 dark:hover:bg-slate-700/50">
+                  <Fragment key={s.id}>
+                    <tr className="hover:bg-slate-50 dark:hover:bg-slate-700/50">
                       <td className="px-5 py-3.5 font-semibold text-slate-900 dark:text-slate-100">{formatPeriod(s.periodLabel)}</td>
                       <td className="px-5 py-3.5 text-right text-slate-600 dark:text-slate-300">${s.totalSales.toFixed(2)}</td>
                       <td className="px-5 py-3.5 text-right font-semibold text-green-600">${s.venueShare.toFixed(2)}</td>
@@ -793,7 +793,7 @@ export default function AdminVenueDetail() {
                       </td>
                     </tr>
                     {removingStatement === s.id && (
-                      <tr key={`${s.id}-confirm`} className="bg-red-50 dark:bg-red-900/20">
+                      <tr className="bg-red-50 dark:bg-red-900/20">
                         <td colSpan={4} className="px-5 py-3">
                           <div className="flex items-center gap-3 flex-wrap">
                             <span className="text-sm text-red-700 dark:text-red-400 font-medium">Remove this statement? This cannot be undone.</span>
@@ -807,7 +807,7 @@ export default function AdminVenueDetail() {
                         </td>
                       </tr>
                     )}
-                  </>
+                  </Fragment>
                 ))}
               </tbody>
             </table>
