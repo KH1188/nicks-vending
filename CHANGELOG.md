@@ -5,6 +5,17 @@ Entries are grouped by date, newest first.
 
 ---
 
+## 2026-04-21
+
+### Admin Portal
+- Added Payment Status dropdown to Upload Statement form (Not Paid, Payment En Route, Paid)
+- Added Payment Method dropdown to Upload Statement form (Zelle, ACH, Venmo, Check, Cash, Cashapp) — optional field
+
+### Owner Portal
+- Statements page now shows a color-coded payment status badge (red = Not Paid, yellow = En Route, green = Paid) and payment method for each statement
+
+---
+
 ## 2026-04-20
 
 ### Admin Portal
