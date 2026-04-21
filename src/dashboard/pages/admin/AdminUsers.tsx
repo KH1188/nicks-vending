@@ -119,9 +119,10 @@ export default function AdminUsers() {
                   type="email"
                   value={form.email}
                   onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
-                  placeholder="owner@example.com"
+                  placeholder="venuename@nicksvending.com"
                   className={INPUT}
                 />
+                <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">Convention: venuename@nicksvending.com (owner never needs to know this)</p>
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Password</label>

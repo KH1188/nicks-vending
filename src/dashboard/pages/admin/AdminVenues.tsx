@@ -186,7 +186,8 @@ export default function AdminVenues() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Email</label>
-                <input type="email" placeholder="owner@example.com" className={INPUT} {...field('ownerEmail')} />
+                <input type="email" placeholder="venuename@nicksvending.com" className={INPUT} {...field('ownerEmail')} />
+                <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">Convention: venuename@nicksvending.com (owner never needs to know this)</p>
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Password</label>
