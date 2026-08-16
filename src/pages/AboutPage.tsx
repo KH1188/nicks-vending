@@ -1,5 +1,5 @@
-import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
+import NightlifeNavbar from '../nightlife/components/NightlifeNavbar'
+import NightlifeFooter from '../nightlife/components/NightlifeFooter'
 
 const WHY_CHOOSE = [
   {
@@ -19,17 +19,17 @@ const WHY_CHOOSE = [
 export default function AboutPage() {
   return (
     <>
-      <Navbar />
-      <main className="pt-[72px]">
-        <section className="py-24 bg-slate-50">
+      <NightlifeNavbar />
+      <main className="pt-[72px] bg-ink">
+        <section className="py-24 bg-ink">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
 
               {/* Left */}
               <div>
-                <p className="section-label mb-3">About us</p>
-                <h1 className="section-title mb-8">Local operator.<br />Serious service.</h1>
-                <div className="space-y-5 text-slate-500 leading-relaxed">
+                <p className="text-xs font-semibold uppercase tracking-[0.15em] text-neon-violet mb-3">About us</p>
+                <h1 className="text-3xl md:text-4xl font-brand font-black text-white tracking-tight mb-8">Local operator.<br />Serious service.</h1>
+                <div className="space-y-5 text-white/60 leading-relaxed">
                   <p>
                     Nick's Vending is a locally owned and operated nicotine vending
                     company built on one principle: reliability. We show up, we restock,
@@ -51,7 +51,7 @@ export default function AboutPage() {
                   </p>
                 </div>
 
-                <a href="/#contact" className="btn-primary inline-flex mt-10 text-sm py-3 px-8">
+                <a href="/nightlife#contact" className="inline-flex items-center justify-center gap-2 px-8 py-3 rounded-lg text-sm font-semibold text-white bg-neon-gradient hover:shadow-neon transition-all duration-200 mt-10">
                   Get in Touch
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor" strokeWidth={2.5}>
@@ -62,20 +62,20 @@ export default function AboutPage() {
 
               {/* Right */}
               <div>
-                <p className="section-label mb-8">Why choose us</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.15em] text-neon-violet mb-8">Why choose us</p>
                 <ul className="space-y-8">
                   {WHY_CHOOSE.map(({ title, body }) => (
                     <li key={title} className="flex gap-5 items-start">
-                      <div className="w-8 h-8 rounded-full bg-white border border-brand-100
-                        flex items-center justify-center flex-shrink-0 mt-0.5 shadow-card">
-                        <svg className="w-4 h-4 text-brand-700" fill="none" viewBox="0 0 24 24"
+                      <div className="w-8 h-8 rounded-full bg-ink-elevated border border-ink-border
+                        flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <svg className="w-4 h-4 text-neon-violet" fill="none" viewBox="0 0 24 24"
                           stroke="currentColor" strokeWidth={2.5}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                         </svg>
                       </div>
                       <div>
-                        <p className="text-sm font-semibold text-slate-900 mb-1.5">{title}</p>
-                        <p className="text-sm text-slate-500 leading-relaxed">{body}</p>
+                        <p className="text-sm font-semibold text-white mb-1.5">{title}</p>
+                        <p className="text-sm text-white/60 leading-relaxed">{body}</p>
                       </div>
                     </li>
                   ))}
@@ -86,7 +86,7 @@ export default function AboutPage() {
           </div>
         </section>
       </main>
-      <Footer />
+      <NightlifeFooter />
     </>
   )
 }

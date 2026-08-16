@@ -1,8 +1,8 @@
 // NOTE: Placeholder compliance copy — verify with Nick before publishing live.
 const POINTS = [
   {
-    title: 'Age verification at the machine',
-    body: 'Every purchase requires on-machine age verification before product dispenses — no ID, no sale.',
+    title: 'Louisiana ATC compliant',
+    body: 'Every machine and location is registered and operated in accordance with Louisiana Office of Alcohol and Tobacco Control (ATC) regulations.',
   },
   {
     title: 'Licensed Louisiana wholesale sourcing',

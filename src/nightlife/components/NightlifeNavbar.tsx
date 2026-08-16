@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import circleLogo from '../../assets/logos/circle-logo.webp'
+import NightlifeWordmark from './NightlifeWordmark'
 
 const NAV_LINKS = [
   { label: 'How It Works', href: '#how-it-works' },
@@ -29,7 +29,7 @@ export default function NightlifeNavbar() {
     >
       <nav className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-[72px] flex items-center justify-between">
         <Link to="/nightlife" onClick={close} className="flex items-center gap-2.5 flex-shrink-0">
-          <img src={circleLogo} alt="Nick's Vending" className="h-10 w-auto object-contain" />
+          <NightlifeWordmark />
         </Link>
 
         <ul className="hidden md:flex items-center gap-1">

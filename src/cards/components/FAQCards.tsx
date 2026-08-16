@@ -7,7 +7,7 @@ const FAQS = [
   },
   {
     q: 'Does this cost my venue anything?',
-    a: 'No upfront cost on our revenue-share option. We cover the machine, installation, and stock. A flat lease/license option is also available if you prefer predictable monthly income.',
+    a: 'No upfront cost. We cover the machine, installation, and stock — you earn a revenue share on every sale.',
   },
   {
     q: 'What venues is this a good fit for?',

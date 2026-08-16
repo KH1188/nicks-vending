@@ -13,7 +13,7 @@ const STEPS = [
   },
   {
     title: 'You earn',
-    body: 'Choose a flat lease/license fee or a revenue-share split — paid out on a schedule that works for your business.',
+    body: 'You earn a revenue share on every sale — paid out on a schedule that works for your business.',
   },
 ]
 

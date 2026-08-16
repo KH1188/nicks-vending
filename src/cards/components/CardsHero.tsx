@@ -1,31 +1,65 @@
+import { useState, useEffect, useRef } from 'react'
 import CardsWordmark from './CardsWordmark'
+import cardEvolvingSkies from '../../assets/Pokemon Cards/evolving-skies.jpg'
+import cardPrismatic     from '../../assets/Pokemon Cards/prismatic-evolutions.jpg'
+import cardMegaEvolution from '../../assets/Pokemon Cards/mega-evolution-phantasmal-flames.png'
+import cardDestinedRivals from '../../assets/Pokemon Cards/destined-rivals.png'
+import cardSurgingSparks from '../../assets/Pokemon Cards/surging-sparks.png'
 
-const PACK_COLORS = [
-  'from-neon-blue to-blue-300', 'from-neon-violet to-purple-300', 'from-neon-magenta to-pink-300',
-  'from-amber-400 to-yellow-200', 'from-emerald-400 to-emerald-200', 'from-neon-blue to-neon-violet',
+const PACKS = [
+  { src: cardEvolvingSkies,  label: 'Evolving Skies' },
+  { src: cardPrismatic,      label: 'Prismatic Evolutions' },
+  { src: cardDestinedRivals, label: 'Destined Rivals' },
+  { src: cardMegaEvolution,  label: 'Mega Evolution: Phantasmal Flames' },
+  { src: cardSurgingSparks,  label: 'Surging Sparks' },
 ]
 
-function MachineMockup() {
+function PokemonCarousel() {
+  const [index, setIndex] = useState(0)
+  const touchX = useRef<number | null>(null)
+  const touchY = useRef<number | null>(null)
+  const prev = () => setIndex(i => (i - 1 + PACKS.length) % PACKS.length)
+  const next = () => setIndex(i => (i + 1) % PACKS.length)
+
+  useEffect(() => {
+    const id = setInterval(() => setIndex(i => (i + 1) % PACKS.length), 3500)
+    return () => clearInterval(id)
+  }, [])
+
   return (
-    <div className="relative rounded-2xl border border-paper-border bg-paper-elevated shadow-neon-soft overflow-hidden p-6">
-      <div className="text-center mb-5">
-        <p className="text-xs font-bold uppercase tracking-widest text-neon-violet">Factory Sealed Only</p>
-      </div>
-      <div className="grid grid-cols-3 gap-3">
-        {PACK_COLORS.map((c, i) => (
-          <div key={i} className={`aspect-[3/4] rounded-lg bg-gradient-to-br ${c} shadow-sm flex items-end p-2`}>
-            <span className="text-[10px] font-bold text-white/90 drop-shadow">SEALED</span>
+    <div
+      className="relative rounded-2xl overflow-hidden border border-paper-border bg-paper-elevated shadow-neon-soft"
+      onTouchStart={e => { touchX.current = e.touches[0].clientX; touchY.current = e.touches[0].clientY }}
+      onTouchEnd={e => {
+        if (touchX.current === null || touchY.current === null) return
+        const deltaX = touchX.current - e.changedTouches[0].clientX
+        const deltaY = touchY.current - e.changedTouches[0].clientY
+        if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) deltaX > 0 ? next() : prev()
+        touchX.current = null; touchY.current = null
+      }}
+    >
+      <div
+        className="flex transition-transform duration-500 ease-in-out"
+        style={{ transform: `translateX(-${index * (100 / PACKS.length)}%)`, width: `${PACKS.length * 100}%` }}
+      >
+        {PACKS.map(({ src, label }, i) => (
+          <div key={i} style={{ width: `${100 / PACKS.length}%` }} className="p-6">
+            <img src={src} alt={label} className="w-full h-auto max-h-96 object-contain mx-auto" />
           </div>
         ))}
       </div>
-      <div className="mt-5 flex items-center justify-between text-xs text-ink/40 font-medium">
-        <span>No repacks. Ever.</span>
-        <span className="flex items-center gap-1">
-          <svg className="w-3.5 h-3.5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          Verified
-        </span>
+
+      <div className="absolute bottom-3 left-3 bg-ink/70 backdrop-blur-sm text-white text-xs font-semibold px-3 py-1 rounded-full">
+        {PACKS[index].label}
+      </div>
+
+      <div className="absolute bottom-3 right-3 flex gap-1.5">
+        {PACKS.map((_, i) => (
+          <button key={i} onClick={() => setIndex(i)} aria-label={`Image ${i + 1}`}
+            className={`w-1.5 h-1.5 rounded-full transition-all duration-200 ${
+              i === index ? 'bg-neon-violet scale-125' : 'bg-ink/20'
+            }`} />
+        ))}
       </div>
     </div>
   )
@@ -45,12 +79,12 @@ export default function CardsHero() {
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-brand font-black text-ink tracking-tight leading-[1.1] mb-6">
               Factory-sealed<br />
-              <span className="bg-neon-gradient-text bg-clip-text text-transparent">Pokémon card vending.</span>
+              <span className="bg-neon-gradient-text bg-clip-text text-transparent">Pokémon and collectible vending.</span>
             </h1>
 
             <p className="text-lg text-ink/60 leading-relaxed max-w-md mb-8">
               High-traffic passive revenue for malls, card shops, barcades, and family
-              entertainment venues — factory-sealed product only, never repacks.
+              entertainment venues.
             </p>
 
             <div className="flex flex-wrap gap-4">
@@ -66,18 +100,18 @@ export default function CardsHero() {
                 className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-lg text-base font-semibold
                   border border-ink/15 text-ink hover:bg-ink/5 active:scale-[0.98] transition-all duration-200"
               >
-                See Lease & Revenue-Share Terms
+                See Revenue-Share Terms
               </a>
             </div>
 
             <p className="mt-6 text-sm text-ink/40">
-              Flexible lease/license or revenue-share &middot; no cost to install &middot; family-friendly
+              Revenue-share &middot; no cost to install &middot; family-friendly
             </p>
           </div>
 
           <div className="relative flex justify-center lg:justify-end">
             <div className="relative w-full max-w-sm">
-              <MachineMockup />
+              <PokemonCarousel />
             </div>
           </div>
         </div>

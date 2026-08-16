@@ -11,11 +11,13 @@ export default function Landing() {
         path="/"
         image="/og/default-og.png"
       />
-      <img
-        src={skylineLogo}
-        alt="Nick's Vending"
-        className="w-full max-w-[280px] sm:max-w-xs h-auto object-contain mb-10 [filter:drop-shadow(0_0_20px_rgba(139,92,246,0.45))]"
-      />
+      <div className="w-56 h-56 sm:w-64 sm:h-64 rounded-full overflow-hidden shadow-neon mb-10">
+        <img
+          src={skylineLogo}
+          alt="Nick's Vending"
+          className="w-full h-full object-cover scale-[1.14]"
+        />
+      </div>
 
       <h1 className="text-center text-2xl sm:text-3xl font-brand font-black text-white tracking-tight mb-3">
         Two vending lines. One operator.
@@ -46,7 +48,7 @@ export default function Landing() {
           </div>
           <span className="relative mt-auto text-sm font-semibold bg-neon-gradient-text bg-clip-text text-transparent
             group-hover:underline underline-offset-4">
-            For venue owners →
+            For 21+ venue owners →
           </span>
         </Link>
 
@@ -65,7 +67,7 @@ export default function Landing() {
           <div className="relative">
             <h2 className="text-xl font-brand font-black text-ink mb-2">Collectibles Vending</h2>
             <p className="text-sm text-ink/60 leading-relaxed">
-              Factory-sealed Pokémon card vending for malls, card shops, and family entertainment venues.
+              Factory-sealed Collectible card vending for malls, convenience stores, family entertainment venues, and more.
             </p>
           </div>
           <span className="relative mt-auto text-sm font-semibold bg-neon-gradient-text bg-clip-text text-transparent

@@ -1,5 +1,69 @@
+import { useState, useEffect, useRef } from 'react'
 import skylineLogo from '../../assets/logos/skyline-logo.webp'
-import installPhoto from '../../assets/Background Photos/vtm-vape-vending-machine-alp-delta8-bar-installation.avif'
+import heroSlim    from '../../assets/Slim Wall/slim-wall-sleek-slim-wall-mounted-vtm-vapetm-486251.webp'
+import heroMega    from '../../assets/Mega Wall/mega-wall-20-vape-machine-with-led-lights-electronic-lock-vtm-vapetm-260076.webp'
+import heroTower   from '../../assets/Slim Tower/vapetm-slim-tower-20-front-view-smart-vape-vending-machine-touchscreen.webp'
+import heroMini    from '../../assets/Mini Wall/mini-wall-most-compact-wall-mounted-vape-vending-machine-vtm-vapetm-256986.webp'
+import heroWeather from '../../assets/WeatherWall/1.webp'
+
+const HERO_IMAGES = [
+  { src: heroSlim,    label: 'Slim Wall' },
+  { src: heroMega,    label: 'Mega Wall' },
+  { src: heroTower,   label: 'Slim Tower' },
+  { src: heroMini,    label: 'Mini Wall' },
+  { src: heroWeather, label: 'WeatherWall' },
+]
+
+function HeroCarousel() {
+  const [index, setIndex] = useState(0)
+  const touchX = useRef<number | null>(null)
+  const touchY = useRef<number | null>(null)
+  const prev = () => setIndex(i => (i - 1 + HERO_IMAGES.length) % HERO_IMAGES.length)
+  const next = () => setIndex(i => (i + 1) % HERO_IMAGES.length)
+
+  useEffect(() => {
+    const id = setInterval(() => setIndex(i => (i + 1) % HERO_IMAGES.length), 3500)
+    return () => clearInterval(id)
+  }, [])
+
+  return (
+    <div
+      className="relative rounded-2xl overflow-hidden border border-ink-border shadow-neon"
+      onTouchStart={e => { touchX.current = e.touches[0].clientX; touchY.current = e.touches[0].clientY }}
+      onTouchEnd={e => {
+        if (touchX.current === null || touchY.current === null) return
+        const deltaX = touchX.current - e.changedTouches[0].clientX
+        const deltaY = touchY.current - e.changedTouches[0].clientY
+        if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) deltaX > 0 ? next() : prev()
+        touchX.current = null; touchY.current = null
+      }}
+    >
+      <div
+        className="flex transition-transform duration-500 ease-in-out"
+        style={{ transform: `translateX(-${index * (100 / HERO_IMAGES.length)}%)`, width: `${HERO_IMAGES.length * 100}%` }}
+      >
+        {HERO_IMAGES.map(({ src, label }, i) => (
+          <div key={i} style={{ width: `${100 / HERO_IMAGES.length}%` }}>
+            <img src={src} alt={label} className="w-full h-auto object-contain" />
+          </div>
+        ))}
+      </div>
+
+      <div className="absolute bottom-3 left-3 bg-ink/70 backdrop-blur-sm text-white text-xs font-semibold px-3 py-1 rounded-full">
+        {HERO_IMAGES[index].label}
+      </div>
+
+      <div className="absolute bottom-3 right-3 flex gap-1.5">
+        {HERO_IMAGES.map((_, i) => (
+          <button key={i} onClick={() => setIndex(i)} aria-label={`Image ${i + 1}`}
+            className={`w-1.5 h-1.5 rounded-full transition-all duration-200 ${
+              i === index ? 'bg-neon-violet scale-125' : 'bg-white/40'
+            }`} />
+        ))}
+      </div>
+    </div>
+  )
+}
 
 export default function NightlifeHero() {
   return (
@@ -13,7 +77,7 @@ export default function NightlifeHero() {
 
           {/* Left column */}
           <div className="flex flex-col items-start">
-            <img src={skylineLogo} alt="Nick's Vending" className="h-20 sm:h-24 w-auto object-contain mb-8" />
+            <img src={skylineLogo} alt="Nick's Vending" className="h-36 sm:h-44 lg:h-52 w-auto object-contain mb-8" />
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-brand font-black text-white tracking-tight leading-[1.1] mb-6">
               We stock it.<br />
@@ -52,19 +116,12 @@ export default function NightlifeHero() {
             </p>
           </div>
 
-          {/* Right column — photo slot */}
+          {/* Right column — machine carousel */}
           <div className="relative flex justify-center lg:justify-end">
             <div className="relative w-full max-w-md">
               <div className="absolute inset-0 bg-neon-gradient rounded-3xl blur-2xl opacity-25 scale-95" />
-              <div className="relative rounded-2xl overflow-hidden border border-ink-border shadow-neon">
-                <img
-                  src={installPhoto}
-                  alt="Nick's Vending machine installed in a Louisiana bar"
-                  className="w-full h-auto object-cover"
-                />
-                <div className="absolute bottom-3 left-3 bg-ink/70 backdrop-blur-sm text-white text-xs font-semibold px-3 py-1 rounded-full">
-                  Installed &amp; serviced by Nick's Vending
-                </div>
+              <div className="relative">
+                <HeroCarousel />
               </div>
             </div>
           </div>

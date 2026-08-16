@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react'
-import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
+import NightlifeNavbar from '../nightlife/components/NightlifeNavbar'
+import NightlifeFooter from '../nightlife/components/NightlifeFooter'
 import Lightbox from '../components/Lightbox'
 import tinLift1 from '../assets/Slim Wall - Tin Lift/alp-vapetm-vape-vending-machine-a-better-time-nicotine-pouches.webp'
 import tinLift2 from '../assets/Slim Wall - Tin Lift/nicotine-pouch-vending-machine-zyn.webp'
@@ -32,7 +32,7 @@ function Carousel() {
   return (
     <>
     <div
-      className="rounded-2xl overflow-hidden bg-slate-100 group"
+      className="rounded-2xl overflow-hidden bg-ink-elevated group"
       onTouchStart={e => { touchX.current = e.touches[0].clientX; touchY.current = e.touches[0].clientY }}
       onTouchEnd={e => {
         if (touchX.current === null || touchY.current === null) return
@@ -56,18 +56,18 @@ function Carousel() {
 
         <button onClick={prev} aria-label="Previous"
           className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full
-            bg-white/80 hover:bg-white shadow flex items-center justify-center
+            bg-ink/80 hover:bg-ink shadow flex items-center justify-center
             sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-200">
-          <svg className="w-4 h-4 text-slate-700" fill="none" viewBox="0 0 24 24"
+          <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24"
             stroke="currentColor" strokeWidth={2.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
           </svg>
         </button>
         <button onClick={next} aria-label="Next"
           className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full
-            bg-white/80 hover:bg-white shadow flex items-center justify-center
+            bg-ink/80 hover:bg-ink shadow flex items-center justify-center
             sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-200">
-          <svg className="w-4 h-4 text-slate-700" fill="none" viewBox="0 0 24 24"
+          <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24"
             stroke="currentColor" strokeWidth={2.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
           </svg>
@@ -87,7 +87,7 @@ function Carousel() {
         {IMAGES.map((img, i) => (
           <button key={i} onClick={() => setIndex(i)}
             className={`flex-1 aspect-[4/3] rounded-lg overflow-hidden border-2 transition-all duration-200 ${
-              i === index ? 'border-brand-700' : 'border-transparent opacity-60 hover:opacity-100'
+              i === index ? 'border-neon-violet' : 'border-transparent opacity-60 hover:opacity-100'
             }`}>
             <img src={img} alt={`Thumbnail ${i + 1}`} className="w-full h-full object-cover" />
           </button>
@@ -102,19 +102,19 @@ function Carousel() {
 export default function SlimWallTinLift() {
   return (
     <>
-      <Navbar />
-      <main className="pt-[72px]">
-        <section className="py-16 bg-white">
+      <NightlifeNavbar />
+      <main className="pt-[72px] bg-ink">
+        <section className="py-16 bg-ink">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
-            <a href="/#machines"
-              className="inline-flex items-center gap-2 text-sm text-slate-500
-                hover:text-brand-700 transition-colors mb-10">
+            <a href="/nightlife"
+              className="inline-flex items-center gap-2 text-sm text-white/50
+                hover:text-neon-violet transition-colors mb-10">
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
               </svg>
-              Return to Home
+              Back to Nightlife Vending
             </a>
 
             <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
@@ -122,14 +122,14 @@ export default function SlimWallTinLift() {
               <Carousel />
 
               <div>
-                <p className="text-xs font-semibold uppercase tracking-widest text-brand-700 mb-2">
+                <p className="text-xs font-semibold uppercase tracking-widest text-neon-violet mb-2">
                   Smart Machine
                 </p>
-                <h1 className="text-4xl font-extrabold text-slate-900 mb-2">Slim Wall – Tin Lift</h1>
-                <p className="text-lg font-medium text-slate-500 italic mb-6">
+                <h1 className="text-4xl font-extrabold text-white mb-2">Slim Wall – Tin Lift</h1>
+                <p className="text-lg font-medium text-white/60 italic mb-6">
                   Purpose-built for nicotine pouches.
                 </p>
-                <p className="text-slate-500 leading-relaxed mb-8">
+                <p className="text-white/60 leading-relaxed mb-8">
                   The Slim Wall Tin Lift is a dedicated nicotine pouch machine — purpose-built to
                   carry and dispense tin products like Zyn, Alp, and On!. With 10 SKUs and a
                   capacity of 100 tins, it gives pouch users exactly what they're looking for,
@@ -137,17 +137,17 @@ export default function SlimWallTinLift() {
                   payment and smart connectivity built in.
                 </p>
 
-                <div className="rounded-xl border border-slate-100 overflow-hidden mb-8">
-                  <div className="bg-slate-50 px-5 py-3 border-b border-slate-100">
-                    <p className="text-xs font-semibold uppercase tracking-widest text-slate-500">
+                <div className="rounded-xl border border-ink-border overflow-hidden mb-8">
+                  <div className="bg-ink-elevated-2 px-5 py-3 border-b border-ink-border">
+                    <p className="text-xs font-semibold uppercase tracking-widest text-white/60">
                       Specifications
                     </p>
                   </div>
-                  <ul className="divide-y divide-slate-100">
+                  <ul className="divide-y divide-ink-border">
                     {SPECS.map(({ label, value }) => (
                       <li key={label} className="flex justify-between px-5 py-3.5">
-                        <span className="text-sm font-medium text-slate-500">{label}</span>
-                        <span className="text-sm font-semibold text-slate-900">{value}</span>
+                        <span className="text-sm font-medium text-white/60">{label}</span>
+                        <span className="text-sm font-semibold text-white">{value}</span>
                       </li>
                     ))}
                   </ul>
@@ -158,7 +158,7 @@ export default function SlimWallTinLift() {
                     href="https://go.vizbl.com/en/object/1yjGO3KXS1iRKDakW0KUdg#"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="btn-primary justify-center text-sm py-3 px-6"
+                    className="inline-flex items-center gap-2 rounded-lg font-semibold bg-neon-gradient hover:shadow-neon text-white transition-all duration-200 justify-center text-sm py-3 px-6"
                   >
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24"
                       stroke="currentColor" strokeWidth={2}>
@@ -167,7 +167,7 @@ export default function SlimWallTinLift() {
                     </svg>
                     View in AR
                   </a>
-                  <a href="/#contact" className="btn-secondary justify-center text-sm py-3 px-6">
+                  <a href="/nightlife#contact" className="inline-flex items-center gap-2 rounded-lg font-semibold border border-white/20 text-white hover:bg-white/5 transition-all duration-200 justify-center text-sm py-3 px-6">
                     Contact Us
                   </a>
                 </div>
@@ -176,7 +176,7 @@ export default function SlimWallTinLift() {
           </div>
         </section>
       </main>
-      <Footer />
+      <NightlifeFooter />
     </>
   )
 }

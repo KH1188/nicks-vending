@@ -5,6 +5,32 @@ Entries are grouped by date, newest first.
 
 ---
 
+## 2026-08-16 — round 2 (branch: `redesign-neon`)
+
+### Landing page
+- Hero logo now displays as a true circle (cropped, neon glow) instead of a square image
+- Nightlife card CTA now reads "For 21+ venue owners"
+- Collectibles card copy updated to "Factory-sealed Collectible card vending for malls, convenience stores, family entertainment venues, and more"
+
+### Nightlife page
+- Header now uses a plain text wordmark instead of the small circle logo
+- Enlarged the skyline logo above "We stock it. You profit."
+- Removed the "Installed & serviced by Nick's Vending" caption; restored the original 5-machine photo carousel (Slim Wall, Mega Wall, Slim Tower, Mini Wall, WeatherWall) in the hero
+- Replaced the age-verification compliance card with a Louisiana ATC compliance card
+
+### Legacy pages rethemed to neon
+- About, Photos, all six machine spec pages, and the Owner Portal login now use the dark neon theme (NightlifeNavbar/NightlifeFooter, ink/neon tokens) — images, specs, and AR links preserved
+- Fixed stale links: old `/#contact` and `/#machines` anchors now point to `/nightlife`
+- Owner/admin dashboard interior remains unchanged
+
+### Collectibles page
+- Hero heading now "Factory-sealed Pokémon and collectible vending."
+- Replaced the placeholder machine mockup with a real booster-pack image carousel (Evolving Skies, Prismatic Evolutions, Destined Rivals, Mega Evolution: Phantasmal Flames, Surging Sparks)
+- Removed all lease/license mentions — revenue share is the only offered structure
+- Footer: "Collectibles" now stacks under the wordmark; added Company links (About, Machines, Photos, Nightlife Vending, Owner Login)
+
+---
+
 ## 2026-08-16 (branch: `redesign-neon`)
 
 ### Site Redesign — Two Business Lines

@@ -10,7 +10,7 @@ export default function CardsFooter() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
 
           <div className="sm:col-span-2 lg:col-span-1">
-            <CardsWordmark size="lg" className="mb-5" />
+            <CardsWordmark size="lg" stacked className="mb-5" />
             <p className="text-sm leading-relaxed text-ink/50 max-w-xs mt-4">
               Factory-sealed Pokémon card vending for malls, card shops, barcades,
               and family entertainment venues.
@@ -36,9 +36,17 @@ export default function CardsFooter() {
           <div>
             <p className="text-xs font-semibold uppercase tracking-widest text-ink/70 mb-4">Company</p>
             <ul className="space-y-2.5 text-sm">
-              <li>
-                <Link to="/" className="hover:text-ink transition-colors duration-150">Nick's Vending Home</Link>
-              </li>
+              {[
+                { label: 'About',            href: '/about'      },
+                { label: 'Machines',         href: '/machines/slim-wall' },
+                { label: 'Photos',           href: '/photos'     },
+                { label: 'Nightlife Vending', href: '/nightlife' },
+                { label: 'Owner Login',      href: '/login'      },
+              ].map(({ label, href }) => (
+                <li key={href}>
+                  <Link to={href} className="hover:text-ink transition-colors duration-150">{label}</Link>
+                </li>
+              ))}
             </ul>
           </div>
 

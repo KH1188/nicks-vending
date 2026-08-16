@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { useDarkMode } from '../hooks/useDarkMode'
-import logo from '../../assets/logo.png'
+import skylineLogo from '../../assets/logos/skyline-logo.webp'
 
 const ERROR_MESSAGES: Record<string, string> = {
   'auth/invalid-credential':   'Incorrect email or password.',
@@ -45,7 +45,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex items-center justify-center px-4 relative overflow-hidden">
       <img
-        src={logo}
+        src={skylineLogo}
         alt=""
         aria-hidden="true"
         className="absolute inset-0 w-full h-full object-contain opacity-70 dark:invert blur-[2px] pointer-events-none select-none"
@@ -67,7 +67,7 @@ export default function LoginPage() {
       </button>
       <div className="w-full max-w-sm relative z-10">
         <div className="text-center mb-8">
-          <p className="text-xs font-semibold uppercase tracking-widest text-brand-700 mb-1">
+          <p className="text-xs font-semibold uppercase tracking-widest text-neon-violet mb-1">
             Nick's Vending
           </p>
           <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white">Owner Portal</h1>
@@ -116,7 +116,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="btn-primary w-full justify-center py-3 text-sm"
+            className="bg-neon-gradient hover:shadow-neon text-white inline-flex items-center gap-2 rounded-lg font-semibold transition-all duration-200 w-full justify-center py-3 text-sm"
           >
             {loading ? 'Signing in…' : 'Sign in'}
           </button>
