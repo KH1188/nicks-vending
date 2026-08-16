@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
-import skylineLogo from '../../assets/logos/skyline-logo.webp'
+import circleTransparent from '../../assets/logos/circle-transparent.webp'
+import installPhoto from '../../assets/Background Photos/vtm-vape-vending-machine-alp-delta8-bar-installation.avif'
 import heroSlim    from '../../assets/Slim Wall/slim-wall-sleek-slim-wall-mounted-vtm-vapetm-486251.webp'
 import heroMega    from '../../assets/Mega Wall/mega-wall-20-vape-machine-with-led-lights-electronic-lock-vtm-vapetm-260076.webp'
 import heroTower   from '../../assets/Slim Tower/vapetm-slim-tower-20-front-view-smart-vape-vending-machine-touchscreen.webp'
@@ -67,7 +68,13 @@ function HeroCarousel() {
 
 export default function NightlifeHero() {
   return (
-    <section id="hero" className="relative min-h-screen flex items-center overflow-hidden pt-[72px] bg-ink">
+    <section
+      id="hero"
+      className="relative min-h-screen flex items-center overflow-hidden pt-[72px] bg-ink bg-cover bg-center"
+      style={{ backgroundImage: `url(${installPhoto})` }}
+    >
+      {/* Dark overlay to keep the neon theme readable over the photo */}
+      <div className="absolute inset-0 bg-ink/80" />
       {/* Neon glow backdrop */}
       <div className="absolute -top-40 -left-40 w-[520px] h-[520px] rounded-full bg-neon-violet/20 blur-[120px]" />
       <div className="absolute -bottom-40 -right-20 w-[420px] h-[420px] rounded-full bg-neon-blue/20 blur-[120px]" />
@@ -77,7 +84,7 @@ export default function NightlifeHero() {
 
           {/* Left column */}
           <div className="flex flex-col items-start">
-            <img src={skylineLogo} alt="Nick's Vending" className="h-36 sm:h-44 lg:h-52 w-auto object-contain mb-8" />
+            <img src={circleTransparent} alt="Nick's Vending" className="h-40 sm:h-48 lg:h-56 w-auto object-contain mb-8 [filter:drop-shadow(0_0_24px_rgba(139,92,246,0.45))]" />
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-brand font-black text-white tracking-tight leading-[1.1] mb-6">
               We stock it.<br />

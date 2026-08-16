@@ -5,6 +5,39 @@ Entries are grouped by date, newest first.
 
 ---
 
+## 2026-08-16 — round 3 (branch: `redesign-neon`)
+
+### New transparent logo assets
+- Swapped in true-transparency logo art site-wide: circle badge
+  (`circle-transparent.webp`) and text logo (`text-logo.webp`), both optimized
+  from the new PNGs (trimmed, resized, ~120KB/70KB)
+- Landing, nightlife hero, and cards hero use the circle badge; both page
+  headers use the text logo (cards keeps the COLLECTIBLES tag)
+- Nightlife footer shows the circle badge above the description paragraph
+
+### Nightlife page
+- Restored prod's background-photo treatment: bar installation photo behind
+  the hero, McGinty's bar photo behind What We Stock (dark overlays keep the
+  neon theme readable)
+- Restored the full interactive 6-machine section from prod (carousels,
+  lightbox, taglines, detail links), rethemed dark; added "Machines" to the nav
+
+### Collectibles page
+- New machines section with the 4 TCG-wrapped machines (Mini TCG, Slim Wall,
+  Mega Wall, Slim Tower) — Tin Lift and WeatherWall intentionally excluded
+- Four new detail pages under `/cards/machines/*` with carousels, specs
+  (matching nightlife hardware), and contact CTA; added to sitemap
+- Background photos behind Why Sealed and FAQ sections (light overlay)
+- Removed the "See Revenue-Share Terms" hero button; centered the revenue
+  share card in the Terms section
+
+### Both pages
+- Header nav links are now absolute paths (`/nightlife#...`, `/cards#...`)
+  so they work from About, Photos, machine detail pages, and login — verified
+  by an automated click-through test
+
+---
+
 ## 2026-08-16 — round 2 (branch: `redesign-neon`)
 
 ### Landing page

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import Seo from '../components/Seo'
-import skylineLogo from '../assets/logos/skyline-logo.webp'
+import circleTransparent from '../assets/logos/circle-transparent.webp'
 
 export default function Landing() {
   return (
@@ -11,13 +11,11 @@ export default function Landing() {
         path="/"
         image="/og/default-og.png"
       />
-      <div className="w-56 h-56 sm:w-64 sm:h-64 rounded-full overflow-hidden shadow-neon mb-10">
-        <img
-          src={skylineLogo}
-          alt="Nick's Vending"
-          className="w-full h-full object-cover scale-[1.14]"
-        />
-      </div>
+      <img
+        src={circleTransparent}
+        alt="Nick's Vending"
+        className="w-56 h-56 sm:w-64 sm:h-64 object-contain mb-10 [filter:drop-shadow(0_0_28px_rgba(139,92,246,0.5))]"
+      />
 
       <h1 className="text-center text-2xl sm:text-3xl font-brand font-black text-white tracking-tight mb-3">
         Two vending lines. One operator.

@@ -1,3 +1,5 @@
+import bgImage1 from '../../assets/Pokemon Machines/background images/background image 1.jpg'
+
 const POINTS = [
   {
     title: 'Factory-sealed, always',
@@ -15,8 +17,14 @@ const POINTS = [
 
 export default function WhySealed() {
   return (
-    <section id="why-sealed" className="py-24 bg-paper-elevated">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section
+      id="why-sealed"
+      className="relative py-24 bg-cover bg-center"
+      style={{ backgroundImage: `url(${bgImage1})` }}
+    >
+      {/* Light overlay to keep the family-friendly theme readable over the photo */}
+      <div className="absolute inset-0 bg-paper/90" />
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <p className="text-xs font-semibold uppercase tracking-[0.15em] text-neon-violet mb-3">Why sealed only</p>
         <h2 className="text-3xl md:text-4xl font-brand font-black text-ink tracking-tight mb-14 max-w-xl">
           Repacks kill trust. We don't sell them.

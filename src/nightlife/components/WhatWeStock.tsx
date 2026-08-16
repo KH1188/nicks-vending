@@ -1,3 +1,5 @@
+import barPhoto from '../../assets/Background Photos/mcgintys-with-model-at-bar.avif'
+
 const CATEGORIES = [
   { name: 'Disposable Vapes',            desc: 'Top-selling brands, age-verified at the point of sale.' },
   { name: 'Nicotine Pouches',            desc: 'Popular pouch brands stocked and rotated for freshness.' },
@@ -7,8 +9,14 @@ const CATEGORIES = [
 
 export default function WhatWeStock() {
   return (
-    <section id="what-we-stock" className="py-24 bg-ink-elevated">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section
+      id="what-we-stock"
+      className="relative py-24 bg-cover bg-center"
+      style={{ backgroundImage: `url(${barPhoto})` }}
+    >
+      {/* Dark overlay to keep the neon theme readable over the photo */}
+      <div className="absolute inset-0 bg-ink/85" />
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <p className="text-xs font-semibold uppercase tracking-[0.15em] text-neon-violet mb-3">What we stock</p>
         <h2 className="text-3xl md:text-4xl font-brand font-black text-white tracking-tight mb-14 max-w-xl">
           Age-restricted product, handled compliantly.
@@ -16,7 +24,7 @@ export default function WhatWeStock() {
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {CATEGORIES.map(cat => (
-            <div key={cat.name} className="rounded-2xl border border-ink-border bg-ink p-6">
+            <div key={cat.name} className="rounded-2xl border border-ink-border bg-ink/80 backdrop-blur-sm p-6">
               <h3 className="text-base font-bold text-white mb-2">{cat.name}</h3>
               <p className="text-sm text-white/60 leading-relaxed">{cat.desc}</p>
             </div>

@@ -2,12 +2,12 @@ export default function TermsOptions() {
   return (
     <section id="terms" className="py-24 bg-paper">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <p className="text-xs font-semibold uppercase tracking-[0.15em] text-neon-violet mb-3">Terms</p>
-        <h2 className="text-3xl md:text-4xl font-brand font-black text-ink tracking-tight mb-14 max-w-xl">
+        <p className="text-xs font-semibold uppercase tracking-[0.15em] text-neon-violet mb-3 text-center">Terms</p>
+        <h2 className="text-3xl md:text-4xl font-brand font-black text-ink tracking-tight mb-14 text-center">
           Simple revenue share.
         </h2>
 
-        <div className="max-w-xl rounded-2xl border border-paper-border bg-paper-elevated p-8">
+        <div className="max-w-xl mx-auto rounded-2xl border border-paper-border bg-paper-elevated p-8">
           <h3 className="text-xl font-bold text-ink mb-3">Revenue Share</h3>
           <p className="text-sm text-ink/60 leading-relaxed mb-6">
             No upfront cost. We install and stock the machine, then split proceeds
@@ -25,7 +25,7 @@ export default function TermsOptions() {
           </ul>
         </div>
 
-        <p className="mt-8 text-sm text-ink/40 max-w-2xl">
+        <p className="mt-8 text-sm text-ink/40 text-center">
           Reach out and we'll walk through the details for your venue.
         </p>
       </div>

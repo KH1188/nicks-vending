@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import CardsWordmark from './CardsWordmark'
+import circleTransparent from '../../assets/logos/circle-transparent.webp'
 import cardEvolvingSkies from '../../assets/Pokemon Cards/evolving-skies.jpg'
 import cardPrismatic     from '../../assets/Pokemon Cards/prismatic-evolutions.jpg'
 import cardMegaEvolution from '../../assets/Pokemon Cards/mega-evolution-phantasmal-flames.png'
@@ -75,7 +75,11 @@ export default function CardsHero() {
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
 
           <div className="flex flex-col items-start">
-            <CardsWordmark size="lg" className="mb-8" />
+            <img
+              src={circleTransparent}
+              alt="Nick's Vending Collectibles"
+              className="h-40 sm:h-48 lg:h-56 w-auto object-contain mb-8 [filter:drop-shadow(0_0_24px_rgba(139,92,246,0.3))]"
+            />
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-brand font-black text-ink tracking-tight leading-[1.1] mb-6">
               Factory-sealed<br />
@@ -94,13 +98,6 @@ export default function CardsHero() {
                   text-white bg-neon-gradient hover:shadow-neon-soft active:scale-[0.98] transition-all duration-200"
               >
                 Get in Touch
-              </a>
-              <a
-                href="#terms"
-                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-lg text-base font-semibold
-                  border border-ink/15 text-ink hover:bg-ink/5 active:scale-[0.98] transition-all duration-200"
-              >
-                See Revenue-Share Terms
               </a>
             </div>
 

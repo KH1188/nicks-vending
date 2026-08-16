@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import circleLogo from '../../assets/logos/circle-logo.webp'
+import circleTransparent from '../../assets/logos/circle-transparent.webp'
 
 const YEAR = new Date().getFullYear()
 
@@ -10,7 +10,7 @@ export default function NightlifeFooter() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
 
           <div className="sm:col-span-2 lg:col-span-1">
-            <img src={circleLogo} alt="Nick's Vending" className="h-12 w-auto object-contain mb-5" />
+            <img src={circleTransparent} alt="Nick's Vending" className="h-24 w-auto object-contain mb-5" />
             <p className="text-sm leading-relaxed text-white/50 max-w-xs">
               Smart nightlife vending for bars, clubs, casinos, and adult venues.
               Fully managed. No cost to you.

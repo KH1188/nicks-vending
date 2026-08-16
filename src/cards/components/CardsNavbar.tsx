@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import CardsWordmark from './CardsWordmark'
+import textLogo from '../../assets/logos/text-logo.webp'
 
+// Absolute paths so links work from the cards machine detail pages too
 const NAV_LINKS = [
-  { label: 'How It Works', href: '#how-it-works' },
-  { label: 'Why Sealed',   href: '#why-sealed'    },
-  { label: 'Terms',        href: '#terms'         },
-  { label: 'FAQ',          href: '#faq'           },
-  { label: 'Contact',      href: '#contact'       },
+  { label: 'How It Works', href: '/cards#how-it-works' },
+  { label: 'Machines',     href: '/cards#machines'     },
+  { label: 'Why Sealed',   href: '/cards#why-sealed'   },
+  { label: 'Terms',        href: '/cards#terms'        },
+  { label: 'FAQ',          href: '/cards#faq'          },
+  { label: 'Contact',      href: '/cards#contact'      },
 ]
 
 export default function CardsNavbar() {
@@ -29,7 +31,10 @@ export default function CardsNavbar() {
     >
       <nav className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-[72px] flex items-center justify-between">
         <Link to="/cards" onClick={close} className="flex items-center gap-2.5 flex-shrink-0">
-          <CardsWordmark />
+          <img src={textLogo} alt="Nick's Vending" className="h-11 w-auto object-contain" />
+          <span className="font-brand font-bold uppercase tracking-widest text-neon-violet text-[10px]">
+            Collectibles
+          </span>
         </Link>
 
         <ul className="hidden md:flex items-center gap-1">
@@ -47,7 +52,7 @@ export default function CardsNavbar() {
           ))}
           <li className="ml-3">
             <a
-              href="#contact"
+              href="/cards#contact"
               className="inline-flex items-center justify-center gap-2 px-5 py-2 text-sm font-semibold
                 rounded-lg text-white bg-neon-gradient hover:shadow-neon-soft transition-all duration-200 active:scale-[0.98]"
             >
@@ -85,7 +90,7 @@ export default function CardsNavbar() {
             </li>
           ))}
           <li className="mt-2">
-            <a href="#contact" onClick={close}
+            <a href="/cards#contact" onClick={close}
               className="block text-center px-5 py-2.5 text-sm font-semibold rounded-lg text-white bg-neon-gradient">
               Get in Touch
             </a>

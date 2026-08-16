@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import NightlifeWordmark from './NightlifeWordmark'
+import textLogo from '../../assets/logos/text-logo.webp'
 
+// Absolute paths so links work from any page (/about, /machines/*, /photos)
 const NAV_LINKS = [
-  { label: 'How It Works', href: '#how-it-works' },
-  { label: 'What We Stock', href: '#what-we-stock' },
-  { label: 'Compliance',    href: '#compliance'   },
-  { label: 'FAQ',           href: '#faq'          },
-  { label: 'Contact',       href: '#contact'      },
+  { label: 'How It Works', href: '/nightlife#how-it-works' },
+  { label: 'Machines',     href: '/nightlife#machines'     },
+  { label: 'What We Stock', href: '/nightlife#what-we-stock' },
+  { label: 'Compliance',    href: '/nightlife#compliance'   },
+  { label: 'FAQ',           href: '/nightlife#faq'          },
+  { label: 'Contact',       href: '/nightlife#contact'      },
 ]
 
 export default function NightlifeNavbar() {
@@ -29,7 +31,7 @@ export default function NightlifeNavbar() {
     >
       <nav className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-[72px] flex items-center justify-between">
         <Link to="/nightlife" onClick={close} className="flex items-center gap-2.5 flex-shrink-0">
-          <NightlifeWordmark />
+          <img src={textLogo} alt="Nick's Vending" className="h-11 w-auto object-contain" />
         </Link>
 
         <ul className="hidden md:flex items-center gap-1">
@@ -47,7 +49,7 @@ export default function NightlifeNavbar() {
           ))}
           <li className="ml-3">
             <a
-              href="#contact"
+              href="/nightlife#contact"
               className="inline-flex items-center justify-center gap-2 px-5 py-2 text-sm font-semibold
                 rounded-lg text-white bg-neon-gradient hover:shadow-neon transition-all duration-200 active:scale-[0.98]"
             >
@@ -85,7 +87,7 @@ export default function NightlifeNavbar() {
             </li>
           ))}
           <li className="mt-2">
-            <a href="#contact" onClick={close}
+            <a href="/nightlife#contact" onClick={close}
               className="block text-center px-5 py-2.5 text-sm font-semibold rounded-lg text-white bg-neon-gradient">
               Contact Us
             </a>

@@ -3,6 +3,7 @@ import Seo from '../components/Seo'
 import NightlifeNavbar from './components/NightlifeNavbar'
 import NightlifeHero from './components/NightlifeHero'
 import HowItWorks from './components/HowItWorks'
+import NightlifeMachines from './components/NightlifeMachines'
 import WhatWeStock from './components/WhatWeStock'
 import Compliance from './components/Compliance'
 import FAQ from './components/FAQ'
@@ -29,6 +30,7 @@ export default function NightlifeHome() {
       <main>
         <NightlifeHero />
         <HowItWorks />
+        <NightlifeMachines />
         <WhatWeStock />
         <Compliance />
         <FAQ />

@@ -3,6 +3,7 @@ import Seo from '../components/Seo'
 import CardsNavbar from './components/CardsNavbar'
 import CardsHero from './components/CardsHero'
 import HowItWorksCards from './components/HowItWorksCards'
+import CardsMachines from './components/CardsMachines'
 import WhySealed from './components/WhySealed'
 import TermsOptions from './components/TermsOptions'
 import FAQCards from './components/FAQCards'
@@ -29,6 +30,7 @@ export default function CardsHome() {
       <main>
         <CardsHero />
         <HowItWorksCards />
+        <CardsMachines />
         <WhySealed />
         <TermsOptions />
         <FAQCards />
