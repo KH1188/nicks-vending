@@ -5,6 +5,52 @@ Entries are grouped by date, newest first.
 
 ---
 
+## 2026-08-16 (branch: `redesign-neon`)
+
+### Site Redesign — Two Business Lines
+- Restructured the public site into two audience-specific paths: `/nightlife`
+  (bars, clubs, casinos — existing nicotine/vape vending line) and `/cards`
+  (malls, card shops, barcades — new factory-sealed Pokémon card vending line)
+- Added a new `/` landing page that routes visitors to one of the two paths
+- Extracted a neon design token set (near-black background, blue→violet→magenta
+  gradient accents, neon-glow borders) from the two new logo marks; `/cards` uses
+  a lighter, family-friendly background variant of the same tokens
+- `/cards` is fully self-contained (own components, own copy) with no nicotine
+  product mentions anywhere on the page, and no cross-imports from the
+  nightlife-only components — structured so it can later be split to its own
+  Firebase Hosting site/domain with minimal rework
+- Logo files have an opaque black background (no alpha channel) and the
+  nicotine icon row is baked into the artwork, so `/cards` uses a text-based
+  wordmark instead of the logo images until dedicated cards-safe art exists
+- `/cards` contact form is mailto-based (no backend/paid service) to keep the
+  route decoupled from the nightlife EmailJS integration
+- Removed the now-orphaned root-page components (`Hero`, `Services`,
+  `Locations`, `Contact`, `pages/Machines`) superseded by the new route trees;
+  existing `/machines/*`, `/about`, `/photos`, and the owner/admin dashboard
+  are unchanged
+
+### SEO / Performance basics
+- Added per-route `<title>`/meta/OG tags via `react-helmet-async` for in-app
+  navigation, plus a build-time static HTML injection step
+  (`scripts/prerender-meta.cjs`) so link-preview bots and non-JS crawlers see
+  real per-route metadata (the site is client-side-rendered only)
+- Generated dedicated OG preview images for `/`, `/nightlife`, and `/cards`
+  (`public/og/*.png`) — the `/cards` image avoids the nicotine-icon logo issue
+- Replaced the 2.0 MB `favicon.png` with a proper generated favicon set
+  (16/32/48/180/192/512 px) from the circle logo mark
+- Added `sitemap.xml` and `robots.txt`
+- Updated `firebase.json` hosting rewrites so `/nightlife` and `/cards` serve
+  their own static `index.html` (with correct per-route meta) instead of
+  falling through to the generic SPA shell
+
+### Notes for Nick
+- Compliance section copy on `/nightlife` (age verification, LA wholesale
+  sourcing, taxes) is placeholder text — verify before this branch goes live
+- `/cards` branding is a temporary text wordmark; swap in real cards-safe logo
+  art (transparent background, no nicotine icons) when available
+
+---
+
 ## 2026-04-21
 
 ### Infrastructure

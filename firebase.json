@@ -8,6 +8,22 @@
     ],
     "rewrites": [
       {
+        "source": "/nightlife",
+        "destination": "/nightlife/index.html"
+      },
+      {
+        "source": "/nightlife/",
+        "destination": "/nightlife/index.html"
+      },
+      {
+        "source": "/cards",
+        "destination": "/cards/index.html"
+      },
+      {
+        "source": "/cards/",
+        "destination": "/cards/index.html"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }
@@ -24,6 +40,24 @@
       },
       {
         "source": "/index.html",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
+          }
+        ]
+      },
+      {
+        "source": "/nightlife/index.html",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
+          }
+        ]
+      },
+      {
+        "source": "/cards/index.html",
         "headers": [
           {
             "key": "Cache-Control",

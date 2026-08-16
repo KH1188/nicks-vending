@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import ProtectedRoute      from './dashboard/components/ProtectedRoute'
 import DashboardLayout     from './dashboard/components/DashboardLayout'
@@ -14,49 +13,25 @@ import AdminVenueDetail    from './dashboard/pages/admin/AdminVenueDetail'
 import AdminUsers          from './dashboard/pages/admin/AdminUsers'
 import AdminMachines       from './dashboard/pages/admin/AdminMachines'
 import AdminUploadStatement from './dashboard/pages/admin/AdminUploadStatement'
-import Navbar    from './components/Navbar'
-import Hero      from './components/Hero'
-import Services  from './components/Services'
-import Locations from './components/Locations'
 import AboutPage  from './pages/AboutPage'
 import PhotosPage from './pages/PhotosPage'
-import Contact    from './components/Contact'
-import Footer    from './components/Footer'
-import Machines  from './pages/Machines'
 import SlimWall  from './pages/SlimWall'
 import MegaWall       from './pages/MegaWall'
 import SlimTower      from './pages/SlimTower'
 import MiniWall       from './pages/MiniWall'
 import SlimWallTinLift from './pages/SlimWallTinLift'
 import WeatherWall     from './pages/WeatherWall'
-function Home() {
-  useEffect(() => {
-    if (window.location.hash) {
-      const el = document.getElementById(window.location.hash.slice(1))
-      if (el) el.scrollIntoView({ behavior: 'smooth' })
-    }
-  }, [])
-
-  return (
-    <>
-      <Navbar />
-      <main>
-        <Hero />
-        <Machines />
-        <Services />
-        <Locations />
-        <Contact />
-      </main>
-      <Footer />
-    </>
-  )
-}
+import Landing      from './landing/Landing'
+import NightlifeHome from './nightlife/NightlifeHome'
+import CardsHome     from './cards/CardsHome'
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Landing />} />
+        <Route path="/nightlife" element={<NightlifeHome />} />
+        <Route path="/cards" element={<CardsHome />} />
         <Route path="/machines/slim-wall" element={<SlimWall />} />
         <Route path="/machines/mega-wall" element={<MegaWall />} />
         <Route path="/machines/slim-tower" element={<SlimTower />} />
