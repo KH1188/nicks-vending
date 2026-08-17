@@ -71,6 +71,11 @@
     <priority>0.4</priority>
   </url>
   <url>
+    <loc>https://nicks-vending.web.app/cards/about</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
     <loc>https://nicks-vending.web.app/photos</loc>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>

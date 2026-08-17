@@ -37,7 +37,7 @@ export default function CardsFooter() {
             <p className="text-xs font-semibold uppercase tracking-widest text-ink/70 mb-4">Company</p>
             <ul className="space-y-2.5 text-sm">
               {[
-                { label: 'About',            href: '/about'      },
+                { label: 'About',            href: '/cards/about' },
                 { label: 'Machines',         href: '/machines/slim-wall' },
                 { label: 'Photos',           href: '/photos'     },
                 { label: 'Nightlife Vending', href: '/nightlife' },

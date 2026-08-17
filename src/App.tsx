@@ -25,6 +25,7 @@ import Landing      from './landing/Landing'
 import NightlifeHome from './nightlife/NightlifeHome'
 import CardsHome     from './cards/CardsHome'
 import CardsMachineDetail from './cards/pages/CardsMachineDetail'
+import CardsAboutPage from './cards/pages/CardsAboutPage'
 
 export default function App() {
   return (
@@ -34,6 +35,7 @@ export default function App() {
         <Route path="/nightlife" element={<NightlifeHome />} />
         <Route path="/cards" element={<CardsHome />} />
         <Route path="/cards/machines/:slug" element={<CardsMachineDetail />} />
+        <Route path="/cards/about" element={<CardsAboutPage />} />
         <Route path="/machines/slim-wall" element={<SlimWall />} />
         <Route path="/machines/mega-wall" element={<MegaWall />} />
         <Route path="/machines/slim-tower" element={<SlimTower />} />
