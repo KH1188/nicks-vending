@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
-import { useDarkMode } from '../hooks/useDarkMode'
-import skylineLogo from '../../assets/logos/skyline-logo.webp'
+import circleTransparent from '../../assets/logos/circle-transparent.webp'
 
 const ERROR_MESSAGES: Record<string, string> = {
   'auth/invalid-credential':   'Incorrect email or password.',
@@ -15,7 +14,6 @@ const ERROR_MESSAGES: Record<string, string> = {
 export default function LoginPage() {
   const { user, signIn } = useAuth()
   const navigate = useNavigate()
-  const { isDark, toggleDark } = useDarkMode()
 
   const [email,    setEmail]    = useState('')
   const [password, setPassword] = useState('')
@@ -43,40 +41,28 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex items-center justify-center px-4 relative overflow-hidden">
-      <img
-        src={skylineLogo}
-        alt=""
-        aria-hidden="true"
-        className="absolute inset-0 w-full h-full object-contain opacity-70 dark:invert blur-[2px] pointer-events-none select-none"
-      />
-      <button
-        onClick={toggleDark}
-        className="absolute top-4 right-4 z-10 p-2 rounded-lg text-slate-500 hover:bg-slate-200 dark:text-slate-400 dark:hover:bg-slate-800 transition-colors"
-        aria-label="Toggle dark mode"
-      >
-        {isDark ? (
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
-          </svg>
-        ) : (
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
-          </svg>
-        )}
-      </button>
+    <div className="min-h-screen bg-ink flex items-center justify-center px-4 relative overflow-hidden">
+      {/* Neon glow backdrop */}
+      <div className="absolute -top-40 -left-40 w-[520px] h-[520px] rounded-full bg-neon-violet/20 blur-[120px]" />
+      <div className="absolute -bottom-40 -right-20 w-[420px] h-[420px] rounded-full bg-neon-blue/20 blur-[120px]" />
+
       <div className="w-full max-w-sm relative z-10">
-        <div className="text-center mb-8">
+        <div className="flex flex-col items-center text-center mb-8">
+          <img
+            src={circleTransparent}
+            alt="Nick's Vending"
+            className="h-28 w-auto object-contain mb-6 [filter:drop-shadow(0_0_20px_rgba(139,92,246,0.4))]"
+          />
           <p className="text-xs font-semibold uppercase tracking-widest text-neon-violet mb-1">
             Nick's Vending
           </p>
-          <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white">Owner Portal</h1>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Sign in to your account</p>
+          <h1 className="text-2xl font-brand font-black text-white">Owner Portal</h1>
+          <p className="text-sm text-white/50 mt-1">Sign in to your account</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="card rounded-2xl p-8 space-y-5">
+        <form onSubmit={handleSubmit} className="rounded-2xl border border-ink-border bg-ink-elevated p-8 space-y-5">
           <div>
-            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+            <label className="block text-sm font-medium text-white/70 mb-1.5">
               Email
             </label>
             <input
@@ -85,15 +71,15 @@ export default function LoginPage() {
               onChange={e => setEmail(e.target.value)}
               required
               autoComplete="email"
-              className="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm
-                focus:outline-none focus:ring-2 focus:ring-brand-700 focus:border-transparent
-                placeholder:text-slate-400 dark:placeholder:text-slate-500"
+              className="w-full px-4 py-2.5 rounded-lg border border-ink-border bg-ink text-white text-sm
+                focus:outline-none focus:ring-2 focus:ring-neon-violet focus:border-transparent
+                placeholder:text-white/30"
               placeholder="you@example.com"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+            <label className="block text-sm font-medium text-white/70 mb-1.5">
               Password
             </label>
             <input
@@ -102,25 +88,37 @@ export default function LoginPage() {
               onChange={e => setPassword(e.target.value)}
               required
               autoComplete="current-password"
-              className="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm
-                focus:outline-none focus:ring-2 focus:ring-brand-700 focus:border-transparent
-                placeholder:text-slate-400 dark:placeholder:text-slate-500"
+              className="w-full px-4 py-2.5 rounded-lg border border-ink-border bg-ink text-white text-sm
+                focus:outline-none focus:ring-2 focus:ring-neon-violet focus:border-transparent
+                placeholder:text-white/30"
               placeholder="••••••••"
             />
           </div>
 
           {error && (
-            <p className="text-sm text-red-600 bg-red-50 dark:bg-red-900/30 dark:text-red-400 rounded-lg px-4 py-2.5">{error}</p>
+            <p className="text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-2.5">{error}</p>
           )}
 
           <button
             type="submit"
             disabled={loading}
-            className="bg-neon-gradient hover:shadow-neon text-white inline-flex items-center gap-2 rounded-lg font-semibold transition-all duration-200 w-full justify-center py-3 text-sm"
+            className="bg-neon-gradient hover:shadow-neon text-white inline-flex items-center gap-2 rounded-lg font-semibold transition-all duration-200 w-full justify-center py-3 text-sm disabled:opacity-60"
           >
             {loading ? 'Signing in…' : 'Sign in'}
           </button>
         </form>
+
+        <div className="mt-8 text-center">
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 text-sm font-medium text-white/50 hover:text-neon-violet transition-colors"
+          >
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+            </svg>
+            Back to Nick's Vending
+          </Link>
+        </div>
       </div>
     </div>
   )
