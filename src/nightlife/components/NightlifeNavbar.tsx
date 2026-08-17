@@ -52,7 +52,7 @@ export default function NightlifeNavbar() {
               className="inline-flex items-center justify-center gap-2 px-5 py-2 text-sm font-semibold
                 rounded-lg text-white bg-neon-gradient hover:shadow-neon transition-all duration-200 active:scale-[0.98]"
             >
-              Contact Us
+              Get in Touch
             </a>
           </li>
         </ul>
@@ -88,7 +88,7 @@ export default function NightlifeNavbar() {
           <li className="mt-2">
             <a href="/nightlife#contact" onClick={close}
               className="block text-center px-5 py-2.5 text-sm font-semibold rounded-lg text-white bg-neon-gradient">
-              Contact Us
+              Get in Touch
             </a>
           </li>
         </ul>
