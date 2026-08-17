@@ -34,7 +34,7 @@ export default function FAQCards() {
       style={{ backgroundImage: `url(${bgImage2})` }}
     >
       {/* Light overlay to keep the family-friendly theme readable over the photo */}
-      <div className="absolute inset-0 bg-paper/95" />
+      <div className="absolute inset-0 bg-paper/80" />
       <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <p className="text-xs font-semibold uppercase tracking-[0.15em] text-neon-violet mb-3">FAQ</p>
         <h2 className="text-3xl md:text-4xl font-brand font-black text-ink tracking-tight mb-12">
