@@ -9,7 +9,6 @@ const NAV_LINKS = [
   { label: 'Why Sealed',   href: '/cards#why-sealed'   },
   { label: 'Terms',        href: '/cards#terms'        },
   { label: 'FAQ',          href: '/cards#faq'          },
-  { label: 'Contact',      href: '/cards#contact'      },
 ]
 
 export default function CardsNavbar() {

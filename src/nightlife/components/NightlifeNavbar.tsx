@@ -9,7 +9,6 @@ const NAV_LINKS = [
   { label: 'What We Stock', href: '/nightlife#what-we-stock' },
   { label: 'Compliance',    href: '/nightlife#compliance'   },
   { label: 'FAQ',           href: '/nightlife#faq'          },
-  { label: 'Contact',       href: '/nightlife#contact'      },
 ]
 
 export default function NightlifeNavbar() {
