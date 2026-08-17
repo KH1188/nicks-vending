@@ -5,6 +5,27 @@ Entries are grouped by date, newest first.
 
 ---
 
+## 2026-08-16 — neon redesign deployed to prod (merged `redesign-neon` → `main`)
+
+### Owner login
+- LoginPage rethemed to match the neon design system: ink background, neon
+  violet/blue glow backdrop, circle-transparent logo, "Back to Nick's
+  Vending" link back to the landing page
+
+### Footers
+- Nightlife and Cards footers gain a "Choose a different vending line" link
+  so visitors can cross over between the two storefronts
+
+### Compliance
+- Added The Swamp Room Bar & Grill compliance documents (contract, operator
+  permit, retail dealer permit, vending machine permit)
+- Added the Responsible Vendor Card asset
+
+This is the first production deploy of the full neon redesign (landing,
+`/nightlife`, `/cards`, and the owner portal login).
+
+---
+
 ## 2026-08-16 — round 3 (branch: `redesign-neon`)
 
 ### New transparent logo assets
