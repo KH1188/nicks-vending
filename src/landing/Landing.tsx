@@ -31,8 +31,8 @@ export default function Landing() {
           <span>New Orleans, LA</span>
         </Link>
         <div className="lp-navlinks">
-          <Link to="/nightlife">Nightlife</Link>
-          <Link to="/cards">Collectibles</Link>
+          <Link to="/nightlife" className="lp-navlink-dup">Nightlife</Link>
+          <Link to="/cards" className="lp-navlink-dup">Collectibles</Link>
           <a href="mailto:nicksvendingnola@gmail.com">Contact</a>
         </div>
       </nav>
@@ -51,7 +51,7 @@ export default function Landing() {
         </Link>
 
         <Link to="/cards" className="lp-door lp-cards">
-          <span className="lp-eyebrow">Family Entertainment Centers · Arcades · Anywhere</span>
+          <span className="lp-eyebrow">Malls · arcades · anywhere</span>
           <h2 className="lp-title lp-title--long">Collectibles</h2>
           <p className="lp-blurb">
             Sealed packs of the hottest collectibles and more. Foot traffic turns into revenue

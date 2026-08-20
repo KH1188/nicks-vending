@@ -25,10 +25,10 @@
   display: flex; align-items: center; justify-content: space-between;
   padding: 22px clamp(18px, 4vw, 48px);
 }
-.lp-brand { text-decoration: none; color: #EFEFF7; }
+.lp-brand { text-decoration: none; color: #EFEFF7; flex-shrink: 0; }
 .lp-brand span {
   font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .24em;
-  text-transform: uppercase; color: #7C7C95;
+  text-transform: uppercase; color: #7C7C95; white-space: nowrap;
 }
 .lp-navlinks { display: flex; gap: clamp(14px, 3vw, 32px); }
 .lp-navlinks a {
@@ -184,6 +184,9 @@
   .lp-mark img { width: 118px; }
   .lp-ambient { opacity: .10; }
   .lp-navlinks { gap: 16px; }
+  /* The doors below already link to /nightlife and /cards — drop the
+     duplicate links so the brand text has room and doesn't wrap. */
+  .lp-navlink-dup { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
