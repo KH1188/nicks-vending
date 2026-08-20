@@ -22,7 +22,7 @@ export default function CardsHome() {
     <div className="bg-paper">
       <Seo
         title="Factory-Sealed Pokémon Card Vending | Nick's Vending Collectibles"
-        description="Factory-sealed Pokémon and collectible card vending machines for malls, card shops, barcades, and family entertainment venues. No repacks, ever. Simple revenue-share terms."
+        description="Factory-sealed Pokémon and collectible card vending machines for malls, card shops, arcades, and family entertainment venues. No repacks, ever. Simple revenue-share terms."
         path="/cards"
         image="/og/cards-og.png"
       />

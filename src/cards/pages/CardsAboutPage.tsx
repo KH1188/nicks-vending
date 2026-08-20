@@ -12,7 +12,7 @@ const WHY_CHOOSE = [
   },
   {
     title: 'Built for foot traffic',
-    body: 'Malls, card shops, barcades, and family entertainment venues see steady, repeat engagement from a machine that\'s always stocked and always trusted.',
+    body: 'Malls, card shops, arcades, and family entertainment venues see steady, repeat engagement from a machine that\'s always stocked and always trusted.',
   },
 ]
 
@@ -32,7 +32,7 @@ export default function CardsAboutPage() {
                 <div className="space-y-5 text-ink/60 leading-relaxed">
                   <p>
                     Nick's Vending brings factory-sealed Pokémon and TCG product to
-                    malls, card shops, barcades, and family entertainment venues — built
+                    malls, card shops, arcades, and family entertainment venues — built
                     on the same principle as the rest of our business: reliability.
                   </p>
                   <p>

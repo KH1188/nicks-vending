@@ -12,7 +12,7 @@ export default function CardsFooter() {
           <div className="sm:col-span-2 lg:col-span-1">
             <CardsWordmark size="lg" stacked className="mb-5" />
             <p className="text-sm leading-relaxed text-ink/50 max-w-xs mt-4">
-              Factory-sealed Pokémon card vending for malls, card shops, barcades,
+              Factory-sealed Pokémon card vending for malls, card shops, arcades,
               and family entertainment venues.
             </p>
           </div>

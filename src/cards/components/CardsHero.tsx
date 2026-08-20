@@ -97,8 +97,8 @@ export default function CardsHero() {
               <span className="bg-neon-gradient-text bg-clip-text text-transparent">Pokémon and collectible vending.</span>
             </h1>
 
-            <p className="text-lg text-ink/60 leading-relaxed max-w-md mb-8">
-              High-traffic passive revenue for malls, card shops, barcades, and family
+            <p className="text-lg text-ink leading-relaxed max-w-md mb-8">
+              High-traffic passive revenue for malls, card shops, arcades, and family
               entertainment venues.
             </p>
 
@@ -112,8 +112,8 @@ export default function CardsHero() {
               </a>
             </div>
 
-            <p className="mt-6 text-sm text-ink/40">
-              Revenue-share &middot; no cost to install &middot; family-friendly
+            <p className="mt-6 text-sm text-ink">
+              Revenue-share &middot; no cost at all to you &middot; family-friendly
             </p>
           </div>
 
