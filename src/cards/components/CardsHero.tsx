@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import circleTransparent from '../../assets/logos/circle-transparent.webp'
+import bgImage3 from '../../assets/Pokemon Machines/background images/background image 3.jpg'
 import cardEvolvingSkies from '../../assets/Pokemon Cards/evolving-skies.jpg'
 import cardPrismatic     from '../../assets/Pokemon Cards/prismatic-evolutions.jpg'
 import cardMegaEvolution from '../../assets/Pokemon Cards/mega-evolution-phantasmal-flames.png'
@@ -67,7 +68,13 @@ function PokemonCarousel() {
 
 export default function CardsHero() {
   return (
-    <section id="hero" className="relative min-h-screen flex items-center overflow-hidden pt-[72px] bg-paper">
+    <section
+      id="hero"
+      className="relative min-h-screen flex items-center overflow-hidden pt-[72px] bg-cover bg-center"
+      style={{ backgroundImage: `url(${bgImage3})` }}
+    >
+      {/* Light overlay to keep the family-friendly theme readable over the photo */}
+      <div className="absolute inset-0 bg-paper/65" />
       <div className="absolute -top-40 -right-40 w-[480px] h-[480px] rounded-full bg-neon-violet/10 blur-[120px]" />
       <div className="absolute -bottom-40 -left-20 w-[420px] h-[420px] rounded-full bg-neon-blue/10 blur-[120px]" />
 
