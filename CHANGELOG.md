@@ -5,6 +5,28 @@ Entries are grouped by date, newest first.
 
 ---
 
+## 2026-08-19 — landing page redesign + navbar/copy cleanup
+
+### Landing page
+- Replaced the two-card chooser with an animated split-door hero: hover
+  either side to expand into Nightlife or Collectibles, with the logo mark
+  glowing on the center seam and a scrolling proof marquee below
+- Added Archivo Black and JetBrains Mono (hero titles, mono-style labels)
+
+### Nightlife & Cards navbars
+- Removed the redundant "Contact" nav-menu link on both sites (duplicated
+  the adjacent CTA button)
+- Nightlife CTA renamed "Contact Us" → "Get in Touch" to match Cards
+- Nightlife hero: removed the "Call 504-252-1125" button; the remaining
+  button is now the primary "Get in Touch" CTA
+
+### Collectibles (`/cards`)
+- Added a dedicated About page (`/cards/about`) themed for collectibles,
+  instead of routing to the nightlife About page
+- Increased background-photo visibility in the Why Sealed and FAQ sections
+
+---
+
 ## 2026-08-16 — neon redesign deployed to prod (merged `redesign-neon` → `main`)
 
 ### Owner login
