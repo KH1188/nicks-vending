@@ -87,6 +87,17 @@ export default function CardsFooter() {
             <p>© {YEAR} Nick's Vending, LLC. All rights reserved.</p>
             <p>Factory-sealed only. No repacks.</p>
           </div>
+
+          <p className="text-[11px] leading-relaxed text-ink/30 max-w-4xl">
+            Trademark notice: Pokémon and all related names, characters, logos, and trademarks
+            are property of Nintendo, Game Freak, Creatures Inc., and The Pokémon Company
+            International. Magic: The Gathering, Yu-Gi-Oh!, One Piece TCG, and Lorcana are
+            trademarks of their respective owners. Nick's Vending is not affiliated with,
+            sponsored by, authorized by, or endorsed by any of these entities. Nick's Vending
+            installs and operates vending machines stocked with factory-sealed, third-party
+            trading card products only, and does not brand, label, or represent its machines as
+            Pokémon-branded or officially licensed machines.
+          </p>
         </div>
       </div>
     </footer>
