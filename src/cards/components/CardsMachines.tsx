@@ -2,6 +2,7 @@ import { useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import Lightbox from '../../components/Lightbox'
 import { CARDS_MACHINES, CardsMachine } from '../machines'
+import bgImage3 from '../../assets/Pokemon Machines/background images/background image 3.jpg'
 
 function Carousel({ images, name }: { images: string[]; name: string }) {
   const [index, setIndex] = useState(0)
@@ -108,8 +109,14 @@ function MachineCard({ machine }: { machine: CardsMachine }) {
 
 export default function CardsMachines() {
   return (
-    <section id="machines" className="py-24 bg-paper-elevated">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section
+      id="machines"
+      className="relative py-24 bg-cover bg-center"
+      style={{ backgroundImage: `url(${bgImage3})` }}
+    >
+      {/* Light overlay to keep the family-friendly theme readable over the photo */}
+      <div className="absolute inset-0 bg-paper/65" />
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <div className="mb-16">
           <p className="text-xs font-semibold uppercase tracking-[0.15em] text-neon-violet mb-3">Our machines</p>
