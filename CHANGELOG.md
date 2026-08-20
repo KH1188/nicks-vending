@@ -5,6 +5,17 @@ Entries are grouped by date, newest first.
 
 ---
 
+## 2026-08-19 — landing page mobile nav fix
+
+- Fixed a mobile bug where the nav brand text ("New Orleans, LA") wrapped
+  to two lines and collided with the door content below it. Dropped the
+  duplicate Nightlife/Collectibles nav links on mobile (the doors already
+  link there) and kept the brand text on one line
+- Shortened the Collectibles door eyebrow ("Malls · arcades · anywhere")
+  to avoid an orphaned wrapped line on narrow screens
+
+---
+
 ## 2026-08-19 — Collectibles copy pass
 
 - Hero paragraph and byline text darkened (solid ink instead of translucent
