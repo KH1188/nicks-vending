@@ -6,6 +6,8 @@ import cardPrismatic     from '../../assets/Pokemon Cards/prismatic-evolutions.j
 import cardMegaEvolution from '../../assets/Pokemon Cards/mega-evolution-phantasmal-flames.png'
 import cardDestinedRivals from '../../assets/Pokemon Cards/destined-rivals.png'
 import cardSurgingSparks from '../../assets/Pokemon Cards/surging-sparks.png'
+import machineLiquorStore from '../../assets/Pokemon Machines/Machines in the Wild/freestanding-vtm-tcg-wrap-slim-wall-pokemon-vending.webp'
+import machineGasStation  from '../../assets/Pokemon Machines/Machines in the Wild/gas station.webp'
 
 const PACKS = [
   { src: cardEvolvingSkies,  label: 'Evolving Skies' },
@@ -13,6 +15,8 @@ const PACKS = [
   { src: cardDestinedRivals, label: 'Destined Rivals' },
   { src: cardMegaEvolution,  label: 'Mega Evolution: Phantasmal Flames' },
   { src: cardSurgingSparks,  label: 'Surging Sparks' },
+  { src: machineLiquorStore, label: 'Pokémon machine at grocery store' },
+  { src: machineGasStation,  label: 'Pokémon machine in a gas station' },
 ]
 
 function PokemonCarousel() {
