@@ -5,6 +5,23 @@ Entries are grouped by date, newest first.
 
 ---
 
+## 2026-08-19 — Collectibles hero photo + trademark disclaimer
+
+### Collectibles hero
+- Added a background photo to the hero section (same treatment as Why
+  Sealed/FAQ)
+- Added two real-world machine photos ("Pokémon machine at grocery store",
+  "Pokémon machine in a gas station") to the hero carousel alongside the
+  product pack images
+
+### Legal
+- Added a trademark disclaimer to the Collectibles footer clarifying Nick's
+  Vending is not affiliated with, sponsored by, or endorsed by Nintendo,
+  Game Freak, Creatures Inc., The Pokémon Company International, or the
+  owners of Magic: The Gathering, Yu-Gi-Oh!, One Piece TCG, or Lorcana
+
+---
+
 ## 2026-08-19 — landing page redesign + navbar/copy cleanup
 
 ### Landing page
