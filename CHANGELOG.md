@@ -5,6 +5,16 @@ Entries are grouped by date, newest first.
 
 ---
 
+## 2026-08-19 — Collectibles copy pass
+
+- Hero paragraph and byline text darkened (solid ink instead of translucent
+  gray) for readability over the new background photo
+- Replaced "barcade" with "arcade" across all Collectibles copy (hero,
+  footer, About page, FAQ, SEO description)
+- Fixed a typo in the hero byline ("no cost at all to you")
+
+---
+
 ## 2026-08-19 — Collectibles hero photo + trademark disclaimer
 
 ### Collectibles hero
