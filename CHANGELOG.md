@@ -5,6 +5,12 @@ Entries are grouped by date, newest first.
 
 ---
 
+## 2026-08-31 — CAPTCHA on Collectibles contact form
+
+- Added the same reCAPTCHA checkbox gate used on the Nightlife contact
+  form to the Collectibles contact form, blocking the mailto submit
+  until it's completed
+
 ## 2026-08-31 — new Open Graph preview image
 
 - Added og-image-v7.png as the homepage link-preview image, with updated
