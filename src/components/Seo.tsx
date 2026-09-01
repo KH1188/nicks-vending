@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async'
 
-const SITE_URL = 'https://nicks-vending.web.app'
+const SITE_URL = 'https://nicksvendingnola.com'
 
 type Props = {
   title: string

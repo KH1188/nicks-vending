@@ -1,82 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://nicks-vending.web.app/</loc>
+    <loc>https://nicksvendingnola.com/</loc>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://nicks-vending.web.app/nightlife</loc>
+    <loc>https://nicksvendingnola.com/nightlife</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://nicks-vending.web.app/cards</loc>
+    <loc>https://nicksvendingnola.com/cards</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://nicks-vending.web.app/cards/machines/mini-tcg</loc>
+    <loc>https://nicksvendingnola.com/cards/machines/mini-tcg</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://nicks-vending.web.app/cards/machines/slim-wall</loc>
+    <loc>https://nicksvendingnola.com/cards/machines/slim-wall</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://nicks-vending.web.app/cards/machines/mega-wall</loc>
+    <loc>https://nicksvendingnola.com/cards/machines/mega-wall</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://nicks-vending.web.app/cards/machines/slim-tower</loc>
+    <loc>https://nicksvendingnola.com/cards/machines/slim-tower</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://nicks-vending.web.app/machines/slim-wall</loc>
+    <loc>https://nicksvendingnola.com/machines/slim-wall</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://nicks-vending.web.app/machines/mega-wall</loc>
+    <loc>https://nicksvendingnola.com/machines/mega-wall</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://nicks-vending.web.app/machines/slim-tower</loc>
+    <loc>https://nicksvendingnola.com/machines/slim-tower</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://nicks-vending.web.app/machines/mini-wall</loc>
+    <loc>https://nicksvendingnola.com/machines/mini-wall</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://nicks-vending.web.app/machines/slim-wall-tin-lift</loc>
+    <loc>https://nicksvendingnola.com/machines/slim-wall-tin-lift</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://nicks-vending.web.app/machines/weather-wall</loc>
+    <loc>https://nicksvendingnola.com/machines/weather-wall</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://nicks-vending.web.app/about</loc>
+    <loc>https://nicksvendingnola.com/about</loc>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://nicks-vending.web.app/cards/about</loc>
+    <loc>https://nicksvendingnola.com/cards/about</loc>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://nicks-vending.web.app/photos</loc>
+    <loc>https://nicksvendingnola.com/photos</loc>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>

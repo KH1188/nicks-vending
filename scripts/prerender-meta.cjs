@@ -7,7 +7,7 @@ const fs = require('fs')
 const path = require('path')
 
 const DIST = path.join(__dirname, '..', 'dist')
-const SITE_URL = 'https://nicks-vending.web.app'
+const SITE_URL = 'https://nicksvendingnola.com'
 
 const ROUTES = [
   {

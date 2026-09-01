@@ -3,4 +3,4 @@ Allow: /
 Disallow: /dashboard/
 Disallow: /login
 
-Sitemap: https://nicks-vending.web.app/sitemap.xml
+Sitemap: https://nicksvendingnola.com/sitemap.xml

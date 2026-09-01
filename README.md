@@ -100,6 +100,7 @@ npm run deploy
 > and Hosting is enabled on the project.
 
 Your site is live at:
+- **https://nicksvendingnola.com**
 - **https://nicks-vending.web.app**
 - **https://nicks-vending.firebaseapp.com**
 
