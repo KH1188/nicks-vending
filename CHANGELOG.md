@@ -5,6 +5,13 @@ Entries are grouped by date, newest first.
 
 ---
 
+## 2026-08-31 — custom domain cutover
+
+- Connected custom domain nicksvendingnola.com in Firebase Hosting
+- Updated all canonical/SEO references (Seo.tsx, prerender-meta.cjs,
+  index.html OG tags, sitemap.xml, robots.txt) from the nicks-vending.web.app
+  fallback to the new custom domain
+
 ## 2026-08-19 — landing page mobile nav fix
 
 - Fixed a mobile bug where the nav brand text ("New Orleans, LA") wrapped
