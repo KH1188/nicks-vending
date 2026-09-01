@@ -1,4 +1,5 @@
-import { useState, FormEvent } from 'react'
+import { useState, useRef, FormEvent } from 'react'
+import ReCAPTCHA from 'react-google-recaptcha'
 
 type FormState = {
   name: string
@@ -19,6 +20,8 @@ const inputClass = (hasError: boolean) => `w-full px-4 py-2.5 text-sm rounded-lg
 export default function CardsContact() {
   const [form, setForm]     = useState<FormState>(EMPTY)
   const [errors, setErrors] = useState<Partial<FormState>>({})
+  const [captchaError, setCaptchaError] = useState<string | null>(null)
+  const recaptchaRef = useRef<ReCAPTCHA>(null)
 
   const validate = (): boolean => {
     const e: Partial<FormState> = {}
@@ -35,11 +38,19 @@ export default function CardsContact() {
     ev.preventDefault()
     if (!validate()) return
 
+    const captchaToken = recaptchaRef.current?.getValue()
+    if (!captchaToken) {
+      setCaptchaError('Please complete the CAPTCHA before sending.')
+      return
+    }
+    setCaptchaError(null)
+
     const subject = encodeURIComponent(`Collectibles vending inquiry — ${form.venue || form.name}`)
     const body = encodeURIComponent(
       `Name: ${form.name}\nEmail: ${form.email}\nPhone: ${form.phone || 'N/A'}\nVenue: ${form.venue || 'N/A'}\n\n${form.message}`
     )
     window.location.href = `mailto:nicksvendingnola@gmail.com?subject=${subject}&body=${body}`
+    recaptchaRef.current?.reset()
   }
 
   const field = (id: keyof FormState) => ({
@@ -144,6 +155,9 @@ export default function CardsContact() {
                 />
                 {errors.message && <p className="text-xs text-red-500 mt-1">{errors.message}</p>}
               </div>
+
+              <ReCAPTCHA ref={recaptchaRef} sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY} />
+              {captchaError && <p className="text-xs text-red-500 -mt-3">{captchaError}</p>}
 
               <button
                 type="submit"
