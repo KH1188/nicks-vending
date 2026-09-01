@@ -5,6 +5,15 @@ Entries are grouped by date, newest first.
 
 ---
 
+## 2026-08-31 — new Open Graph preview image
+
+- Added og-image-v7.png as the homepage link-preview image, with updated
+  og:title ("Premium Nightlife & Collectibles Vending Service") and
+  og:description copy
+- Versioned filename is deliberate — forces Facebook/Apple past their
+  cached copy of the old preview
+- Old og/default-og.png left in place, unused
+
 ## 2026-08-31 — custom domain cutover
 
 - Connected custom domain nicksvendingnola.com in Firebase Hosting
