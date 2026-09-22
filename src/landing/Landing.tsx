@@ -5,11 +5,11 @@ import circleTransparent from '../assets/logos/circle-transparent.webp'
 import './Landing.css'
 
 const PROOF: ReactNode[] = [
-  <><b>Zero cost</b> to the venue</>,
+  <><b>Zero costs</b> to you</>,
   <>We <b>stock and service</b> it</>,
   <><b>100% cashless</b> — card and tap</>,
   <><b>Licensed and permitted</b> in Louisiana</>,
-  <>Remote <b>sales monitoring</b></>,
+  <><b>Monthly revenue</b> share</>,
 ]
 
 export default function Landing() {
