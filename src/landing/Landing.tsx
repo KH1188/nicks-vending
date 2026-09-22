@@ -7,7 +7,7 @@ import './Landing.css'
 const PROOF: ReactNode[] = [
   <><b>Zero cost</b> to the venue</>,
   <>We <b>stock and service</b> it</>,
-  <><b>Cash, card and tap</b> accepted</>,
+  <><b>100% cashless</b> — card and tap</>,
   <><b>Licensed and permitted</b> in Louisiana</>,
   <>Remote <b>sales monitoring</b></>,
 ]
