@@ -2,6 +2,7 @@ import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import Seo from '../components/Seo'
 import circleTransparent from '../assets/logos/circle-transparent.webp'
+import LandingContact from './LandingContact'
 import './Landing.css'
 
 const PROOF: ReactNode[] = [
@@ -33,7 +34,7 @@ export default function Landing() {
         <div className="lp-navlinks">
           <Link to="/nightlife" className="lp-navlink-dup">Nightlife</Link>
           <Link to="/cards" className="lp-navlink-dup">Collectibles</Link>
-          <a href="mailto:nicksvendingnola@gmail.com">Contact</a>
+          <a href="#contact">Contact</a>
         </div>
       </nav>
 
@@ -74,6 +75,8 @@ export default function Landing() {
           ))}
         </div>
       </div>
+
+      <LandingContact />
     </div>
   )
 }
