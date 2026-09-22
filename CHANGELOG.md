@@ -5,6 +5,18 @@ Entries are grouped by date, newest first.
 
 ---
 
+## 2026-08-31 — landing page contact form
+
+- Added a contact form to the main landing page, below the proof
+  marquee, reusing the Nightlife form's EmailJS service and reCAPTCHA
+- Includes an "interested in" selector (Nightlife / Collectibles /
+  Not sure yet) since the landing page serves both verticals
+- Nav "Contact" link now scrolls to the form instead of opening a
+  mailto link
+- Mobile: reCAPTCHA renders in compact size to avoid getting clipped
+  on narrow phones, and inputs use 16px font to avoid iOS Safari's
+  zoom-on-focus
+
 ## 2026-08-31 — CAPTCHA on Collectibles contact form
 
 - Added the same reCAPTCHA checkbox gate used on the Nightlife contact
