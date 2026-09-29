@@ -5,6 +5,11 @@ Entries are grouped by date, newest first.
 
 ---
 
+## 2026-09-29 — Collectibles hero venue copy update
+
+- Replaced "card shops" with "convenience stores" in the hero blurb
+- Added "and more" after "family entertainment venues"
+
 ## 2026-09-29 — trial offer made more prominent in Collectibles hero
 
 - Added a standout badge above the hero headline ("30-Day Risk-Free
