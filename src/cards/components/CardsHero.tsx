@@ -113,7 +113,7 @@ export default function CardsHero() {
             </div>
 
             <p className="mt-6 text-sm text-ink">
-              Revenue-share &middot; no cost at all to you &middot; family-friendly
+              30-day risk-free trial &middot; revenue-share &middot; no cost at all to you &middot; family-friendly
             </p>
           </div>
 

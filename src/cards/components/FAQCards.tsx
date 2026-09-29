@@ -11,6 +11,10 @@ const FAQS = [
     a: 'No upfront cost. We cover the machine, installation, and stock — you earn a revenue share on every sale.',
   },
   {
+    q: "What if I don't like it?",
+    a: "Every placement starts with a 30-day trial. If it's not working for your venue, we remove the machine at no cost, no questions asked. If you like it, we'll sign a 6- or 12-month contract at the same revenue-share terms as the trial.",
+  },
+  {
     q: 'What venues is this a good fit for?',
     a: 'Malls, card shops, arcades, and family entertainment venues with steady walk-in traffic.',
   },
