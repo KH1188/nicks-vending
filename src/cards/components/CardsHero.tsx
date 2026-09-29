@@ -92,6 +92,10 @@ export default function CardsHero() {
               className="h-40 sm:h-48 lg:h-56 w-auto object-contain mb-8 [filter:drop-shadow(0_0_24px_rgba(139,92,246,0.3))]"
             />
 
+            <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide text-neon-violet bg-neon-violet/10 border border-neon-violet/30 mb-5">
+              30-Day Risk-Free Trial
+            </span>
+
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-brand font-black text-ink tracking-tight leading-[1.1] mb-6">
               Factory-sealed<br />
               <span className="bg-neon-gradient-text bg-clip-text text-transparent">Pokémon and collectible vending.</span>
@@ -108,12 +112,12 @@ export default function CardsHero() {
                 className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-lg text-base font-semibold
                   text-white bg-neon-gradient hover:shadow-neon-soft active:scale-[0.98] transition-all duration-200"
               >
-                Get in Touch
+                Start Your 30-Day Trial
               </a>
             </div>
 
             <p className="mt-6 text-sm text-ink">
-              30-day risk-free trial &middot; revenue-share &middot; no cost at all to you &middot; family-friendly
+              Revenue-share &middot; no cost at all to you &middot; family-friendly
             </p>
           </div>
 
