@@ -5,6 +5,14 @@ Entries are grouped by date, newest first.
 
 ---
 
+## 2026-08-31 — 30-day trial messaging on Collectibles side
+
+- Hero byline now leads with "30-day risk-free trial"
+- New FAQ entry ("What if I don't like it?") explains the trial:
+  free removal if it's not working, or a signed 6- or 12-month
+  contract at the same revenue-share terms if it is
+- Nightlife excluded from this offer due to permitting requirements
+
 ## 2026-08-31 — landing page contact form
 
 - Added a contact form to the main landing page, below the proof
