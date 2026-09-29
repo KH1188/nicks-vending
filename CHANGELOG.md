@@ -5,6 +5,15 @@ Entries are grouped by date, newest first.
 
 ---
 
+## 2026-09-29 — trial offer made more prominent in Collectibles hero
+
+- Added a standout badge above the hero headline ("30-Day Risk-Free
+  Trial") so it's the first thing visitors see, not a footnote
+- Changed the CTA button from "Get in Touch" to "Start Your 30-Day
+  Trial" so the offer is the call to action
+- Byline reverted to just the supporting details (revenue-share, no
+  cost, family-friendly) since the trial now has its own billing
+
 ## 2026-08-31 — 30-day trial messaging on Collectibles side
 
 - Hero byline now leads with "30-day risk-free trial"
