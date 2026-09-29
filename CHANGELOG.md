@@ -5,6 +5,15 @@ Entries are grouped by date, newest first.
 
 ---
 
+## 2026-09-29 — sitewide "card shop" → "convenience store" sweep
+
+- Replaced every remaining "card shop(s)" reference across
+  CardsAboutPage, machines.ts, FAQCards, the CardsContact venue-name
+  placeholder, Landing's SEO description, CardsFooter, CardsHome's
+  SEO description, and prerender-meta.cjs
+- prerender-meta.cjs also had a leftover "barcades" typo the earlier
+  barcade-to-arcade cleanup missed — fixed in the same pass
+
 ## 2026-09-29 — Collectibles hero venue copy update
 
 - Replaced "card shops" with "convenience stores" in the hero blurb
