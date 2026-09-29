@@ -18,7 +18,7 @@ export default function Landing() {
     <div className="lp-root">
       <Seo
         title="Nick's Vending — Nightlife & Collectibles Vending | Louisiana"
-        description="Nick's Vending places smart vending machines in Louisiana bars, clubs, casinos, malls, and card shops — nightlife vending and factory-sealed collectibles vending, fully managed."
+        description="Nick's Vending places smart vending machines in Louisiana bars, clubs, casinos, malls, and convenience stores — nightlife vending and factory-sealed collectibles vending, fully managed."
         path="/"
         image="/og/default-og.png"
       />

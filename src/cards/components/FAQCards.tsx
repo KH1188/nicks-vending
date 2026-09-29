@@ -16,7 +16,7 @@ const FAQS = [
   },
   {
     q: 'What venues is this a good fit for?',
-    a: 'Malls, card shops, arcades, and family entertainment venues with steady walk-in traffic.',
+    a: 'Malls, convenience stores, arcades, and family entertainment venues with steady walk-in traffic.',
   },
   {
     q: 'Who restocks the machine?',

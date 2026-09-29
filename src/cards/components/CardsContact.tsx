@@ -139,7 +139,7 @@ export default function CardsContact() {
                 </div>
                 <div>
                   <label htmlFor="c-venue" className="block text-xs font-semibold text-ink/60 mb-1.5">Venue Name</label>
-                  <input id="c-venue" type="text" placeholder="Card Shop Name" {...field('venue')} />
+                  <input id="c-venue" type="text" placeholder="Venue Name" {...field('venue')} />
                 </div>
               </div>
 

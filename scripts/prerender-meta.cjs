@@ -19,7 +19,7 @@ const ROUTES = [
   {
     route: 'cards',
     title: "Factory-Sealed Pokémon Card Vending | Nick's Vending Collectibles",
-    description: "Factory-sealed Pokémon card vending machines for malls, card shops, barcades, and family entertainment venues. No repacks, ever. Flexible lease/license or revenue-share terms.",
+    description: "Factory-sealed Pokémon card vending machines for malls, convenience stores, arcades, and family entertainment venues. No repacks, ever. Flexible lease/license or revenue-share terms.",
     image: '/og/cards-og.png',
   },
 ]

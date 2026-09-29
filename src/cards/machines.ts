@@ -35,7 +35,7 @@ export const CARDS_MACHINES: CardsMachine[] = [
     name: 'Mini TCG',
     tagline: 'Compact footprint. Big results.',
     description:
-      'The Mini TCG fits where other machines can\'t. Perfect for card shop counters, mall kiosks, or tight spaces that still see consistent foot traffic. Don\'t let the size fool you — it moves packs.',
+      'The Mini TCG fits where other machines can\'t. Perfect for convenience store counters, mall kiosks, or tight spaces that still see consistent foot traffic. Don\'t let the size fool you — it moves packs.',
     images: [miniTcg1, miniTcg2, miniTcg3, miniTcg4, miniTcg5],
     specs: [
       { label: 'Height',    value: '33.3"' },
