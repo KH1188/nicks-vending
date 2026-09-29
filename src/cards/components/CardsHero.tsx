@@ -102,8 +102,8 @@ export default function CardsHero() {
             </h1>
 
             <p className="text-lg text-ink leading-relaxed max-w-md mb-8">
-              High-traffic passive revenue for malls, card shops, arcades, and family
-              entertainment venues.
+              High-traffic passive revenue for malls, convenience stores, arcades, and family
+              entertainment venues, and more.
             </p>
 
             <div className="flex flex-wrap gap-4">
